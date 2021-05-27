@@ -22,16 +22,11 @@ namespace RefrigerationUnits
         {
             public static void Postfix(BuildingComplete __instance)
             {
-                var kAnimBase = __instance.GetComponent<KAnimControllerBase>();
-                if (kAnimBase != null)
-                {
-                    if (__instance.name == "GasRefrigerationUnitComplete")
-                    {
-                        float r = 255;
-                        float g = 190;
-                        float b = 102;
-                        kAnimBase.TintColour = new Color(r / 255f, g / 255f, b / 255f);
-                    }
+                if (__instance.name == GasRefrigerationUnitConfig.ID + "Complete") {
+                    Util.ApplyBuildingTint(__instance, 255, 190, 102);
+                }
+                else if (__instance.name == LiquidRefrigerationUnitConfig.ID + "Complete") {
+                    Util.ApplyBuildingTint(__instance, 255, 102, 102);
                 }
             }
         }
@@ -50,12 +45,22 @@ namespace RefrigerationUnits
             public static LocString GRU_EFFECT = new LocString(UI.FormatAsLink("Heats", "HEAT") + " the " + UI.FormatAsLink("Gas", "ELEMENTS_GAS") + " piped through it, cooling its immediate vicinity.",
                 "STRINGS.BUILDINGS.PREFABS." + GasRefrigerationUnitConfig.ID.ToUpper() + ".EFFECT");
 
+            public static LocString LRU_NAME = new LocString("Liquid Refigeration Unit",
+    "STRINGS.BUILDINGS.PREFABS." + LiquidRefrigerationUnitConfig.ID.ToUpper() + ".NAME");
+
+            public static LocString LRU_DESC = new LocString("A liquid refrigeration unit heats liquids to cool its surroundings.",
+                "STRINGS.BUILDINGS.PREFABS." + LiquidRefrigerationUnitConfig.ID.ToUpper() + ".DESC");
+
+            public static LocString LRU_EFFECT = new LocString(UI.FormatAsLink("Heats", "HEAT") + " the " + UI.FormatAsLink("Liquid", "ELEMENTS_LIQUID") + " piped through it, cooling its immediate vicinity.",
+                "STRINGS.BUILDINGS.PREFABS." + LiquidRefrigerationUnitConfig.ID.ToUpper() + ".EFFECT");
+
             static void Prefix()
             {
-                Strings.Add(GRU_NAME.key.String, GRU_NAME.text);
-                Strings.Add(GRU_DESC.key.String, GRU_DESC.text);
-                Strings.Add(GRU_EFFECT.key.String, GRU_EFFECT.text);
+                Util.AddBuildingStrings(GRU_NAME, GRU_DESC, GRU_EFFECT);
                 ModUtil.AddBuildingToPlanScreen("Utilities", GasRefrigerationUnitConfig.ID);
+
+                Util.AddBuildingStrings(LRU_NAME, LRU_DESC, LRU_EFFECT);
+                ModUtil.AddBuildingToPlanScreen("Utilities", LiquidRefrigerationUnitConfig.ID);
             }
 
         }
@@ -64,7 +69,8 @@ namespace RefrigerationUnits
         {
             public static void Postfix()
             {
-                Db.Get().Techs.Get("HVAC").unlockedItemIDs.Add(GasRefrigerationUnitConfig.ID);
+                Util.AddToTech("HVAC", GasRefrigerationUnitConfig.ID);
+                Util.AddToTech("LiquidTemperature", LiquidRefrigerationUnitConfig.ID);
             }
         }
     }
