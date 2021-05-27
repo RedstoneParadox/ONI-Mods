@@ -1,4 +1,5 @@
 ﻿using Harmony;
+using STRINGS;
 using System;
 using UnityEngine;
 
@@ -24,7 +25,7 @@ namespace RefrigerationUnits
                 var kAnimBase = __instance.GetComponent<KAnimControllerBase>();
                 if (kAnimBase != null)
                 {
-                    if (__instance.name == "GasRefigerationUnitComplete")
+                    if (__instance.name == "GasRefrigerationUnitComplete")
                     {
                         float r = 255;
                         float g = 190;
@@ -43,13 +44,11 @@ namespace RefrigerationUnits
             public static LocString GRU_NAME = new LocString("Gas Refigeration Unit",
                 "STRINGS.BUILDINGS.PREFABS." + GasRefrigerationUnitConfig.ID.ToUpper() + ".NAME");
 
-            public static LocString GRU_DESC = new LocString("Cools its immediate vicinity, but heats the gas piped through it.",
+            public static LocString GRU_DESC = new LocString("A gas refrigeration unit doesn't remove heat, but relocates it to a new area.",
                 "STRINGS.BUILDINGS.PREFABS." + GasRefrigerationUnitConfig.ID.ToUpper() + ".DESC");
 
-            public static LocString GRU_EFFECT = new LocString("Transforms " + STRINGS.UI.FormatAsLink("Dirty water", "DIRTYWATER") + " into " + STRINGS.UI.FormatAsLink("Polluted oxygen", "CONTAMINATEDOXYGEN") + " and " + STRINGS.UI.FormatAsLink("Hydrogen", "HYDROGEN") + ".",
+            public static LocString GRU_EFFECT = new LocString(UI.FormatAsLink("Heats", "HEAT") + " the " + UI.FormatAsLink("Gas", "ELEMENTS_GAS") + " piped through it, cooling its immediate vicinity.",
                 "STRINGS.BUILDINGS.PREFABS." + GasRefrigerationUnitConfig.ID.ToUpper() + ".EFFECT");
-
-
 
             static void Prefix()
             {
@@ -59,19 +58,12 @@ namespace RefrigerationUnits
                 ModUtil.AddBuildingToPlanScreen("Utilities", GasRefrigerationUnitConfig.ID);
             }
 
-            static void Postfix()
-            {
-                object obj = Activator.CreateInstance(typeof(GasRefrigerationUnitConfig));
-                BuildingConfigManager.Instance.RegisterBuilding(obj as IBuildingConfig);
-            }
-
         }
         [HarmonyPatch(typeof(Db), "Initialize")]
         public class DbPatch
         {
-            public static void Prefix()
+            public static void Postfix()
             {
-                Debug.Log("Adding new buildings to technologies!");
                 Db.Get().Techs.Get("HVAC").unlockedItemIDs.Add(GasRefrigerationUnitConfig.ID);
             }
         }

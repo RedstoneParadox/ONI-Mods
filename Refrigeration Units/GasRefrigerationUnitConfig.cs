@@ -14,7 +14,7 @@ namespace RefrigerationUnits
             EffectorValues tieR2 = NOISE_POLLUTION.NOISY.TIER2;
             EffectorValues none = TUNING.BUILDINGS.DECOR.NONE;
             EffectorValues noise = tieR2;
-            BuildingDef buildingDef = BuildingTemplates.CreateBuildingDef("GasRefigerationUnit", 2, 2, "airconditioner_kanim", 100, 120f, tieR3, allMetals, 1600f, BuildLocationRule.OnFloor, none, noise);
+            BuildingDef buildingDef = BuildingTemplates.CreateBuildingDef(ID, 2, 2, "airconditioner_kanim", 100, 120f, tieR3, allMetals, 1600f, BuildLocationRule.OnFloor, none, noise);
             BuildingTemplates.CreateElectricalBuildingDef(buildingDef);
             buildingDef.EnergyConsumptionWhenActive = 240f;
             buildingDef.SelfHeatKilowattsWhenActive = 0.0f;
