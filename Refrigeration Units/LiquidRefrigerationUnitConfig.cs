@@ -62,6 +62,7 @@ namespace RefrigerationUnits
             go.AddOrGet<LogicOperationalController>();
             go.AddOrGetDef<PoweredActiveController.Def>();
             go.GetComponent<KPrefabID>().AddTag(GameTags.OverlayBehindConduits);
+            go.AddOrGet<MinimumOperatingTemperature>().minimumTemperature = 28f;
         }
     }
 }
