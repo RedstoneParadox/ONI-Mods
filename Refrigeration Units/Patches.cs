@@ -73,5 +73,15 @@ namespace RefrigerationUnits
                 Util.AddToTech("LiquidTemperature", LiquidRefrigerationUnitConfig.ID);
             }
         }
+
+        [HarmonyPatch(typeof(OverlayScreen))]
+        [HarmonyPatch("ToggleOverlay")]
+        public static class OverlayMenu_OnOverlayChanged_Patch
+        {
+            public static void Postfix(HashedString newMode)
+            {
+                Util.ReapplyTints();
+            }
+        }
     }
 }

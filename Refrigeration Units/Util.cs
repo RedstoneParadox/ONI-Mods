@@ -1,4 +1,5 @@
-﻿using System;
+﻿using STRINGS;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -24,6 +25,21 @@ namespace RefrigerationUnits
             Strings.Add(name.key.String, name.text);
             Strings.Add(desc.key.String, desc.text);
             Strings.Add(effect.key.String, effect.text);
+        }
+
+        public static void ReapplyTints()
+        {
+            foreach (var building in Components.BuildingCompletes.Items)
+            {
+                if (building.name == GasRefrigerationUnitConfig.ID + "Complete")
+                {
+                    ApplyBuildingTint(building, 255, 190, 102);
+                }
+                else if (building.name == LiquidRefrigerationUnitConfig.ID + "Complete")
+                {
+                    ApplyBuildingTint(building, 255, 102, 102);
+                }
+            }
         }
     }
 }
