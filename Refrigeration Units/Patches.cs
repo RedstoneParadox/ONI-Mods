@@ -9,7 +9,7 @@ namespace RefrigerationUnits
     {
         public static void OnLoad()
         {
-            Debug.Log("Hello world!");
+            //Debug.Log("Goodbye world!");
         }
     }
 
