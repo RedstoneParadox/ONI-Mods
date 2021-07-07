@@ -1,4 +1,5 @@
-lib/
 .vs/
+lib/
+packages/
 bin/
 obj/

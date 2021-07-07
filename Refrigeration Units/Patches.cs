@@ -1,15 +1,17 @@
-﻿using Harmony;
+﻿using HarmonyLib;
+using KMod;
 using STRINGS;
 using System;
 using UnityEngine;
 
 namespace RefrigerationUnits
 {
-    public static class Mod_OnLoad
+    public class RefrigerationUnitsMod: UserMod2
     {
-        public static void OnLoad()
+        public override void OnLoad(Harmony harmony)
         {
-            //Debug.Log("Goodbye world!");
+            // let the game patch everything
+            base.OnLoad(harmony);
         }
     }
 
