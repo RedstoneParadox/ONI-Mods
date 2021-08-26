@@ -44,7 +44,7 @@ namespace RefrigerationUnits
         {
             go.AddOrGet<LogicOperationalController>();
             go.AddOrGetDef<PoweredActiveController.Def>();
-            go.AddOrGet<MinimumOperatingTemperature>().minimumTemperature = 20f;
+            go.AddOrGet<MinimumOperatingTemperature>().minimumTemperature = 16f;
         }
     }
 }
