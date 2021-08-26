@@ -6,7 +6,7 @@ using System.Text;
 using TUNING;
 using UnityEngine;
 
-namespace HVACExpansion
+namespace HVACExpansion.Buildings
 {
     class LiquidRefrigerationUnitConfig: IBuildingConfig
     {

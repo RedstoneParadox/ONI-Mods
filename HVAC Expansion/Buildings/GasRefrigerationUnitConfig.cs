@@ -2,7 +2,7 @@
 using TUNING;
 using UnityEngine;
 
-namespace HVACExpansion
+namespace HVACExpansion.Buildings
 {
     class GasRefrigerationUnitConfig: IBuildingConfig
     {
