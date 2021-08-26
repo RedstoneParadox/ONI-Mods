@@ -18,9 +18,9 @@ namespace RefrigerationUnits.STRINGS
 
             public class TOOLTIPS
             {
-                public static LocString GASHEATING = new LocString("Reduces the " + UI.PRE_KEYWORD + "Temperature" + UI.PST_KEYWORD + " of piped " + UI.PRE_KEYWORD + "Gases" + UI.PST_KEYWORD + "by <b>{0}</b>",
+                public static LocString GASHEATING = new LocString("Increases the " + UI.PRE_KEYWORD + "Temperature" + UI.PST_KEYWORD + " of piped " + UI.PRE_KEYWORD + "Gases" + UI.PST_KEYWORD + " by <b>{0}</b>",
                     "STRINGS.UI.BUILDINGEFFECTS.TOOLTIPS.GASHEATING");
-                public static LocString LIQUIDHEATING = new LocString("Reduces the " + UI.PRE_KEYWORD + "Temperature" + UI.PST_KEYWORD + " of piped " + UI.PRE_KEYWORD + "Liquid" + UI.PST_KEYWORD + " by <b>{0}</b>",
+                public static LocString LIQUIDHEATING = new LocString("Increases the " + UI.PRE_KEYWORD + "Temperature" + UI.PST_KEYWORD + " of piped " + UI.PRE_KEYWORD + "Liquid" + UI.PST_KEYWORD + " by <b>{0}</b>",
                     "STRINGS.UI.BUILDINGEFFECTS.TOOLTIPS.LIQUIDHEATING");
                 public static LocString HEATCONSUMED_AIRREFRIGERATOR = new LocString("Dissapates " + UI.PRE_KEYWORD + "Heat" + UI.PST_KEYWORD + " based on the " +
                     UI.PRE_KEYWORD + "Volume" + UI.PST_KEYWORD + " and " + UI.PRE_KEYWORD + "Specific Heat Capacity" + UI.PST_KEYWORD + " of the pumped " +
