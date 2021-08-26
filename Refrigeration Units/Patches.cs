@@ -1,5 +1,7 @@
 ﻿using HarmonyLib;
 using KMod;
+using RefrigerationUnits.Buildings;
+using RefrigerationUnits;
 using STRINGS;
 using System;
 using System.Collections.Generic;
@@ -39,40 +41,41 @@ namespace RefrigerationUnits
         [HarmonyPatch("LoadGeneratedBuildings")]
         public class BuildingInfoPatch
         {
-            public static LocString GRU_NAME = new LocString("Gas Refrigeration Unit",
-                "STRINGS.BUILDINGS.PREFABS." + GasRefrigerationUnitConfig.ID.ToUpper() + ".NAME");
-            public static LocString GRU_DESC = new LocString("A gas refrigeration unit doesn't remove heat, but relocates it to a new area.",
-                "STRINGS.BUILDINGS.PREFABS." + GasRefrigerationUnitConfig.ID.ToUpper() + ".DESC");
-            public static LocString GRU_EFFECT = new LocString(UI.FormatAsLink("Heats", "HEAT") + " the " + UI.FormatAsLink("Gas", "ELEMENTS_GAS") + " piped through it, cooling its immediate vicinity.",
-                "STRINGS.BUILDINGS.PREFABS." + GasRefrigerationUnitConfig.ID.ToUpper() + ".EFFECT");
-            public static LocString HEATCONSUMED_GRU = new LocString("Dissapates " + UI.PRE_KEYWORD + "Heat" + UI.PST_KEYWORD + " based on the " +
-                UI.PRE_KEYWORD + "Volume" + UI.PST_KEYWORD + " and " + UI.PRE_KEYWORD + "Specific Heat Capacity" + UI.PST_KEYWORD + " of the pumped " +
-                UI.PRE_KEYWORD + "Gas" + UI.PST_KEYWORD + "\n\nHeating 1 " + (string)UI.UNITSUFFIXES.MASS.KILOGRAM + " of " + (string)ELEMENTS.OXYGEN.NAME +
-                " the entire <b>{1}</b> will consume <b>{0}</b>",
-                "STRINGS.UI.TOOLTIPS.HEATGENERATED_" + GasRefrigerationUnitConfig.ID.ToUpper());
+            public static LocString GRU_NAME = STRINGS.BUILDINGS.GASREFRIGERATOR.NAME;
+            public static LocString GRU_DESC = STRINGS.BUILDINGS.GASREFRIGERATOR.DESC;
+            public static LocString GRU_EFFECT = STRINGS.BUILDINGS.GASREFRIGERATOR.EFFECT;
+            public static LocString HEATCONSUMED_GRU = STRINGS.RefrigerationUnitsUI.BuildingEffects.TOOLTIPS.HEATCONSUMED_AIRREFRIGERATOR;
+            public static LocString HC_GRU_EFFECT = STRINGS.RefrigerationUnitsUI.BuildingEffects.HEATCONSUMED_AIRREFRIGERATOR;
 
 
-            public static LocString LRU_NAME = new LocString("Liquid Refrigeration Unit",
-                "STRINGS.BUILDINGS.PREFABS." + LiquidRefrigerationUnitConfig.ID.ToUpper() + ".NAME");
-            public static LocString LRU_DESC = new LocString("A liquid refrigeration unit heats liquids to cool its surroundings.",
-                "STRINGS.BUILDINGS.PREFABS." + LiquidRefrigerationUnitConfig.ID.ToUpper() + ".DESC");
-            public static LocString LRU_EFFECT = new LocString(UI.FormatAsLink("Heats", "HEAT") + " the " + UI.FormatAsLink("Liquid", "ELEMENTS_LIQUID") + " piped through it, cooling its immediate vicinity.",
-                "STRINGS.BUILDINGS.PREFABS." + LiquidRefrigerationUnitConfig.ID.ToUpper() + ".EFFECT");
-            public static LocString HEATCONSUMED_LRU = new LocString("Dissapates " + UI.PRE_KEYWORD + "Heat" + UI.PST_KEYWORD + " based on the " + 
-                UI.PRE_KEYWORD + "Volume" + UI.PST_KEYWORD + " and " + UI.PRE_KEYWORD + "Specific Heat Capacity" + UI.PST_KEYWORD + " of the pumped " + 
-                UI.PRE_KEYWORD + "Liquid" + UI.PST_KEYWORD + "\n\nHeating 10 " + (string)UI.UNITSUFFIXES.MASS.KILOGRAM + " of " + (string)ELEMENTS.WATER.NAME + 
-                " the entire <b>{1}</b> will consume <b>{0}</b>",
-                "STRINGS.UI.TOOLTIPS.HEATGENERATED_" + LiquidRefrigerationUnitConfig.ID.ToUpper());
+            public static LocString LRU_NAME = STRINGS.BUILDINGS.LIQUIDREFRIGERATOR.NAME;
+            public static LocString LRU_DESC = STRINGS.BUILDINGS.LIQUIDREFRIGERATOR.DESC;
+            public static LocString LRU_EFFECT = STRINGS.BUILDINGS.LIQUIDREFRIGERATOR.EFFECT;
+            public static LocString HEATCONSUMED_LRU = STRINGS.RefrigerationUnitsUI.BuildingEffects.TOOLTIPS.HEATCONSUMED_LIQUIDREFRIGERATOR;
+            public static LocString HC_LRU_EFFECT = STRINGS.RefrigerationUnitsUI.BuildingEffects.HEATCONSUMED_LIQUIDREFRIGERATOR;
+
+            public static LocString LIQUIDHEATING = STRINGS.RefrigerationUnitsUI.BuildingEffects.TOOLTIPS.LIQUIDHEATING;
+            public static LocString GASHEATING = STRINGS.RefrigerationUnitsUI.BuildingEffects.TOOLTIPS.GASHEATING;
+            public static LocString LIQUIDHEATING_EFF = STRINGS.RefrigerationUnitsUI.BuildingEffects.LIQUIDHEATING;
+            public static LocString GASHEATING_EFF = STRINGS.RefrigerationUnitsUI.BuildingEffects.GASHEATING;
+
 
             static void Prefix()
             {
                 Util.AddBuildingStrings(GRU_NAME, GRU_DESC, GRU_EFFECT);
                 Util.AddString(HEATCONSUMED_GRU);
+                Util.AddString(HC_GRU_EFFECT);
                 ModUtil.AddBuildingToPlanScreen("Utilities", GasRefrigerationUnitConfig.ID);
 
                 Util.AddBuildingStrings(LRU_NAME, LRU_DESC, LRU_EFFECT);
                 Util.AddString(HEATCONSUMED_LRU);
+                Util.AddString(HC_LRU_EFFECT);
                 ModUtil.AddBuildingToPlanScreen("Utilities", LiquidRefrigerationUnitConfig.ID);
+
+                Util.AddString(LIQUIDHEATING);
+                Util.AddString(GASHEATING);
+                Util.AddString(LIQUIDHEATING_EFF);
+                Util.AddString(GASHEATING_EFF);
             }
 
         }
@@ -83,6 +86,49 @@ namespace RefrigerationUnits
             {
                 Util.AddToTech("HVAC", GasRefrigerationUnitConfig.ID);
                 Util.AddToTech("LiquidTemperature", LiquidRefrigerationUnitConfig.ID);
+            }
+        }
+
+        [HarmonyPatch(typeof(AirConditioner))]
+        [HarmonyPatch("GetDescriptors")]
+        public class AirConditionerPatch
+        {
+            public static void Postfix(ref List<Descriptor> __result, ref AirConditioner __instance)
+            {
+                if (__instance is RefrigerationUnit)
+                {
+                    AirConditioner @this = __instance;
+
+                    List<Descriptor> descriptorList = new List<Descriptor>();
+                    string formattedTemperature = GameUtil.GetFormattedTemperature(@this.temperatureDelta, interpretation: GameUtil.TemperatureInterpretation.Relative);
+                    Element elementByName = ElementLoader.FindElementByName(@this.isLiquidConditioner ? "Water" : "Oxygen");
+                    float dtu = (!@this.isLiquidConditioner ? Mathf.Abs((float)((double)@this.temperatureDelta * elementByName.specificHeatCapacity * 1000.0)) : Mathf.Abs((float)((double)@this.temperatureDelta * elementByName.specificHeatCapacity * 10000.0))) * 1f;
+                    Descriptor descriptor1 = new Descriptor();
+                    string txt = string.Format(@this.isLiquidConditioner ? STRINGS.RefrigerationUnitsUI.BuildingEffects.HEATCONSUMED_LIQUIDREFRIGERATOR : STRINGS.RefrigerationUnitsUI.BuildingEffects.HEATCONSUMED_AIRREFRIGERATOR, GameUtil.GetFormattedHeatEnergy(dtu), GameUtil.GetFormattedTemperature(Mathf.Abs(@this.temperatureDelta), interpretation: GameUtil.TemperatureInterpretation.Relative));
+                    string tooltip = string.Format(
+                        @this.isLiquidConditioner ? STRINGS.RefrigerationUnitsUI.BuildingEffects.TOOLTIPS.HEATCONSUMED_LIQUIDREFRIGERATOR : STRINGS.RefrigerationUnitsUI.BuildingEffects.TOOLTIPS.HEATCONSUMED_AIRREFRIGERATOR, 
+                        GameUtil.GetFormattedHeatEnergy(dtu), 
+                        GameUtil.GetFormattedTemperature(
+                            Mathf.Abs(@this.temperatureDelta), 
+                            interpretation: GameUtil.TemperatureInterpretation.Relative
+                            )
+                        );
+                    descriptor1.SetupDescriptor(txt, tooltip);
+                    descriptorList.Add(descriptor1);
+                    Descriptor descriptor2 = new Descriptor();
+                    descriptor2.SetupDescriptor(
+                        string.Format(
+                            @this.isLiquidConditioner ? STRINGS.RefrigerationUnitsUI.BuildingEffects.LIQUIDHEATING : STRINGS.RefrigerationUnitsUI.BuildingEffects.LIQUIDHEATING, 
+                            formattedTemperature
+                            ), 
+                        string.Format(
+                            @this.isLiquidConditioner ? UI.BUILDINGEFFECTS.TOOLTIPS.LIQUIDCOOLING : UI.BUILDINGEFFECTS.TOOLTIPS.GASCOOLING, 
+                            formattedTemperature
+                            )
+                        );
+                    descriptorList.Add(descriptor2);
+                    __result = descriptorList;
+                }
             }
         }
 

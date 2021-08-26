@@ -81,10 +81,13 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="GasRefrigerationUnitConfig.cs" />
-    <Compile Include="LiquidRefrigerationUnitConfig.cs" />
+    <Compile Include="Buildings\GasRefrigerationUnitConfig.cs" />
+    <Compile Include="Buildings\LiquidRefrigerationUnitConfig.cs" />
+    <Compile Include="Buildings\RefrigerationUnit.cs" />
     <Compile Include="Patches.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="STRINGS\BUILDINGS.cs" />
+    <Compile Include="STRINGS\RefrigerationUnitsUI.cs" />
     <Compile Include="Util.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -98,15 +101,6 @@
     <Error Condition="!Exists('..\packages\Cairath.ONIMetadataFileGenerator.1.0.0\build\Cairath.ONIMetadataFileGenerator.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Cairath.ONIMetadataFileGenerator.1.0.0\build\Cairath.ONIMetadataFileGenerator.props'))" />
   </Target>
   <Target Name="GenerateMetadataFiles" BeforeTargets="Build">
-    <GenerateMetadataFiles 
-      OutputPath="C:\Development\ONI\Mods\ONI Mods\Refrigeration Units\bin\Release" 
-      Title="Refrigeration Units" 
-      Description="Adds machines that use liquids or gas to cool their surroundings." 
-      StaticID="RefigerationUnits" 
-      SupportedContent="EXPANSION1_ID" 
-      MinimumSupportedBuild="469473" 
-      Version="1.0.3" 
-      APIVersion="2" 
-      />
+    <GenerateMetadataFiles OutputPath="C:\Development\ONI\Mods\ONI Mods\Refrigeration Units\bin\Release" Title="Refrigeration Units" Description="Adds machines that use liquids or gas to cool their surroundings." StaticID="RefigerationUnits" SupportedContent="EXPANSION1_ID" MinimumSupportedBuild="469473" Version="1.0.3" APIVersion="2" />
   </Target>
 </Project>

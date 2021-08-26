@@ -1,4 +1,5 @@
-﻿using System;
+﻿using RefrigerationUnits.Buildings;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -44,7 +45,7 @@ namespace RefrigerationUnits
         public override void ConfigureBuildingTemplate(GameObject go, Tag prefab_tag)
         {
             go.AddOrGet<LoopingSounds>();
-            AirConditioner airConditioner = go.AddOrGet<AirConditioner>();
+            AirConditioner airConditioner = go.AddOrGet<RefrigerationUnit>();
             airConditioner.temperatureDelta = 14f;
             airConditioner.maxEnvironmentDelta = 50f;
             airConditioner.isLiquidConditioner = true;

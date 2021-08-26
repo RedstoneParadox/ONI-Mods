@@ -1,4 +1,5 @@
-﻿using TUNING;
+﻿using RefrigerationUnits.Buildings;
+using TUNING;
 using UnityEngine;
 
 namespace RefrigerationUnits
@@ -31,7 +32,7 @@ namespace RefrigerationUnits
         public override void ConfigureBuildingTemplate(GameObject go, Tag prefab_tag)
         {
             go.AddOrGet<LoopingSounds>();
-            AirConditioner refrigerationUnit = go.AddOrGet<AirConditioner>();
+            AirConditioner refrigerationUnit = go.AddOrGet<RefrigerationUnit>();
             refrigerationUnit.temperatureDelta = 14f;
             refrigerationUnit.maxEnvironmentDelta = 50f;
             BuildingTemplates.CreateDefaultStorage(go).showInUI = true;
