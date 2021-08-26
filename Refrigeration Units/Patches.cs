@@ -122,7 +122,7 @@ namespace RefrigerationUnits
                             formattedTemperature
                             ), 
                         string.Format(
-                            @this.isLiquidConditioner ? UI.BUILDINGEFFECTS.TOOLTIPS.LIQUIDCOOLING : UI.BUILDINGEFFECTS.TOOLTIPS.GASCOOLING, 
+                            @this.isLiquidConditioner ? STRINGS.RefrigerationUnitsUI.BuildingEffects.TOOLTIPS.LIQUIDHEATING : STRINGS.RefrigerationUnitsUI.BuildingEffects.TOOLTIPS.GASHEATING, 
                             formattedTemperature
                             )
                         );
