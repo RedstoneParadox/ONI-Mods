@@ -105,7 +105,7 @@
       StaticID="RefigerationUnits" 
       SupportedContent="EXPANSION1_ID" 
       MinimumSupportedBuild="469473" 
-      Version="1.0.2" 
+      Version="1.0.3" 
       APIVersion="2" 
       />
   </Target>
