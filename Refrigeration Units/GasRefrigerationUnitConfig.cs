@@ -37,7 +37,7 @@ namespace RefrigerationUnits
             BuildingTemplates.CreateDefaultStorage(go).showInUI = true;
             ConduitConsumer conduitConsumer = go.AddOrGet<ConduitConsumer>();
             conduitConsumer.conduitType = ConduitType.Gas;
-            conduitConsumer.consumptionRate = 1f;
+            conduitConsumer.consumptionRate = ConduitFlow.MAX_GAS_MASS;
         }
 
         public override void DoPostConfigureComplete(GameObject go)

@@ -50,7 +50,7 @@ namespace RefrigerationUnits
             airConditioner.isLiquidConditioner = true;
             ConduitConsumer conduitConsumer = go.AddOrGet<ConduitConsumer>();
             conduitConsumer.conduitType = ConduitType.Liquid;
-            conduitConsumer.consumptionRate = 10f;
+            conduitConsumer.consumptionRate = ConduitFlow.MAX_LIQUID_MASS;
             Storage defaultStorage = BuildingTemplates.CreateDefaultStorage(go);
             defaultStorage.showInUI = true;
             defaultStorage.capacityKg = 2f * conduitConsumer.consumptionRate;
