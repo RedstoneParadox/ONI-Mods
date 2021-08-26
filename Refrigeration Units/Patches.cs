@@ -38,7 +38,7 @@ namespace RefrigerationUnits
         [HarmonyPatch("LoadGeneratedBuildings")]
         public class BuildingInfoPatch
         {
-            public static LocString GRU_NAME = new LocString("Gas Refigeration Unit",
+            public static LocString GRU_NAME = new LocString("Gas Refrigeration Unit",
                 "STRINGS.BUILDINGS.PREFABS." + GasRefrigerationUnitConfig.ID.ToUpper() + ".NAME");
 
             public static LocString GRU_DESC = new LocString("A gas refrigeration unit doesn't remove heat, but relocates it to a new area.",
@@ -47,7 +47,7 @@ namespace RefrigerationUnits
             public static LocString GRU_EFFECT = new LocString(UI.FormatAsLink("Heats", "HEAT") + " the " + UI.FormatAsLink("Gas", "ELEMENTS_GAS") + " piped through it, cooling its immediate vicinity.",
                 "STRINGS.BUILDINGS.PREFABS." + GasRefrigerationUnitConfig.ID.ToUpper() + ".EFFECT");
 
-            public static LocString LRU_NAME = new LocString("Liquid Refigeration Unit",
+            public static LocString LRU_NAME = new LocString("Liquid Refrigeration Unit",
     "STRINGS.BUILDINGS.PREFABS." + LiquidRefrigerationUnitConfig.ID.ToUpper() + ".NAME");
 
             public static LocString LRU_DESC = new LocString("A liquid refrigeration unit heats liquids to cool its surroundings.",
