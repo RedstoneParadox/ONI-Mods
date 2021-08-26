@@ -1,13 +1,13 @@
 ﻿using HarmonyLib;
 using KMod;
-using RefrigerationUnits.Buildings;
-using RefrigerationUnits;
+using HVACExpansion.Buildings;
+using HVACExpansion;
 using STRINGS;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace RefrigerationUnits
+namespace HVACExpansion
 {
     public class RefrigerationUnitsMod: UserMod2
     {

@@ -1,8 +1,8 @@
-﻿using RefrigerationUnits.Buildings;
+﻿using HVACExpansion.Buildings;
 using TUNING;
 using UnityEngine;
 
-namespace RefrigerationUnits
+namespace HVACExpansion
 {
     class GasRefrigerationUnitConfig: IBuildingConfig
     {

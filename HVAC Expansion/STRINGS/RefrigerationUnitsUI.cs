@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RefrigerationUnits.STRINGS
+namespace HVACExpansion.STRINGS
 {
     public class RefrigerationUnitsUI
     {

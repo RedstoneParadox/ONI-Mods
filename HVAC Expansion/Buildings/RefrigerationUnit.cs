@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RefrigerationUnits.Buildings
+namespace HVACExpansion.Buildings
 {
     class RefrigerationUnit: AirConditioner
     {

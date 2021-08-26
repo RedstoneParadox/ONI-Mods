@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 
-namespace RefrigerationUnits
+namespace HVACExpansion
 {
     class Util
     {

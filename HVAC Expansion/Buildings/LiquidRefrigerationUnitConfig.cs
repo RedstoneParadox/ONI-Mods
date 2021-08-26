@@ -1,4 +1,4 @@
-﻿using RefrigerationUnits.Buildings;
+﻿using HVACExpansion.Buildings;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,7 +6,7 @@ using System.Text;
 using TUNING;
 using UnityEngine;
 
-namespace RefrigerationUnits
+namespace HVACExpansion
 {
     class LiquidRefrigerationUnitConfig: IBuildingConfig
     {
