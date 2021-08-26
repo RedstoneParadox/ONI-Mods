@@ -2,6 +2,7 @@
 using KMod;
 using STRINGS;
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace RefrigerationUnits
@@ -40,28 +41,37 @@ namespace RefrigerationUnits
         {
             public static LocString GRU_NAME = new LocString("Gas Refrigeration Unit",
                 "STRINGS.BUILDINGS.PREFABS." + GasRefrigerationUnitConfig.ID.ToUpper() + ".NAME");
-
             public static LocString GRU_DESC = new LocString("A gas refrigeration unit doesn't remove heat, but relocates it to a new area.",
                 "STRINGS.BUILDINGS.PREFABS." + GasRefrigerationUnitConfig.ID.ToUpper() + ".DESC");
-
             public static LocString GRU_EFFECT = new LocString(UI.FormatAsLink("Heats", "HEAT") + " the " + UI.FormatAsLink("Gas", "ELEMENTS_GAS") + " piped through it, cooling its immediate vicinity.",
                 "STRINGS.BUILDINGS.PREFABS." + GasRefrigerationUnitConfig.ID.ToUpper() + ".EFFECT");
+            public static LocString HEATCONSUMED_GRU = new LocString("Dissapates " + UI.PRE_KEYWORD + "Heat" + UI.PST_KEYWORD + " based on the " +
+                UI.PRE_KEYWORD + "Volume" + UI.PST_KEYWORD + " and " + UI.PRE_KEYWORD + "Specific Heat Capacity" + UI.PST_KEYWORD + " of the pumped " +
+                UI.PRE_KEYWORD + "Gas" + UI.PST_KEYWORD + "\n\nHeating 1 " + (string)UI.UNITSUFFIXES.MASS.KILOGRAM + " of " + (string)ELEMENTS.OXYGEN.NAME +
+                " the entire <b>{1}</b> will consume <b>{0}</b>",
+                "STRINGS.UI.TOOLTIPS.HEATGENERATED_" + GasRefrigerationUnitConfig.ID.ToUpper());
+
 
             public static LocString LRU_NAME = new LocString("Liquid Refrigeration Unit",
-    "STRINGS.BUILDINGS.PREFABS." + LiquidRefrigerationUnitConfig.ID.ToUpper() + ".NAME");
-
+                "STRINGS.BUILDINGS.PREFABS." + LiquidRefrigerationUnitConfig.ID.ToUpper() + ".NAME");
             public static LocString LRU_DESC = new LocString("A liquid refrigeration unit heats liquids to cool its surroundings.",
                 "STRINGS.BUILDINGS.PREFABS." + LiquidRefrigerationUnitConfig.ID.ToUpper() + ".DESC");
-
             public static LocString LRU_EFFECT = new LocString(UI.FormatAsLink("Heats", "HEAT") + " the " + UI.FormatAsLink("Liquid", "ELEMENTS_LIQUID") + " piped through it, cooling its immediate vicinity.",
                 "STRINGS.BUILDINGS.PREFABS." + LiquidRefrigerationUnitConfig.ID.ToUpper() + ".EFFECT");
+            public static LocString HEATCONSUMED_LRU = new LocString("Dissapates " + UI.PRE_KEYWORD + "Heat" + UI.PST_KEYWORD + " based on the " + 
+                UI.PRE_KEYWORD + "Volume" + UI.PST_KEYWORD + " and " + UI.PRE_KEYWORD + "Specific Heat Capacity" + UI.PST_KEYWORD + " of the pumped " + 
+                UI.PRE_KEYWORD + "Liquid" + UI.PST_KEYWORD + "\n\nHeating 10 " + (string)UI.UNITSUFFIXES.MASS.KILOGRAM + " of " + (string)ELEMENTS.WATER.NAME + 
+                " the entire <b>{1}</b> will consume <b>{0}</b>",
+                "STRINGS.UI.TOOLTIPS.HEATGENERATED_" + LiquidRefrigerationUnitConfig.ID.ToUpper());
 
             static void Prefix()
             {
                 Util.AddBuildingStrings(GRU_NAME, GRU_DESC, GRU_EFFECT);
+                Util.AddString(HEATCONSUMED_GRU);
                 ModUtil.AddBuildingToPlanScreen("Utilities", GasRefrigerationUnitConfig.ID);
 
                 Util.AddBuildingStrings(LRU_NAME, LRU_DESC, LRU_EFFECT);
+                Util.AddString(HEATCONSUMED_LRU);
                 ModUtil.AddBuildingToPlanScreen("Utilities", LiquidRefrigerationUnitConfig.ID);
             }
 

@@ -27,6 +27,11 @@ namespace RefrigerationUnits
             Strings.Add(effect.key.String, effect.text);
         }
 
+        public static void AddString(LocString @string)
+        {
+            Strings.Add(@string.key.String, @string.text);
+        }
+
         public static void ReapplyTints()
         {
             foreach (var building in Components.BuildingCompletes.Items)
