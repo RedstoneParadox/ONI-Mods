@@ -1,19 +1,10 @@
 ﻿using HarmonyLib;
-using KMod;
 using HVACExpansion.Buildings;
 using System.Collections.Generic;
 using UnityEngine;
 
 namespace HVACExpansion
 {
-    public class RefrigerationUnitsMod: UserMod2
-    {
-        public override void OnLoad(Harmony harmony)
-        {
-            // let the game patch everything
-            base.OnLoad(harmony);
-        }
-    }
 
     public class Patches
     {
