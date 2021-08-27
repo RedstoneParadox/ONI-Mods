@@ -9,7 +9,7 @@ using UnityEngine;
 namespace HVACExpansion.Buildings
 {
     [SerializationConfig(MemberSerialization.OptIn)]
-    class ElementStateConverter: StateMachineComponent<ElementStateConverter.StatesInstance>
+    class FluidConverter: StateMachineComponent<FluidConverter.StatesInstance>
     {
         [MyCmpAdd]
         private Storage storage;
@@ -77,14 +77,14 @@ namespace HVACExpansion.Buildings
             return false;
         }
 
-        public class StatesInstance : GameStateMachine<ElementStateConverter.States, StatesInstance, ElementStateConverter, object>.GameInstance
+        public class StatesInstance : GameStateMachine<States, StatesInstance, FluidConverter, object>.GameInstance
         {
-            public StatesInstance(ElementStateConverter master) : base(master)
+            public StatesInstance(FluidConverter master) : base(master)
             {
             }
         }
 
-        public class States: GameStateMachine<States, StatesInstance, ElementStateConverter>
+        public class States: GameStateMachine<States, StatesInstance, FluidConverter>
         {
             public State off;
             public State on;
