@@ -84,8 +84,10 @@
     <Compile Include="Buildings\GasRefrigerationUnitConfig.cs" />
     <Compile Include="Buildings\LiquidRefrigerationUnitConfig.cs" />
     <Compile Include="Buildings\RefrigerationUnit.cs" />
+    <Compile Include="Buildings\ElementStateConverter.cs" />
     <Compile Include="Patches.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="HVACExpansionMod.cs" />
     <Compile Include="STRINGS\BUILDINGS.cs" />
     <Compile Include="STRINGS\RefrigerationUnitsUI.cs" />
     <Compile Include="Util.cs" />
