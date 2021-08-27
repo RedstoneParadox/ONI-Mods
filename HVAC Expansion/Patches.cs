@@ -5,7 +5,6 @@ using UnityEngine;
 
 namespace HVACExpansion
 {
-
     public class Patches
     {
 

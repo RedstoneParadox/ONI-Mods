@@ -3,7 +3,7 @@ using KMod;
 
 namespace HVACExpansion
 {
-    public class RefrigerationUnitsMod: UserMod2
+    public class HVACExpansionMod: UserMod2
     {
         public override void OnLoad(Harmony harmony)
         {
