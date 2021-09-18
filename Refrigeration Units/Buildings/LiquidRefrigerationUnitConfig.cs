@@ -6,7 +6,7 @@ using System.Text;
 using TUNING;
 using UnityEngine;
 
-namespace RefrigerationUnits
+namespace RefrigerationUnits.Buildings
 {
     class LiquidRefrigerationUnitConfig: IBuildingConfig
     {
