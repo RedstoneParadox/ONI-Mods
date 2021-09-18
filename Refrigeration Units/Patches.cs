@@ -141,5 +141,14 @@ namespace RefrigerationUnits
                 Util.ReapplyTints();
             }
         }
+
+        [HarmonyPatch(typeof(Game), "OnPrefabInit")]
+        internal class Game_OnPrefabInit
+        {
+            internal static void Postfix(Game __instance)
+            {
+                Util.SetGameInstance(__instance);
+            }
+        }
     }
 }

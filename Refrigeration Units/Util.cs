@@ -1,4 +1,5 @@
-﻿using RefrigerationUnits.Buildings;
+﻿using HarmonyLib;
+using RefrigerationUnits.Buildings;
 using STRINGS;
 using System;
 using System.Collections.Generic;
@@ -10,6 +11,24 @@ namespace RefrigerationUnits
 {
     class Util
     {
+        private static Game GameInstance = null;
+
+        public static void SetGameInstance(Game GameInstance) => Util.GameInstance = GameInstance;
+
+        public static float GetMaxLiquidMass()
+        {
+            ConduitFlow flow = GameInstance.liquidConduitFlow;
+
+            return (float)AccessTools.Field(typeof(ConduitFlow), "MaxMass").GetValue(flow);
+        }
+
+        public static float GetMaxGasMass()
+        {
+            ConduitFlow flow = GameInstance.gasConduitFlow;
+
+            return (float)AccessTools.Field(typeof(ConduitFlow), "MaxMass").GetValue(flow);
+        }
+
         public static void ApplyBuildingTint(BuildingComplete instance, int r, int g, int b)
         {
             var kAnimBase = instance.GetComponent<KAnimControllerBase>();
