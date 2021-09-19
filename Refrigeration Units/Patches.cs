@@ -145,7 +145,7 @@ namespace RefrigerationUnits
         [HarmonyPatch(typeof(Game), "OnPrefabInit")]
         internal class Game_OnPrefabInit
         {
-            internal static void Postfix(Game __instance)
+            internal static void Prefix(Game __instance)
             {
                 Util.SetGameInstance(__instance);
             }
