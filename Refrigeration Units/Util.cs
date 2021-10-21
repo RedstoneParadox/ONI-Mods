@@ -1,8 +1,11 @@
 ﻿using HarmonyLib;
+using KMod;
+using Newtonsoft.Json;
 using RefrigerationUnits.Buildings;
 using STRINGS;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using UnityEngine;
@@ -11,23 +14,26 @@ namespace RefrigerationUnits
 {
     class Util
     {
-        private static Game GameInstance = null;
+        private static double throughputPercent = 1.0;
+        private static double maxLiquidMass = 10.0;
+        private static double maxGasMass = 1.0;
 
-        public static void SetGameInstance(Game GameInstance) => Util.GameInstance = GameInstance;
-
-        public static float GetMaxLiquidMass()
+        public static void LoadCustomizeBuildingsOptions()
         {
-            ConduitFlow flow = GameInstance.liquidConduitFlow;
-
-            return (float)AccessTools.Field(typeof(ConduitFlow), "MaxMass").GetValue(flow);
+            string dir = Manager.GetDirectory() + "/CustomizeBuildings.json";
+            StreamReader r = new StreamReader(dir);
+            string json = r.ReadToEnd();
+            var dictionary = JsonConvert.DeserializeObject<Dictionary<string, object>>(json);
+            throughputPercent = double.Parse(dictionary["PipeThroughputPercent"].ToString());
+            maxLiquidMass = double.Parse(dictionary["PipeLiquidMaxPressure"].ToString());
+            maxGasMass = double.Parse(dictionary["PipeGasMaxPressure"].ToString());
         }
 
-        public static float GetMaxGasMass()
-        {
-            ConduitFlow flow = GameInstance.gasConduitFlow;
+        public static float GetThroughputPercent() => (float)throughputPercent;
 
-            return (float)AccessTools.Field(typeof(ConduitFlow), "MaxMass").GetValue(flow);
-        }
+        public static float GetMaxLiquidMass() => (float)maxLiquidMass;
+
+        public static float GetMaxGasMass() => (float)maxGasMass;
 
         public static void ApplyBuildingTint(BuildingComplete instance, int r, int g, int b)
         {

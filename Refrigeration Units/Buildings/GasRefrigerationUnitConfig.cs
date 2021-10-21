@@ -36,6 +36,9 @@ namespace RefrigerationUnits.Buildings
             refrigerationUnit.temperatureDelta = 14f;
             refrigerationUnit.maxEnvironmentDelta = 50f;
             BuildingTemplates.CreateDefaultStorage(go).showInUI = true;
+            ConduitConsumer conduitConsumer = go.AddOrGet<ConduitConsumer>();
+            conduitConsumer.conduitType = ConduitType.Gas;
+            conduitConsumer.consumptionRate = Util.GetMaxGasMass() * Util.GetThroughputPercent();
         }
 
         public override void DoPostConfigureComplete(GameObject go)
@@ -43,9 +46,7 @@ namespace RefrigerationUnits.Buildings
             go.AddOrGet<LogicOperationalController>();
             go.AddOrGetDef<PoweredActiveController.Def>();
             go.AddOrGet<MinimumOperatingTemperature>().minimumTemperature = 16f;
-            ConduitConsumer conduitConsumer = go.AddOrGet<ConduitConsumer>();
-            conduitConsumer.conduitType = ConduitType.Gas;
-            conduitConsumer.consumptionRate = Util.GetMaxGasMass();
+           
         }
     }
 }

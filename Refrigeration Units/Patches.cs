@@ -16,6 +16,19 @@ namespace RefrigerationUnits
             // let the game patch everything
             base.OnLoad(harmony);
         }
+
+        public override void OnAllModsLoaded(Harmony harmony, IReadOnlyList<Mod> mods)
+        {
+            base.OnAllModsLoaded(harmony, mods);
+
+            foreach (Mod mod in mods)
+            {
+                if (mod.staticID == "CustomizeBuildings")
+                {
+                    Util.LoadCustomizeBuildingsOptions();
+                }
+            }
+        }
     }
 
     public class Patches
@@ -139,15 +152,6 @@ namespace RefrigerationUnits
             public static void Postfix(HashedString newMode)
             {
                 Util.ReapplyTints();
-            }
-        }
-
-        [HarmonyPatch(typeof(Game), "OnPrefabInit")]
-        internal class Game_OnPrefabInit
-        {
-            internal static void Prefix(Game __instance)
-            {
-                Util.SetGameInstance(__instance);
             }
         }
     }

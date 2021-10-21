@@ -49,6 +49,13 @@ namespace RefrigerationUnits.Buildings
             airConditioner.temperatureDelta = 14f;
             airConditioner.maxEnvironmentDelta = 50f;
             airConditioner.isLiquidConditioner = true;
+            ConduitConsumer conduitConsumer = go.AddOrGet<ConduitConsumer>();
+            conduitConsumer.conduitType = ConduitType.Liquid;
+            conduitConsumer.consumptionRate = Util.GetMaxLiquidMass() * Util.GetThroughputPercent();
+            Storage defaultStorage = BuildingTemplates.CreateDefaultStorage(go);
+            defaultStorage.showInUI = true;
+            defaultStorage.capacityKg = 2f * conduitConsumer.consumptionRate;
+            defaultStorage.SetDefaultStoredItemModifiers(StoredItemModifiers);
         }
 
         public override void DoPostConfigureComplete(GameObject go)
@@ -57,13 +64,6 @@ namespace RefrigerationUnits.Buildings
             go.AddOrGetDef<PoweredActiveController.Def>();
             go.GetComponent<KPrefabID>().AddTag(GameTags.OverlayBehindConduits);
             go.AddOrGet<MinimumOperatingTemperature>().minimumTemperature = 16f;
-            ConduitConsumer conduitConsumer = go.AddOrGet<ConduitConsumer>();
-            conduitConsumer.conduitType = ConduitType.Liquid;
-            conduitConsumer.consumptionRate = Util.GetMaxLiquidMass();
-            Storage defaultStorage = BuildingTemplates.CreateDefaultStorage(go);
-            defaultStorage.showInUI = true;
-            defaultStorage.capacityKg = 2f * conduitConsumer.consumptionRate;
-            defaultStorage.SetDefaultStoredItemModifiers(StoredItemModifiers);
         }
     }
 }
