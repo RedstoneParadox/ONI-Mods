@@ -87,6 +87,43 @@ namespace HVACExpansion.Buildings
             }
         }
 
+        private ConversionResult TryConvert()
+        {
+            List<GameObject> items = storage.items;
+
+            if (items.Count <= 0) return ConversionResult.EMPTY;
+
+            for (int index = 0; index < items.Count; ++index)
+            {
+                GameObject go = items[index];
+                PrimaryElement primaryElement = go.GetComponent<PrimaryElement>();
+                Element element = primaryElement.Element;
+
+                if (element.highTempTransitionOreMassConversion >= 0 || element.lowTempTransitionOreMassConversion >= 0)
+                {
+                    return ConversionResult.CLOGGED;
+                }
+                if ((IsEvaporator() && element.IsLiquid && !element.highTempTransition.IsGas) || (!IsEvaporator() && element.IsGas && !element.lowTempTransition.IsLiquid))
+                {
+                    return ConversionResult.CLOGGED;
+                }
+                if (IsEvaporator())
+                {
+                    Element gas = element.highTempTransition;
+
+                    storage.AddGasChunk(gas.id, primaryElement.Mass, primaryElement.Temperature, primaryElement.DiseaseIdx, primaryElement.DiseaseCount, false);
+                }
+                if (!IsEvaporator())
+                {
+                    Element liquid = element.lowTempTransition;
+
+                    storage.AddLiquid(liquid.id, primaryElement.Mass, primaryElement.Temperature, primaryElement.DiseaseIdx, primaryElement.DiseaseCount, false);
+                }
+            }
+
+            return ConversionResult.SUCCESS;
+        }
+
         public bool IsEvaporator()
         {
             return false;
@@ -119,6 +156,13 @@ namespace HVACExpansion.Buildings
                     .EventTransition(GameHashes.OnStorageChange, on, smi => !smi.master.CanConvert())
                     .Exit("Ready", smi => smi.master.operational.SetActive(false));
             }
+        }
+
+        private enum ConversionResult
+        {
+            SUCCESS,
+            CLOGGED,
+            EMPTY
         }
     }
 }
