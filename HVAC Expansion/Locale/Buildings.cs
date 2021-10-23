@@ -6,11 +6,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace HVACExpansion.STRINGS
+namespace HVACExpansion.Locale
 {
-    public class BUILDINGS
+    public class Buildings
     {
-        public class GASREFRIGERATOR
+        public class GasRefrigerator
         {
             public static LocString NAME = new LocString("Thermo Conditioner",
     "STRINGS.BUILDINGS.PREFABS." + GasRefrigerationUnitConfig.ID.ToUpper() + ".NAME");
@@ -20,7 +20,7 @@ namespace HVACExpansion.STRINGS
                 "STRINGS.BUILDINGS.PREFABS." + GasRefrigerationUnitConfig.ID.ToUpper() + ".EFFECT");
         }
 
-        public class LIQUIDREFRIGERATOR
+        public class LiquidRefrigerator
         {
             public static LocString NAME = new LocString("Thermo Aquapump",
                 "STRINGS.BUILDINGS.PREFABS." + LiquidRefrigerationUnitConfig.ID.ToUpper() + ".NAME");

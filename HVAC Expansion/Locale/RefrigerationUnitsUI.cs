@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace HVACExpansion.STRINGS
+namespace HVACExpansion.Locale
 {
     public class RefrigerationUnitsUI
     {
@@ -17,7 +17,7 @@ namespace HVACExpansion.STRINGS
             public static LocString GASHEATING = new LocString(UI.FormatAsLink("Heating factor", "HEAT") + ": {0}", "STRINGS.UI.BUILDINGEFFECTS.GASHEATING");
             public static LocString LIQUIDHEATING = new LocString(UI.FormatAsLink("Heating factor", "HEAT") + ": {0}", "STRINGS.UI.BUILDINGEFFECTS.LIQUIDHEATING");
 
-            public class TOOLTIPS
+            public class Tooltips
             {
                 public static LocString GASHEATING = new LocString("Increases the " + UI.PRE_KEYWORD + "Temperature" + UI.PST_KEYWORD + " of piped " + UI.PRE_KEYWORD + "Gases" + UI.PST_KEYWORD + " by <b>{0}</b>",
                     "STRINGS.UI.BUILDINGEFFECTS.TOOLTIPS.GASHEATING");

@@ -15,77 +15,7 @@ namespace HVACExpansion.Buildings
         private Storage storage;
         [MyCmpReq]
         private Operational operational;
-
-        public bool CanConvert()
-        {
-            List<GameObject> items = storage.items;
-
-            for (int index = 0; index < items.Count; ++index) 
-            {
-                GameObject go = items[index];
-                PrimaryElement primaryElement = go.GetComponent<PrimaryElement>();
-
-                if ((primaryElement.Element.IsGas && IsEvaporator()) || (primaryElement.Element.IsLiquid && !IsEvaporator()))
-                {
-                    return false;
-                }
-            }
-
-            return true;
-        }
-
-        public bool IsClogged()
-        {
-            List<GameObject> items = storage.items;
-
-            for (int index = 0; index < items.Count; ++index)
-            {
-                GameObject go = items[index];
-                PrimaryElement primaryElement = go.GetComponent<PrimaryElement>();
-                Element element = primaryElement.Element;
-
-                if ((IsEvaporator() && element.IsLiquid && !element.highTempTransition.IsGas) || (!IsEvaporator() && element.IsGas && !element.lowTempTransition.IsLiquid))
-                {
-                    return false;
-                }
-                if (element.highTempTransitionOreMassConversion >= 0 || element.lowTempTransitionOreMassConversion >= 0)
-                {
-                    return false;
-                }
-            }
-
-            return true;
-        }
-
-        public void Convert()
-        {
-            List<GameObject> items = storage.items;
-
-            if (IsEvaporator())
-            {
-                for (int index = 0; index < items.Count; ++index)
-                {
-                    GameObject go = items[index];
-                    PrimaryElement primaryElement = go.GetComponent<PrimaryElement>();
-                    Element element = primaryElement.Element;
-                    Element gas = element.highTempTransition;
-
-                    storage.AddGasChunk(gas.id, primaryElement.Mass, primaryElement.Temperature, primaryElement.DiseaseIdx, primaryElement.DiseaseCount, false);
-                }
-            } 
-            else
-            {
-                for (int index = 0; index < items.Count; ++index)
-                {
-                    GameObject go = items[index];
-                    PrimaryElement primaryElement = go.GetComponent<PrimaryElement>();
-                    Element element = primaryElement.Element;
-                    Element liquid = element.lowTempTransition;
-
-                    storage.AddLiquid(liquid.id, primaryElement.Mass, primaryElement.Temperature, primaryElement.DiseaseIdx, primaryElement.DiseaseCount, false);
-                }
-            }
-        }
+        private ConversionResult cachedResult = ConversionResult.EMPTY;
 
         private ConversionResult TryConvert()
         {
@@ -121,7 +51,7 @@ namespace HVACExpansion.Buildings
                 }
             }
 
-            return ConversionResult.SUCCESS;
+            return ConversionResult.IDLE;
         }
 
         public bool IsEvaporator()
@@ -146,21 +76,33 @@ namespace HVACExpansion.Buildings
             public override void InitializeStates(out BaseState default_state)
             {
                 default_state = off;
-                root.EventTransition(GameHashes.OperationalChanged, off, smi => !smi.master.operational.IsOperational);
-                root.EventTransition(GameHashes.OperationalChanged, on, smi => smi.master.operational.IsOperational);
-                root.EventTransition(GameHashes.OnStorageChange, converting, smi => smi.master.CanConvert() && !smi.master.IsClogged());
-                root.EventTransition(GameHashes.OnStorageChange, clogged, smi => smi.master.IsClogged());
+                root
+                    .EventTransition(GameHashes.OperationalChanged, off, smi => !smi.master.operational.IsOperational)
+                    .EventTransition(GameHashes.OperationalChanged, on, smi => smi.master.operational.IsOperational);
+
+                on
+                    .EventHandler(GameHashes.OnStorageChange, smi => smi.master.TryConvert())
+                    .EventTransition(GameHashes.OnStorageChange, converting, smi => smi.master.cachedResult == ConversionResult.IDLE)
+                    .EventTransition(GameHashes.OnStorageChange, clogged, smi => smi.master.cachedResult == ConversionResult.CLOGGED);
+
                 converting
                     .Enter("Ready", smi => smi.master.operational.SetActive(true))
-                    .EventHandler(GameHashes.OnStorageChange, smi => smi.master.Convert())
-                    .EventTransition(GameHashes.OnStorageChange, on, smi => !smi.master.CanConvert())
+                    .EventHandler(GameHashes.OnStorageChange, smi => smi.master.cachedResult = smi.master.TryConvert())
+                    .EventTransition(GameHashes.OnStorageChange, on, smi => smi.master.cachedResult == ConversionResult.EMPTY)
+                    .EventTransition(GameHashes.OnStorageChange, clogged, smi => smi.master.cachedResult == ConversionResult.CLOGGED)
                     .Exit("Ready", smi => smi.master.operational.SetActive(false));
+
+                clogged
+                    .EventHandler(GameHashes.OnStorageChange, smi => smi.master.TryConvert())
+                    .EventTransition(GameHashes.OnStorageChange, converting, smi => smi.master.cachedResult == ConversionResult.IDLE)
+                    .EventTransition(GameHashes.OnStorageChange, on, smi => smi.master.cachedResult == ConversionResult.EMPTY);
+
             }
         }
 
         private enum ConversionResult
         {
-            SUCCESS,
+            IDLE,
             CLOGGED,
             EMPTY
         }
