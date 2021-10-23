@@ -81,7 +81,7 @@ namespace HVACExpansion.Buildings
                     .EventTransition(GameHashes.OperationalChanged, on, smi => smi.master.operational.IsOperational);
 
                 on
-                    .EventHandler(GameHashes.OnStorageChange, smi => smi.master.TryConvert())
+                    .EventHandler(GameHashes.OnStorageChange, smi => smi.master.cachedResult = smi.master.TryConvert())
                     .EventTransition(GameHashes.OnStorageChange, converting, smi => smi.master.cachedResult == ConversionResult.IDLE)
                     .EventTransition(GameHashes.OnStorageChange, clogged, smi => smi.master.cachedResult == ConversionResult.CLOGGED);
 
@@ -93,7 +93,7 @@ namespace HVACExpansion.Buildings
                     .Exit("Ready", smi => smi.master.operational.SetActive(false));
 
                 clogged
-                    .EventHandler(GameHashes.OnStorageChange, smi => smi.master.TryConvert())
+                    .EventHandler(GameHashes.OnStorageChange, smi => smi.master.cachedResult = smi.master.TryConvert())
                     .EventTransition(GameHashes.OnStorageChange, converting, smi => smi.master.cachedResult == ConversionResult.IDLE)
                     .EventTransition(GameHashes.OnStorageChange, on, smi => smi.master.cachedResult == ConversionResult.EMPTY);
 
