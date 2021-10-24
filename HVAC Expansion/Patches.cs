@@ -128,5 +128,27 @@ namespace HVACExpansion
                 Util.ReapplyTints();
             }
         }
+
+        [HarmonyPatch(typeof(ElementLoader))]
+        [HarmonyPatch("CopyEntryToElement")]
+        public static class ElementLoader_CopyEntryToElementPatch
+        {
+            public static void Postfix(ElementLoader.ElementEntry entry, Element elem)
+            {
+                if (elem.IsLiquid && elem.highTempTransitionOreMassConversion == 0 && elem.highTempTransition.IsGas)
+                {
+                    List<Tag> tags = new List<Tag>(new Tag[] { HVACTags.FullyEvaporatable });
+                    tags.AddRange(elem.oreTags);
+                    elem.oreTags = tags.ToArray();
+
+                }
+                else if (elem.IsGas && elem.lowTempTransitionOreMassConversion == 0 && elem.lowTempTransition.IsLiquid)
+                {
+                    List<Tag> tags = new List<Tag>(new Tag[] { HVACTags.FullyCondensable });
+                    tags.AddRange(elem.oreTags);
+                    elem.oreTags = tags.ToArray();
+                }
+            }
+        }
     }
 }
