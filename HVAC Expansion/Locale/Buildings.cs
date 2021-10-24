@@ -16,7 +16,7 @@ namespace HVACExpansion.Locale
     "STRINGS.BUILDINGS.PREFABS." + GasRefrigerationUnitConfig.ID.ToUpper() + ".NAME");
             public static LocString DESC = new LocString("A thermo conditioner doesn't remove heat, but relocates it to a new area.",
                 "STRINGS.BUILDINGS.PREFABS." + GasRefrigerationUnitConfig.ID.ToUpper() + ".DESC");
-            public static LocString EFFECT = new LocString(UI.FormatAsLink("Heats", "HEAT") + " the " + UI.FormatAsLink("Gas", "ELEMENTS_GAS") + " piped through it, cooling its immediate vicinity.",
+            public static LocString EFFECT = new LocString(STRINGS.UI.FormatAsLink("Heats", "HEAT") + " the " + STRINGS.UI.FormatAsLink("Gas", "ELEMENTS_GAS") + " piped through it, cooling its immediate vicinity.",
                 "STRINGS.BUILDINGS.PREFABS." + GasRefrigerationUnitConfig.ID.ToUpper() + ".EFFECT");
         }
 
@@ -26,7 +26,7 @@ namespace HVACExpansion.Locale
                 "STRINGS.BUILDINGS.PREFABS." + LiquidRefrigerationUnitConfig.ID.ToUpper() + ".NAME");
             public static LocString DESC = new LocString("A thermo aquapump heats liquids to cool its surroundings.",
                 "STRINGS.BUILDINGS.PREFABS." + LiquidRefrigerationUnitConfig.ID.ToUpper() + ".DESC");
-            public static LocString EFFECT = new LocString(UI.FormatAsLink("Heats", "HEAT") + " the " + UI.FormatAsLink("Liquid", "ELEMENTS_LIQUID") + " piped through it, cooling its immediate vicinity.",
+            public static LocString EFFECT = new LocString(STRINGS.UI.FormatAsLink("Heats", "HEAT") + " the " + STRINGS.UI.FormatAsLink("Liquid", "ELEMENTS_LIQUID") + " piped through it, cooling its immediate vicinity.",
                 "STRINGS.BUILDINGS.PREFABS." + LiquidRefrigerationUnitConfig.ID.ToUpper() + ".EFFECT");
         }
     }

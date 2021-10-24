@@ -31,20 +31,20 @@ namespace HVACExpansion
             public static LocString GRU_NAME = Locale.Buildings.GasRefrigerator.NAME;
             public static LocString GRU_DESC = Locale.Buildings.GasRefrigerator.DESC;
             public static LocString GRU_EFFECT = Locale.Buildings.GasRefrigerator.EFFECT;
-            public static LocString HEATCONSUMED_GRU = Locale.RefrigerationUnitsUI.BuildingEffects.Tooltips.HEATCONSUMED_AIRREFRIGERATOR;
-            public static LocString HC_GRU_EFFECT = Locale.RefrigerationUnitsUI.BuildingEffects.HEATCONSUMED_AIRREFRIGERATOR;
+            public static LocString HEATCONSUMED_GRU = Locale.UI.BuildingEffects.Tooltips.HEATCONSUMED_AIRREFRIGERATOR;
+            public static LocString HC_GRU_EFFECT = Locale.UI.BuildingEffects.HEATCONSUMED_AIRREFRIGERATOR;
 
 
             public static LocString LRU_NAME = Locale.Buildings.LiquidRefrigerator.NAME;
             public static LocString LRU_DESC = Locale.Buildings.LiquidRefrigerator.DESC;
             public static LocString LRU_EFFECT = Locale.Buildings.LiquidRefrigerator.EFFECT;
-            public static LocString HEATCONSUMED_LRU = Locale.RefrigerationUnitsUI.BuildingEffects.Tooltips.HEATCONSUMED_LIQUIDREFRIGERATOR;
-            public static LocString HC_LRU_EFFECT = Locale.RefrigerationUnitsUI.BuildingEffects.HEATCONSUMED_LIQUIDREFRIGERATOR;
+            public static LocString HEATCONSUMED_LRU = Locale.UI.BuildingEffects.Tooltips.HEATCONSUMED_LIQUIDREFRIGERATOR;
+            public static LocString HC_LRU_EFFECT = Locale.UI.BuildingEffects.HEATCONSUMED_LIQUIDREFRIGERATOR;
 
-            public static LocString LIQUIDHEATING = Locale.RefrigerationUnitsUI.BuildingEffects.Tooltips.LIQUIDHEATING;
-            public static LocString GASHEATING = Locale.RefrigerationUnitsUI.BuildingEffects.Tooltips.GASHEATING;
-            public static LocString LIQUIDHEATING_EFF = Locale.RefrigerationUnitsUI.BuildingEffects.LIQUIDHEATING;
-            public static LocString GASHEATING_EFF = Locale.RefrigerationUnitsUI.BuildingEffects.GASHEATING;
+            public static LocString LIQUIDHEATING = Locale.UI.BuildingEffects.Tooltips.LIQUIDHEATING;
+            public static LocString GASHEATING = Locale.UI.BuildingEffects.Tooltips.GASHEATING;
+            public static LocString LIQUIDHEATING_EFF = Locale.UI.BuildingEffects.LIQUIDHEATING;
+            public static LocString GASHEATING_EFF = Locale.UI.BuildingEffects.GASHEATING;
 
 
             static void Prefix()
@@ -91,9 +91,9 @@ namespace HVACExpansion
                     Element elementByName = ElementLoader.FindElementByName(@this.isLiquidConditioner ? "Water" : "Oxygen");
                     float dtu = (!@this.isLiquidConditioner ? Mathf.Abs((float)((double)@this.temperatureDelta * elementByName.specificHeatCapacity * 1000.0)) : Mathf.Abs((float)((double)@this.temperatureDelta * elementByName.specificHeatCapacity * 10000.0))) * 1f;
                     Descriptor descriptor1 = new Descriptor();
-                    string txt = string.Format(@this.isLiquidConditioner ? Locale.RefrigerationUnitsUI.BuildingEffects.HEATCONSUMED_LIQUIDREFRIGERATOR : Locale.RefrigerationUnitsUI.BuildingEffects.HEATCONSUMED_AIRREFRIGERATOR, GameUtil.GetFormattedHeatEnergy(dtu), GameUtil.GetFormattedTemperature(Mathf.Abs(@this.temperatureDelta), interpretation: GameUtil.TemperatureInterpretation.Relative));
+                    string txt = string.Format(@this.isLiquidConditioner ? Locale.UI.BuildingEffects.HEATCONSUMED_LIQUIDREFRIGERATOR : Locale.UI.BuildingEffects.HEATCONSUMED_AIRREFRIGERATOR, GameUtil.GetFormattedHeatEnergy(dtu), GameUtil.GetFormattedTemperature(Mathf.Abs(@this.temperatureDelta), interpretation: GameUtil.TemperatureInterpretation.Relative));
                     string tooltip = string.Format(
-                        @this.isLiquidConditioner ? Locale.RefrigerationUnitsUI.BuildingEffects.Tooltips.HEATCONSUMED_LIQUIDREFRIGERATOR : Locale.RefrigerationUnitsUI.BuildingEffects.Tooltips.HEATCONSUMED_AIRREFRIGERATOR, 
+                        @this.isLiquidConditioner ? Locale.UI.BuildingEffects.Tooltips.HEATCONSUMED_LIQUIDREFRIGERATOR : Locale.UI.BuildingEffects.Tooltips.HEATCONSUMED_AIRREFRIGERATOR, 
                         GameUtil.GetFormattedHeatEnergy(dtu), 
                         GameUtil.GetFormattedTemperature(
                             Mathf.Abs(@this.temperatureDelta), 
@@ -105,11 +105,11 @@ namespace HVACExpansion
                     Descriptor descriptor2 = new Descriptor();
                     descriptor2.SetupDescriptor(
                         string.Format(
-                            @this.isLiquidConditioner ? Locale.RefrigerationUnitsUI.BuildingEffects.LIQUIDHEATING : Locale.RefrigerationUnitsUI.BuildingEffects.LIQUIDHEATING, 
+                            @this.isLiquidConditioner ? Locale.UI.BuildingEffects.LIQUIDHEATING : Locale.UI.BuildingEffects.LIQUIDHEATING, 
                             formattedTemperature
                             ), 
                         string.Format(
-                            @this.isLiquidConditioner ? Locale.RefrigerationUnitsUI.BuildingEffects.Tooltips.LIQUIDHEATING : Locale.RefrigerationUnitsUI.BuildingEffects.Tooltips.GASHEATING, 
+                            @this.isLiquidConditioner ? Locale.UI.BuildingEffects.Tooltips.LIQUIDHEATING : Locale.UI.BuildingEffects.Tooltips.GASHEATING, 
                             formattedTemperature
                             )
                         );

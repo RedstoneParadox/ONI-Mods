@@ -89,7 +89,7 @@ namespace HVACExpansion.Buildings
         public class States: GameStateMachine<States, StatesInstance, FluidConverter>
         {
             public State off;
-            public State on;
+            public State idle;
             public State converting;
             public State clogged;
 
@@ -98,9 +98,9 @@ namespace HVACExpansion.Buildings
                 default_state = off;
                 root
                     .EventTransition(GameHashes.OperationalChanged, off, smi => !smi.master.operational.IsOperational)
-                    .EventTransition(GameHashes.OperationalChanged, on, smi => smi.master.operational.IsOperational);
+                    .EventTransition(GameHashes.OperationalChanged, idle, smi => smi.master.operational.IsOperational);
 
-                on
+                idle
                     .EventHandler(GameHashes.OnStorageChange, smi => smi.master.cachedResult = smi.master.TryConvert())
                     .EventTransition(GameHashes.OnStorageChange, converting, smi => smi.master.cachedResult == ConversionResult.SUCCESS)
                     .EventTransition(GameHashes.OnStorageChange, clogged, smi => smi.master.cachedResult == ConversionResult.CLOGGED);
@@ -108,14 +108,14 @@ namespace HVACExpansion.Buildings
                 converting
                     .Enter("Ready", smi => smi.master.operational.SetActive(true))
                     .EventHandler(GameHashes.OnStorageChange, smi => smi.master.cachedResult = smi.master.TryConvert())
-                    .EventTransition(GameHashes.OnStorageChange, on, smi => smi.master.cachedResult == ConversionResult.IDLE)
+                    .EventTransition(GameHashes.OnStorageChange, idle, smi => smi.master.cachedResult == ConversionResult.IDLE)
                     .EventTransition(GameHashes.OnStorageChange, clogged, smi => smi.master.cachedResult == ConversionResult.CLOGGED)
                     .Exit("Ready", smi => smi.master.operational.SetActive(false));
 
                 clogged
                     .EventHandler(GameHashes.OnStorageChange, smi => smi.master.cachedResult = smi.master.TryConvert())
                     .EventTransition(GameHashes.OnStorageChange, converting, smi => smi.master.cachedResult == ConversionResult.SUCCESS)
-                    .EventTransition(GameHashes.OnStorageChange, on, smi => smi.master.cachedResult == ConversionResult.IDLE);
+                    .EventTransition(GameHashes.OnStorageChange, idle, smi => smi.master.cachedResult == ConversionResult.IDLE);
 
             }
         }
