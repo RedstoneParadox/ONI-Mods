@@ -15,68 +15,45 @@ namespace HVACExpansion.Buildings
         private Storage storage;
         [MyCmpReq]
         private Operational operational;
-        private ConversionResult cachedResult = ConversionResult.IDLE;
+        private bool newCachedResult = false;
 
-        private ConversionResult TryConvert()
+        public bool IsEvaporator = false;
+
+        private bool TryConvertNew()
         {
-            List<GameObject> items = storage.items;
+            List<GameObject> items = storage.GetItems();
 
-            if (items.Count <= 0) return ConversionResult.IDLE;
+            if (items.Count <= 0) return false;
+
+            int converted = 0;
 
             foreach (GameObject item in items)
             {
                 PrimaryElement primaryElement = item.GetComponent<PrimaryElement>();
                 Element element = primaryElement.Element;
 
-                if (IsEvaporator())
+                if (IsEvaporator)
                 {
-                    if ((element.IsLiquid && !element.highTempTransition.IsGas) || element.highTempTransitionOreMassConversion >= 0)
+                    if (IsEvaporator && element.IsLiquid)
                     {
-                        return ConversionResult.CLOGGED;
+                        Element gas = element.highTempTransition;
+
+                        storage.Remove(item);
+                        storage.AddGasChunk(gas.id, primaryElement.Mass, primaryElement.Temperature, primaryElement.DiseaseIdx, primaryElement.DiseaseCount, false);
+                        converted++;
                     }
-                    if (element.IsGas)
+                    else if (!IsEvaporator && element.IsGas)
                     {
-                        return ConversionResult.IDLE;
-                    }
-                }
-                else
-                {
-                    if ((element.IsGas && !element.lowTempTransition.IsLiquid) || element.lowTempTransitionOreMassConversion >= 0)
-                    {
-                        return ConversionResult.CLOGGED;
-                    }
-                    if (element.IsLiquid)
-                    {
-                        return ConversionResult.IDLE;
+                        Element liquid = element.lowTempTransition;
+
+                        storage.AddLiquid(liquid.id, primaryElement.Mass, primaryElement.Temperature, primaryElement.DiseaseIdx, primaryElement.DiseaseCount, false);
+                        storage.Remove(item);
+                        converted++;
                     }
                 }
             }
 
-            foreach (GameObject item in items)
-            {
-                PrimaryElement primaryElement = item.GetComponent<PrimaryElement>();
-                Element element = primaryElement.Element;
-
-                if (IsEvaporator())
-                {
-                    Element gas = element.highTempTransition;
-
-                    storage.AddGasChunk(gas.id, primaryElement.Mass, primaryElement.Temperature, primaryElement.DiseaseIdx, primaryElement.DiseaseCount, false);
-                }
-                if (!IsEvaporator())
-                {
-                    Element liquid = element.lowTempTransition;
-
-                    storage.AddLiquid(liquid.id, primaryElement.Mass, primaryElement.Temperature, primaryElement.DiseaseIdx, primaryElement.DiseaseCount, false);
-                }
-            }
-
-            return ConversionResult.SUCCESS;
-        }
-
-        public bool IsEvaporator()
-        {
-            return false;
+            return true;
         }
 
         public class StatesInstance : GameStateMachine<States, StatesInstance, FluidConverter, object>.GameInstance
@@ -91,7 +68,6 @@ namespace HVACExpansion.Buildings
             public State off;
             public State idle;
             public State converting;
-            public State clogged;
 
             public override void InitializeStates(out BaseState default_state)
             {
@@ -101,30 +77,16 @@ namespace HVACExpansion.Buildings
                     .EventTransition(GameHashes.OperationalChanged, idle, smi => smi.master.operational.IsOperational);
 
                 idle
-                    .EventHandler(GameHashes.OnStorageChange, smi => smi.master.cachedResult = smi.master.TryConvert())
-                    .EventTransition(GameHashes.OnStorageChange, converting, smi => smi.master.cachedResult == ConversionResult.SUCCESS)
-                    .EventTransition(GameHashes.OnStorageChange, clogged, smi => smi.master.cachedResult == ConversionResult.CLOGGED);
-
-                converting
                     .Enter("Ready", smi => smi.master.operational.SetActive(true))
-                    .EventHandler(GameHashes.OnStorageChange, smi => smi.master.cachedResult = smi.master.TryConvert())
-                    .EventTransition(GameHashes.OnStorageChange, idle, smi => smi.master.cachedResult == ConversionResult.IDLE)
-                    .EventTransition(GameHashes.OnStorageChange, clogged, smi => smi.master.cachedResult == ConversionResult.CLOGGED)
+                    .EventHandler(GameHashes.OnStorageChange, smi => smi.master.newCachedResult = smi.master.TryConvertNew())
+                    .EventTransition(GameHashes.OnStorageChange, converting, smi => smi.master.newCachedResult == true)
                     .Exit("Ready", smi => smi.master.operational.SetActive(false));
 
-                clogged
-                    .EventHandler(GameHashes.OnStorageChange, smi => smi.master.cachedResult = smi.master.TryConvert())
-                    .EventTransition(GameHashes.OnStorageChange, converting, smi => smi.master.cachedResult == ConversionResult.SUCCESS)
-                    .EventTransition(GameHashes.OnStorageChange, idle, smi => smi.master.cachedResult == ConversionResult.IDLE);
+                converting
+                    .EventHandler(GameHashes.OnStorageChange, smi => smi.master.newCachedResult = smi.master.TryConvertNew())
+                    .EventTransition(GameHashes.OnStorageChange, idle, smi => smi.master.newCachedResult == false);
 
             }
-        }
-
-        private enum ConversionResult
-        {
-            SUCCESS,
-            CLOGGED,
-            IDLE
         }
     }
 }
