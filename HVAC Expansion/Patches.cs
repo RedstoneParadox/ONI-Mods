@@ -137,14 +137,14 @@ namespace HVACExpansion
         {
             public static void Postfix(ElementLoader.ElementEntry entry, Element elem)
             {
-                if (elem.IsLiquid && elem.highTempTransitionOreMassConversion == 0 && elem.highTempTransition.IsGas)
+                if (elem.IsLiquid && elem.highTempTransitionOreMassConversion == 0 && elem.highTempTransition != null && elem.highTempTransition.IsGas)
                 {
                     List<Tag> tags = new List<Tag>(new Tag[] { HVACTags.FullyEvaporatable });
                     tags.AddRange(elem.oreTags);
                     elem.oreTags = tags.ToArray();
 
                 }
-                else if (elem.IsGas && elem.lowTempTransitionOreMassConversion == 0 && elem.lowTempTransition.IsLiquid)
+                else if (elem.IsGas && elem.lowTempTransitionOreMassConversion == 0 && elem.lowTempTransition != null && elem.lowTempTransition.IsLiquid)
                 {
                     List<Tag> tags = new List<Tag>(new Tag[] { HVACTags.FullyCondensable });
                     tags.AddRange(elem.oreTags);

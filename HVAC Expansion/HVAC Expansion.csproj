@@ -81,15 +81,17 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Buildings\AutoCondenserConfig.cs" />
     <Compile Include="Buildings\GasRefrigerationUnitConfig.cs" />
     <Compile Include="Buildings\LiquidRefrigerationUnitConfig.cs" />
     <Compile Include="Buildings\RefrigerationUnit.cs" />
     <Compile Include="Buildings\FluidConverter.cs" />
+    <Compile Include="HVACTags.cs" />
     <Compile Include="Patches.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="HVACExpansionMod.cs" />
     <Compile Include="Locale\Buildings.cs" />
-    <Compile Include="Locale\RefrigerationUnitsUI.cs" />
+    <Compile Include="Locale\UI.cs" />
     <Compile Include="Util.cs" />
   </ItemGroup>
   <ItemGroup>
