@@ -1,5 +1,6 @@
 ﻿using HarmonyLib;
 using HVACExpansion.Buildings;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -132,28 +133,25 @@ namespace HVACExpansion
         }
 
         [HarmonyPatch(typeof(ElementLoader))]
-        [HarmonyPatch("CopyEntryToElement")]
-        public static class ElementLoader_CopyEntryToElementPatch
+        [HarmonyPatch("FinaliseElementsTable")]
+        public static class ElementLoader_FinaliseElementsTablePatch
         {
-            public static void Postfix(ElementLoader.ElementEntry entry, Element elem)
+            public static void Postfix(ref Hashtable substanceList)
             {
-                Debug.Log("Postfix CopyEntryToElement!");
-
-                if (elem.IsLiquid && (elem.highTempTransitionOreMassConversion == 0 || elem.highTempTransitionOreID == (SimHashes)0) && elem.highTempTransition != null && elem.highTempTransition.IsGas)
+                foreach (Element elem in ElementLoader.elements)
                 {
-                    List<Tag> tags = new List<Tag>(new Tag[] { HVACTags.FullyEvaporatable });
-                    tags.AddRange(elem.oreTags);
-                    elem.oreTags = tags.ToArray();
-
-                    Debug.Log($"Added FullyEvaporatable to liquid element: ${elem.name}" );
-                }
-                else if (elem.IsGas && (elem.lowTempTransitionOreMassConversion == 0 || elem.lowTempTransitionOreID == (SimHashes)0) && elem.lowTempTransition != null && elem.lowTempTransition.IsLiquid)
-                {
-                    List<Tag> tags = new List<Tag>(new Tag[] { HVACTags.FullyCondensable });
-                    tags.AddRange(elem.oreTags);
-                    elem.oreTags = tags.ToArray();
-
-                    Debug.Log($"Added FullyCondensable to gas element: ${elem.name}");
+                    if (elem.IsLiquid && (elem.highTempTransitionOreMassConversion == 0 || elem.highTempTransitionOreID == (SimHashes)0) && elem.highTempTransition != null && elem.highTempTransition.IsGas)
+                    {
+                        List<Tag> tags = new List<Tag>(new Tag[] { HVACTags.FullyEvaporatable });
+                        tags.AddRange(elem.oreTags);
+                        elem.oreTags = tags.ToArray();
+                    }
+                    else if (elem.IsGas && (elem.lowTempTransitionOreMassConversion == 0 || elem.lowTempTransitionOreID == (SimHashes)0) && elem.lowTempTransition != null && elem.lowTempTransition.IsLiquid)
+                    {
+                        List<Tag> tags = new List<Tag>(new Tag[] { HVACTags.FullyCondensable });
+                        tags.AddRange(elem.oreTags);
+                        elem.oreTags = tags.ToArray();
+                    }
                 }
             }
         }
