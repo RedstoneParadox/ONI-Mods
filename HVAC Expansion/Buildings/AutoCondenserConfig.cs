@@ -19,6 +19,8 @@ namespace HVACExpansion.Buildings
         };
         public override BuildingDef CreateBuildingDef()
         {
+            Debug.Log("Creating building def!");
+
             float[] mass = BUILDINGS.CONSTRUCTION_MASS_KG.TIER2;
             string[] allMetals = MATERIALS.REFINED_METALS;
             EffectorValues noise = NOISE_POLLUTION.NOISY.TIER2;
@@ -44,6 +46,23 @@ namespace HVACExpansion.Buildings
 
             return buildingDef;
         }
+
+        /*
+        public override void ConfigureBuildingTemplate(GameObject go, Tag prefab_tag)
+        {
+            foreach (Element element in ElementLoader.elements)
+            {
+                if (element.oreTags.Contains(HVACTags.FullyCondensable))
+                {
+                    ElementConverter converter = go.AddComponent<ElementConverter>();
+                    converter.consumedElements = new ElementConverter.ConsumedElement[1]
+                    {
+                        new ElementConverter.ConsumedElement(element.tag, 5f)
+                    };
+                }
+            }
+        }
+        */
 
         public override void DoPostConfigureComplete(GameObject go)
         {

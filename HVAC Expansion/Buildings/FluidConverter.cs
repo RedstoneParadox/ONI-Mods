@@ -23,7 +23,11 @@ namespace HVACExpansion.Buildings
         {
             List<GameObject> items = storage.GetItems();
 
+            Debug.Log("So here we are again.");
+
             if (items.Count <= 0) return false;
+
+            Debug.Log("It's always been such a pleasure.");
 
             int converted = 0;
 
@@ -31,6 +35,8 @@ namespace HVACExpansion.Buildings
             {
                 PrimaryElement primaryElement = item.GetComponent<PrimaryElement>();
                 Element element = primaryElement.Element;
+
+                Debug.Log("Remember when you tried to kill me twice?");
 
                 if (IsEvaporator && element.IsLiquid)
                 {
@@ -47,6 +53,8 @@ namespace HVACExpansion.Buildings
                     storage.AddLiquid(liquid.id, primaryElement.Mass, primaryElement.Temperature, primaryElement.DiseaseIdx, primaryElement.DiseaseCount, false);
                     storage.Remove(item);
                     converted++;
+
+                    Debug.Log("Oh how we laughed and laughed.");
                 }
             }
 
@@ -68,16 +76,28 @@ namespace HVACExpansion.Buildings
 
             public override void InitializeStates(out BaseState default_state)
             {
+                Debug.Log("Initializing states!");
                 default_state = disabled;
                 root
+                    .Enter(smi => Debug.Log("Entered root state!"))
                     .EventTransition(GameHashes.OperationalChanged, disabled, smi => !smi.master.operational.IsOperational);
                 disabled
+                    .Enter(smi => Debug.Log("Entered disabled state!"))
                     .EventTransition(GameHashes.OperationalChanged, waiting, smi => smi.master.operational.IsOperational);
                 waiting
-                    .Enter("Waiting", smi => smi.master.operational.SetActive(false))
+                    .Enter("Waiting", smi =>
+                    {
+                        smi.master.operational.SetActive(false);
+                        Debug.Log("Entered waiting state!");
+                    })
                     .EventTransition(GameHashes.OnStorageChange, converting, smi => !smi.master.storage.IsEmpty());
                 converting
-                    .Enter("Ready", smi => smi.master.operational.SetActive(true))
+                    .Enter("Ready", smi =>
+                    {
+                        smi.master.operational.SetActive(true);
+                        smi.master.newCachedResult = smi.master.TryConvert();
+                        Debug.Log("Entered converting state!");
+                    })
                     .EventHandler(GameHashes.OnStorageChange, smi => smi.master.newCachedResult = smi.master.TryConvert())
                     .Transition(waiting, smi => smi.master.newCachedResult == false);
 
