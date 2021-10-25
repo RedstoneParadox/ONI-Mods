@@ -40,9 +40,9 @@ namespace HVACExpansion.Locale
 
         public class LiquidRefrigerator
         {
-            public static LocString NAME = new LocString("Thermo Aquapump",
+            public static LocString NAME = new LocString("Thermo Aquacooler",
                 "STRINGS.BUILDINGS.PREFABS." + LiquidRefrigerationUnitConfig.ID.ToUpper() + ".NAME");
-            public static LocString DESC = new LocString("A thermo aquapump heats liquids to cool its surroundings.",
+            public static LocString DESC = new LocString("A thermo aquacooler heats liquids to cool its surroundings.",
                 "STRINGS.BUILDINGS.PREFABS." + LiquidRefrigerationUnitConfig.ID.ToUpper() + ".DESC");
             public static LocString EFFECT = new LocString(STRINGS.UI.FormatAsLink("Heats", "HEAT") + " the " + STRINGS.UI.FormatAsLink("Liquid", "ELEMENTS_LIQUID") + " piped through it, cooling its immediate vicinity.",
                 "STRINGS.BUILDINGS.PREFABS." + LiquidRefrigerationUnitConfig.ID.ToUpper() + ".EFFECT");
