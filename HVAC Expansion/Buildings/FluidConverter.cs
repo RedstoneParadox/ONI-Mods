@@ -32,24 +32,21 @@ namespace HVACExpansion.Buildings
                 PrimaryElement primaryElement = item.GetComponent<PrimaryElement>();
                 Element element = primaryElement.Element;
 
-                if (IsEvaporator)
+                if (IsEvaporator && element.IsLiquid)
                 {
-                    if (IsEvaporator && element.IsLiquid)
-                    {
-                        Element gas = element.highTempTransition;
+                    Element gas = element.highTempTransition;
 
-                        storage.Remove(item);
-                        storage.AddGasChunk(gas.id, primaryElement.Mass, primaryElement.Temperature, primaryElement.DiseaseIdx, primaryElement.DiseaseCount, false);
-                        converted++;
-                    }
-                    else if (!IsEvaporator && element.IsGas)
-                    {
-                        Element liquid = element.lowTempTransition;
+                    storage.Remove(item);
+                    storage.AddGasChunk(gas.id, primaryElement.Mass, primaryElement.Temperature, primaryElement.DiseaseIdx, primaryElement.DiseaseCount, false);
+                    converted++;
+                }
+                else if (!IsEvaporator && element.IsGas)
+                {
+                    Element liquid = element.lowTempTransition;
 
-                        storage.AddLiquid(liquid.id, primaryElement.Mass, primaryElement.Temperature, primaryElement.DiseaseIdx, primaryElement.DiseaseCount, false);
-                        storage.Remove(item);
-                        converted++;
-                    }
+                    storage.AddLiquid(liquid.id, primaryElement.Mass, primaryElement.Temperature, primaryElement.DiseaseIdx, primaryElement.DiseaseCount, false);
+                    storage.Remove(item);
+                    converted++;
                 }
             }
 
