@@ -70,6 +70,9 @@ namespace HVACExpansion
 
                 ModUtil.AddBuildingToPlanScreen("Utilities", AutoEvaporatorConfig.ID);
                 Util.AddBuildingStrings(Locale.Buildings.AutoEvaporator.NAME, Locale.Buildings.AutoEvaporator.DESC, Locale.Buildings.AutoEvaporator.EFFECT);
+
+                Util.AddString(Locale.Misc.Tags.FULLYCONDENSABLE);
+                Util.AddString(Locale.Misc.Tags.FULLYEVAPORATABLE);
             }
 
         }
