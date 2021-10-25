@@ -3,6 +3,8 @@ using HVACExpansion.Buildings;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using PipLib.Tech;
+using Database;
 
 namespace HVACExpansion
 {
@@ -81,8 +83,26 @@ namespace HVACExpansion
         {
             public static void Postfix()
             {
-                Util.AddToTech("HVAC", GasRefrigerationUnitConfig.ID);
-                Util.AddToTech("LiquidTemperature", LiquidRefrigerationUnitConfig.ID);
+                TechTree.AddTechItem("HVAC", GasRefrigerationUnitConfig.ID);
+                TechTree.AddTechItem("LiquidTemperature", LiquidRefrigerationUnitConfig.ID);
+
+                Techs techs = Db.Get().Techs;
+
+                TechTree.CreateTech("RefrigerationCycle");
+                TechTree.AddRequirement(techs.Get("RefrigerationCycle"), techs.Get("HVAC"));
+                TechTree.AddRequirement(techs.Get("RefrigerationCycle"), techs.Get("LiquidTemperature"));
+                
+                if (DlcManager.IsExpansion1Active())
+                {
+                    TechTree.SetTier(techs.Get("RefrigerationCycle"), 5);
+                }
+                else
+                {
+                    TechTree.SetTier(techs.Get("RefrigerationCycle"), 5);
+                }
+
+                TechTree.AddTechItem("RefrigerationCycle", AutoCondenserConfig.ID);
+                TechTree.AddTechItem("RefrigerationCycle", AutoEvaporatorConfig.ID);
             }
         }
 

@@ -16,11 +16,6 @@ namespace HVACExpansion
             kAnimBase.TintColour = new Color(r / 255f, g / 255f, b / 255f);
         }
 
-        public static void AddToTech(HashedString tech, string item)
-        {
-            Db.Get().Techs.Get(tech).unlockedItemIDs.Add(item);
-        }
-
         public static void AddBuildingStrings(LocString name, LocString desc, LocString effect)
         {
             Strings.Add(name.key.String, name.text);
