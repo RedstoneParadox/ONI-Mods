@@ -35,5 +35,10 @@ namespace HVACExpansion.Locale
                     "STRINGS.UI.BUILDINGEFFECTS.TOOLTIPS.HEATGENERATED_" + LiquidRefrigerationUnitConfig.ID.ToUpper());
             }
         }
+
+        internal static LocString FormatAsLink(string text, string linkID)
+        {
+            return STRINGS.UI.FormatAsLink(text, linkID);
+        }
     }
 }
