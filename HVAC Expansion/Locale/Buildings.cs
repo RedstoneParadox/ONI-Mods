@@ -10,6 +10,24 @@ namespace HVACExpansion.Locale
 {
     public class Buildings
     {
+        public class AutoCondenser
+        {
+            public static LocString NAME = new LocString("Auto Condenser",
+    "STRINGS.BUILDINGS.PREFABS." + AutoCondenserConfig.ID.ToUpper() + ".NAME");
+            public static LocString DESC = new LocString("Condenses gases.",
+                "STRINGS.BUILDINGS.PREFABS." + AutoCondenserConfig.ID.ToUpper() + ".DESC");
+            public static LocString EFFECT = new LocString("Condenses piped " + STRINGS.UI.FormatAsLink("Gases", "ELEMENTS_GAS") + " into their " + STRINGS.UI.FormatAsLink("Liquid", "ELEMENTS_LIQUID") + " form while maintaining temperature. Gases with transition byproducts damage the machine.",
+                "STRINGS.BUILDINGS.PREFABS." + AutoCondenserConfig.ID.ToUpper() + ".EFFECT");
+        }
+        public class AutoEvaporator
+        {
+            public static LocString NAME = new LocString("Auto Evaporator",
+    "STRINGS.BUILDINGS.PREFABS." + AutoEvaporatorConfig.ID.ToUpper() + ".NAME");
+            public static LocString DESC = new LocString("Evaporates liquids.",
+                "STRINGS.BUILDINGS.PREFABS." + AutoEvaporatorConfig.ID.ToUpper() + ".DESC");
+            public static LocString EFFECT = new LocString("Evaporates piped " + STRINGS.UI.FormatAsLink("Liquids", "ELEMENTS_LIQUID") + " into their " + STRINGS.UI.FormatAsLink("Gaseous", "ELEMENTS_GAS") + " form while maintaining temperature. Liquids with transition byproducts damage the machine.",
+                "STRINGS.BUILDINGS.PREFABS." + AutoEvaporatorConfig.ID.ToUpper() + ".EFFECT");
+        }
         public class GasRefrigerator
         {
             public static LocString NAME = new LocString("Thermo Conditioner",
