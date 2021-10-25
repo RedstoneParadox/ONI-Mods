@@ -66,6 +66,7 @@ namespace HVACExpansion
                 Util.AddString(GASHEATING_EFF);
 
                 ModUtil.AddBuildingToPlanScreen("Utilities", AutoCondenserConfig.ID);
+                ModUtil.AddBuildingToPlanScreen("Utilities", AutoEvaporatorConfig.ID);
             }
 
         }

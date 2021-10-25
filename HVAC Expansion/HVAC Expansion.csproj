@@ -81,6 +81,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Buildings\AutoEvaportatorConfig.cs" />
     <Compile Include="Buildings\AutoCondenserConfig.cs" />
     <Compile Include="Buildings\GasRefrigerationUnitConfig.cs" />
     <Compile Include="Buildings\LiquidRefrigerationUnitConfig.cs" />
