@@ -37,11 +37,7 @@ namespace HVACExpansion
         {
             foreach (var building in Components.BuildingCompletes.Items)
             {
-                if (building.name == GasRefrigerationUnitConfig.ID + "Complete")
-                {
-                    ApplyBuildingTint(building, 255, 190, 102);
-                }
-                else if (building.name == LiquidRefrigerationUnitConfig.ID + "Complete")
+                if (building.name == LiquidRefrigerationUnitConfig.ID + "Complete")
                 {
                     ApplyBuildingTint(building, 255, 102, 102);
                 }
