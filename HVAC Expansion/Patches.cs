@@ -17,10 +17,7 @@ namespace HVACExpansion
         {
             public static void Postfix(BuildingComplete __instance)
             {
-                if (__instance.name == GasRefrigerationUnitConfig.ID + "Complete") {
-                    Util.ApplyBuildingTint(__instance, 255, 190, 102);
-                }
-                else if (__instance.name == LiquidRefrigerationUnitConfig.ID + "Complete") {
+                if (__instance.name == LiquidRefrigerationUnitConfig.ID + "Complete") {
                     Util.ApplyBuildingTint(__instance, 255, 102, 102);
                 }
             }
