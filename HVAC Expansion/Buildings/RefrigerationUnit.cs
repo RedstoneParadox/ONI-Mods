@@ -8,6 +8,9 @@ namespace HVACExpansion.Buildings
 {
     class RefrigerationUnit: AirConditioner
     {
-        
+        public Storage GetStorage()
+        {
+            return storage;
+        }
     }
 }
