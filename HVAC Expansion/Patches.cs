@@ -149,35 +149,6 @@ namespace HVACExpansion
             }
         }
 
-        [HarmonyPatch(typeof(AirConditioner))]
-        [HarmonyPatch("Sim200ms")]
-        public class AirConditioner_Sim200msPatch
-        {
-            public static void Postfix(ref AirConditioner __instance)
-            {
-                if (__instance is RefrigerationUnit)
-                {
-                    var controller = __instance.GetComponent<KBatchedAnimController>();
-                    var storage = (__instance as RefrigerationUnit).GetStorage();
-                    var items = storage.GetItems().ToArray();
-
-                    if (items.Length <= 0) return;
-
-                    var primaryElement = items[0].GetComponent<PrimaryElement>();
-                    var color = primaryElement.Element.substance.uiColour;
-
-                    if (__instance.isLiquidConditioner)
-                    {
-                        // TODO: Tint liquid sprites once the liquid kanim is added.
-                    }
-                    else
-                    {
-                        controller.SetSymbolTint("gas", color);
-                    }
-                }
-            }
-        }
-
         [HarmonyPatch(typeof(OverlayScreen))]
         [HarmonyPatch("ToggleOverlay")]
         public static class OverlayMenu_OnOverlayChanged_Patch
