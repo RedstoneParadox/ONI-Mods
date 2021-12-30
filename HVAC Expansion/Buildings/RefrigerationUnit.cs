@@ -9,7 +9,8 @@ namespace HVACExpansion.Buildings
 {
     class RefrigerationUnit: AirConditioner
     {
-        private int listener = 0;
+        private int onStorageChangedID = 0;
+        private static readonly EventSystem.IntraObjectHandler<RefrigerationUnit> OnStorageChangeDelegate = new EventSystem.IntraObjectHandler<RefrigerationUnit>((component, data) => component.UpdateTint());
 
         public Storage GetStorage()
         {
@@ -19,14 +20,13 @@ namespace HVACExpansion.Buildings
         protected override void OnPrefabInit()
         {
             base.OnPrefabInit();
-
-            listener = Subscribe(Convert.ToInt32(GameHashes.OnStorageChange), obj => UpdateTint());
+            Subscribe(Convert.ToInt32(GameHashes.OnStorageChange), OnStorageChangeDelegate);
         }
 
         protected override void OnCleanUp()
         {
             base.OnCleanUp();
-            Unsubscribe(listener);
+            Unsubscribe(Convert.ToInt32(GameHashes.OnStorageChange), OnStorageChangeDelegate);
         }
 
         public void UpdateTint()
