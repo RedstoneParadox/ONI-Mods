@@ -10,12 +10,6 @@ namespace HVACExpansion
 {
     class Util
     {
-        public static void ApplyBuildingTint(BuildingComplete instance, int r, int g, int b)
-        {
-            var kAnimBase = instance.GetComponent<KAnimControllerBase>();
-            kAnimBase.TintColour = new Color(r / 255f, g / 255f, b / 255f);
-        }
-
         public static void AddToTech(HashedString tech, string item)
         {
             Db.Get().Techs.Get(tech).unlockedItemIDs.Add(item);
@@ -31,17 +25,6 @@ namespace HVACExpansion
         public static void AddString(LocString @string)
         {
             Strings.Add(@string.key.String, @string.text);
-        }
-
-        public static void ReapplyTints()
-        {
-            foreach (var building in Components.BuildingCompletes.Items)
-            {
-                if (building.name == LiquidRefrigerationUnitConfig.ID + "Complete")
-                {
-                    ApplyBuildingTint(building, 255, 102, 102);
-                }
-            }
         }
     }
 }

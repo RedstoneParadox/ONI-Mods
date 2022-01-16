@@ -25,7 +25,7 @@ namespace HVACExpansion.Buildings
             EffectorValues tieR2 = NOISE_POLLUTION.NOISY.TIER2;
             EffectorValues none = BUILDINGS.DECOR.NONE;
             EffectorValues noise = tieR2;
-            BuildingDef buildingDef = BuildingTemplates.CreateBuildingDef(ID, 2, 2, "liquidconditioner_kanim", 100, 120f, tieR6, allMetals, 1600f, BuildLocationRule.OnFloor, none, noise);
+            BuildingDef buildingDef = BuildingTemplates.CreateBuildingDef(ID, 2, 2, "liquid_heater_kanim", 100, 120f, tieR6, allMetals, 1600f, BuildLocationRule.OnFloor, none, noise);
             BuildingTemplates.CreateElectricalBuildingDef(buildingDef);
             buildingDef.EnergyConsumptionWhenActive = 1200f;
             buildingDef.SelfHeatKilowattsWhenActive = 0.0f;

@@ -10,20 +10,7 @@ namespace HVACExpansion
 {
     public class Patches
     {
-
-        //ColorPatch. Thx Pholith!
-        [HarmonyPatch(typeof(BuildingComplete), "OnSpawn")]
-        public class ColorPatch
-        {
-            public static void Postfix(BuildingComplete __instance)
-            {
-                if (__instance.name == LiquidRefrigerationUnitConfig.ID + "Complete") {
-                    Util.ApplyBuildingTint(__instance, 255, 102, 102);
-                }
-            }
-        }
-
-        // Again based off of Pholith's code.
+        // Based off of Pholith's code.
         [HarmonyPatch(typeof(GeneratedBuildings))]
         [HarmonyPatch("LoadGeneratedBuildings")]
         public class BuildingInfoPatch
@@ -146,16 +133,6 @@ namespace HVACExpansion
                     descriptorList.Add(descriptor2);
                     __result = descriptorList;
                 }
-            }
-        }
-
-        [HarmonyPatch(typeof(OverlayScreen))]
-        [HarmonyPatch("ToggleOverlay")]
-        public static class OverlayMenu_OnOverlayChanged_Patch
-        {
-            public static void Postfix(HashedString newMode)
-            {
-                Util.ReapplyTints();
             }
         }
 

@@ -12,11 +12,6 @@ namespace HVACExpansion.Buildings
         private static readonly EventSystem.IntraObjectHandler<RefrigerationUnit> OnStorageChangeDelegate = new EventSystem.IntraObjectHandler<RefrigerationUnit>((component, data) => component.UpdateTint());
         private static readonly EventSystem.IntraObjectHandler<RefrigerationUnit> OnActiveChangedDelegate = new EventSystem.IntraObjectHandler<RefrigerationUnit>((component, data) => component.ClearTint(data));
 
-        public Storage GetStorage()
-        {
-            return storage;
-        }
-
         protected override void OnPrefabInit()
         {
             base.OnPrefabInit();
@@ -61,7 +56,8 @@ namespace HVACExpansion.Buildings
 
             if (isLiquidConditioner)
             {
-                // TODO: Tint liquid sprites once the liquid kanim is added.
+                controller.SetSymbolTint("liquid", color);
+                controller.SetSymbolTint("liquid_trans", color);
             }
             else
             {
