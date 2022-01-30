@@ -10,6 +10,9 @@ namespace Tinted_Aquatuner_Liquid
 {
     class AquatunerTint: KMonoBehaviour
     {
+        [MyCmpGet]
+        private Storage storage;
+
         private static readonly EventSystem.IntraObjectHandler<AquatunerTint> OnStorageChangeDelegate = new EventSystem.IntraObjectHandler<AquatunerTint>((component, data) => component.UpdateTint());
         private static readonly EventSystem.IntraObjectHandler<AquatunerTint> OnActiveChangedDelegate = new EventSystem.IntraObjectHandler<AquatunerTint>((component, data) => component.ClearTint(data));
 
@@ -27,18 +30,8 @@ namespace Tinted_Aquatuner_Liquid
             Unsubscribe(824508782, OnActiveChangedDelegate);
         }
 
-        private Storage GetStorage()
-        {
-            AirConditioner airConditioner = GetComponent<AirConditioner>();
-            Storage storage = Traverse.Create(airConditioner).Field("storage").GetValue<Storage>();
-
-            return storage;
-        }
-
         private void UpdateTint()
         {
-            var storage = GetStorage();
-
             if (storage != null)
             {
                 var items = storage.GetItems().ToArray();
