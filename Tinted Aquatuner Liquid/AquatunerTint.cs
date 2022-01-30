@@ -30,24 +30,29 @@ namespace Tinted_Aquatuner_Liquid
         private Storage GetStorage()
         {
             AirConditioner airConditioner = GetComponent<AirConditioner>();
-            Storage storage = Traverse.Create(airConditioner).Property("storage").GetValue<Storage>();
+            Storage storage = Traverse.Create(airConditioner).Field("storage").GetValue<Storage>();
 
             return storage;
         }
 
         private void UpdateTint()
         {
-            var items = GetStorage().GetItems().ToArray();
+            var storage = GetStorage();
 
-            foreach (GameObject item in items)
+            if (storage != null)
             {
-                var primaryElement = item.GetComponent<PrimaryElement>();
-                var color = primaryElement.Element.substance.uiColour;
+                var items = storage.GetItems().ToArray();
 
-                if (primaryElement.Mass > 0)
+                foreach (GameObject item in items)
                 {
-                    ApplyTint(color);
-                    break;
+                    var primaryElement = item.GetComponent<PrimaryElement>();
+                    var color = primaryElement.Element.substance.uiColour;
+
+                    if (primaryElement.Mass > 0)
+                    {
+                        ApplyTint(color);
+                        break;
+                    }
                 }
             }
         }
