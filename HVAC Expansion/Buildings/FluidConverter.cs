@@ -15,7 +15,7 @@ namespace HVACExpansion.Buildings
         private Storage storage;
         [MyCmpReq]
         private Operational operational;
-        private bool newCachedResult = false;
+        private bool hasConverted = false;
 
         public bool IsEvaporator = false;
 
@@ -82,7 +82,9 @@ namespace HVACExpansion.Buildings
         {
             public State disabled;
             public State waiting;
-            public State converting;
+            public State working_pre;
+            public State working;
+            public State working_post;
 
             public override void InitializeStates(out BaseState default_state)
             {
@@ -90,20 +92,25 @@ namespace HVACExpansion.Buildings
                 root
                     .EventTransition(GameHashes.OperationalChanged, disabled, smi => !smi.master.operational.IsOperational);
                 disabled
-
-                    .EventTransition(GameHashes.OperationalChanged, waiting, smi => smi.master.operational.IsOperational);
+                    .EventTransition(GameHashes.OperationalChanged, waiting, smi => smi.master.operational.IsOperational)
+                    .PlayAnim("off");
                 waiting
                     .Enter("Waiting", smi => smi.master.operational.SetActive(false))
-                    .EventTransition(GameHashes.OnStorageChange, converting, smi => !smi.master.storage.IsEmpty());
-                converting
+                    .EventTransition(GameHashes.OnStorageChange, working_pre, smi => !smi.master.storage.IsEmpty());
+                working_pre
                     .Enter("Ready", smi =>
                     {
                         smi.master.operational.SetActive(true);
-                        smi.master.newCachedResult = smi.master.TryConvert();
                     })
-                    .EventHandler(GameHashes.OnStorageChange, smi => smi.master.newCachedResult = smi.master.TryConvert())
-                    .Transition(waiting, smi => smi.master.newCachedResult == false);
-
+                    .PlayAnim("working_pre")
+                    .OnAnimQueueComplete(working);
+                working
+                    .EventHandler(GameHashes.OnStorageChange, smi => smi.master.hasConverted = smi.master.TryConvert())
+                    .PlayAnim("working_loop", KAnim.PlayMode.Loop)
+                    .Transition(working_post, smi => smi.master.hasConverted = false);
+                working_post
+                    .PlayAnim("working_pst")
+                    .OnAnimQueueComplete(waiting);
             }
         }
     }
