@@ -17,9 +17,12 @@ namespace HVACExpansion.Buildings
         private Storage storage;
         [MyCmpReq]
         private Operational operational;
+        [MyCmpReq]
+        private BuildingComplete building;
         private bool hasConverted = false;
         private HandleVector<int>.Handle structureTemperature;
         EventInstance soundEventInstance;
+        private int cooledAirOutputCell = -1;
 
         public bool IsEvaporator = false;
         public float temperatureDelta = 0.0f;
@@ -28,6 +31,7 @@ namespace HVACExpansion.Buildings
         {
             base.OnSpawn();
             structureTemperature = GameComps.StructureTemperatures.GetHandle(gameObject);
+            cooledAirOutputCell = building.GetUtilityOutputCell();
             smi.StartSM();
         }
 
@@ -44,8 +48,6 @@ namespace HVACExpansion.Buildings
                 PrimaryElement primaryElement = item.GetComponent<PrimaryElement>();
                 Element element = primaryElement.Element;
 
-                float kj = temperatureDelta * element.specificHeatCapacity * primaryElement.Mass;
-
                 if (primaryElement.Mass > 0)
                 {
                     if (IsEvaporator && element.IsLiquid)
@@ -56,7 +58,10 @@ namespace HVACExpansion.Buildings
                         ApplyTint(gas.substance.uiColour, true);
 
                         storage.items.Remove(item);
-                        storage.AddGasChunk(gas.id, primaryElement.Mass, primaryElement.Temperature + temperatureDelta, primaryElement.DiseaseIdx, primaryElement.DiseaseCount, false);
+
+                        float massOutputted = (IsEvaporator ? Game.Instance.gasConduitFlow : Game.Instance.liquidConduitFlow).AddElement(cooledAirOutputCell, gas.id, primaryElement.Mass, primaryElement.Temperature + temperatureDelta, primaryElement.DiseaseIdx, primaryElement.DiseaseCount);
+                        float kj = temperatureDelta * element.specificHeatCapacity * massOutputted;
+
 
                         GameComps.StructureTemperatures.ProduceEnergy(structureTemperature, -kj, BUILDING.STATUSITEMS.OPERATINGENERGY.PIPECONTENTS_TRANSFER, 0.0f);
 
@@ -70,7 +75,8 @@ namespace HVACExpansion.Buildings
                         ApplyTint(element.substance.uiColour, true);
 
                         storage.items.Remove(item);
-                        storage.AddLiquid(liquid.id, primaryElement.Mass, primaryElement.Temperature - temperatureDelta, primaryElement.DiseaseIdx, primaryElement.DiseaseCount, false);
+                        float massOutputted = (IsEvaporator ? Game.Instance.gasConduitFlow : Game.Instance.liquidConduitFlow).AddElement(cooledAirOutputCell, liquid.id, primaryElement.Mass, primaryElement.Temperature - temperatureDelta, primaryElement.DiseaseIdx, primaryElement.DiseaseCount);
+                        float kj = temperatureDelta * element.specificHeatCapacity * massOutputted;
 
                         GameComps.StructureTemperatures.ProduceEnergy(structureTemperature, kj, BUILDING.STATUSITEMS.OPERATINGENERGY.PIPECONTENTS_TRANSFER, 0.0f);
 
