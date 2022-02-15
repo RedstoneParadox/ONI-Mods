@@ -33,8 +33,8 @@ namespace HVACExpansion.Buildings
         private float targetTemperature;
         private int cooledAirOutputCell = -1;
         private int inputCell = -1;
-        private static readonly EventSystem.IntraObjectHandler<NewAirConditioner> OnOperationalChangedDelegate = new EventSystem.IntraObjectHandler<NewAirConditioner>((component, data) => component.OnOperationalChanged(data));
-        private static readonly EventSystem.IntraObjectHandler<NewAirConditioner> OnActiveChangedDelegate = new EventSystem.IntraObjectHandler<NewAirConditioner>((component, data) => component.OnActiveChanged(data));
+        // private static readonly EventSystem.IntraObjectHandler<NewAirConditioner> OnOperationalChangedDelegate = new EventSystem.IntraObjectHandler<NewAirConditioner>((component, data) => component.OnOperationalChanged(data));
+        // private static readonly EventSystem.IntraObjectHandler<NewAirConditioner> OnActiveChangedDelegate = new EventSystem.IntraObjectHandler<NewAirConditioner>((component, data) => component.OnActiveChanged(data));
         private float lastSampleTime = -1f;
         private float envTemp;
         private int cellCount;
@@ -49,8 +49,8 @@ namespace HVACExpansion.Buildings
         protected override void OnPrefabInit()
         {
             base.OnPrefabInit();
-            this.Subscribe<NewAirConditioner>(-592767678, NewAirConditioner.OnOperationalChangedDelegate);
-            this.Subscribe<NewAirConditioner>(824508782, NewAirConditioner.OnActiveChangedDelegate);
+            // this.Subscribe<NewAirConditioner>(-592767678, NewAirConditioner.OnOperationalChangedDelegate);
+            // this.Subscribe<NewAirConditioner>(824508782, NewAirConditioner.OnActiveChangedDelegate);
         }
 
         protected override void OnSpawn()
@@ -80,7 +80,6 @@ namespace HVACExpansion.Buildings
 
         private void UpdateState(float dt)
         {
-            UpdateTint();
             bool flag = this.consumer.IsSatisfied;
             this.envTemp = 0.0f;
             this.cellCount = 0;
@@ -116,6 +115,7 @@ namespace HVACExpansion.Buildings
                     float display_dt = (double)this.lastSampleTime > 0.0 ? Time.time - this.lastSampleTime : 1f;
                     this.lastSampleTime = Time.time;
                     GameComps.StructureTemperatures.ProduceEnergy(this.structureTemperature, -num4, (string)BUILDING.STATUSITEMS.OPERATINGENERGY.PIPECONTENTS_TRANSFER, display_dt);
+                    ApplyTint(component.Element.substance.uiColour);
                     break;
                 }
             }
@@ -124,7 +124,25 @@ namespace HVACExpansion.Buildings
                 GameComps.StructureTemperatures.ProduceEnergy(this.structureTemperature, 0.0f, (string)BUILDING.STATUSITEMS.OPERATINGENERGY.PIPECONTENTS_TRANSFER, Time.time - this.lastSampleTime);
                 this.lastSampleTime = Time.time;
             }
-            this.operational.SetActive(flag);
+
+            KBatchedAnimController anim = GetComponent<KBatchedAnimController>();
+
+            if (flag)
+            {
+                if (!operational.IsActive)
+                {
+                    operational.SetActive(true);
+                    anim.Play("on");
+                }
+            }
+            else
+            {
+                if (operational.IsActive)
+                {
+                    operational.SetActive(false);
+                    anim.Play("off");
+                }
+            }
             this.UpdateStatus();
         }
 
@@ -164,32 +182,6 @@ namespace HVACExpansion.Buildings
             }
             else
                 this.statusHandle = this.selectable.SetStatusItem(Db.Get().StatusItemCategories.Main, (StatusItem)null);
-        }
-
-
-        public void UpdateTint()
-        {
-            var items = storage.GetItems().ToArray();
-
-            foreach (GameObject item in items)
-            {
-                var primaryElement = item.GetComponent<PrimaryElement>();
-                var color = primaryElement.Element.substance.uiColour;
-
-                if (primaryElement.Mass > 0)
-                {
-                    ApplyTint(color);
-                    break;
-                }
-            }
-        }
-
-        public void ClearTint(object data)
-        {
-            if (!((Operational)data).IsActive)
-            {
-                ApplyTint(Color.clear);
-            }
         }
 
         private void ApplyTint(Color color)
