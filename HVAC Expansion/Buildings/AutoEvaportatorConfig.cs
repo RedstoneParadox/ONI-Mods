@@ -66,6 +66,8 @@ namespace HVACExpansion.Buildings
             defaultStorage.showInUI = true;
             defaultStorage.capacityKg = conduitConsumer.consumptionRate * 2f;
             defaultStorage.SetDefaultStoredItemModifiers(StoredItemModifiers);
+
+            go.AddOrGet<MinimumOperatingTemperature>().minimumTemperature = 16f;
         }
     }
 }
