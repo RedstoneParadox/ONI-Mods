@@ -58,12 +58,12 @@ namespace HVACExpansion.Buildings
 
             converter.IsEvaporator = true;
             conduitConsumer.conduitType = ConduitType.Liquid;
-            conduitConsumer.consumptionRate = ConduitFlow.MAX_LIQUID_MASS;
+            conduitConsumer.consumptionRate = ConduitFlow.MAX_GAS_MASS;
             conduitConsumer.capacityTag = HVACTags.FullyEvaporatable;
             conduitConsumer.wrongElementResult = ConduitConsumer.WrongElementResult.Dump;
             conduitDispenser.conduitType = ConduitType.Gas;
             defaultStorage.showInUI = true;
-            defaultStorage.capacityKg = conduitConsumer.consumptionRate;
+            defaultStorage.capacityKg = conduitConsumer.consumptionRate * 2f;
             defaultStorage.SetDefaultStoredItemModifiers(StoredItemModifiers);
         }
     }

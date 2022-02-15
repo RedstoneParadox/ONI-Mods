@@ -33,42 +33,35 @@ namespace HVACExpansion.Buildings
 
             int converted = 0;
 
-            try
+            foreach (GameObject item in items)
             {
-                foreach (GameObject item in items)
+                PrimaryElement primaryElement = item.GetComponent<PrimaryElement>();
+                Element element = primaryElement.Element;
+
+                if (primaryElement.Mass > 0)
                 {
-                    PrimaryElement primaryElement = item.GetComponent<PrimaryElement>();
-                    Element element = primaryElement.Element;
-
-                    if (primaryElement.Mass > 0)
+                    if (IsEvaporator && element.IsLiquid)
                     {
-                        if (IsEvaporator && element.IsLiquid)
-                        {
-                            Element gas = element.highTempTransition;
+                        Element gas = element.highTempTransition;
 
-                            storage.items.Remove(item);
-                            storage.AddGasChunk(gas.id, primaryElement.Mass, primaryElement.Temperature, primaryElement.DiseaseIdx, primaryElement.DiseaseCount, false);
-                            converted++;
-                        }
-                        else if (!IsEvaporator && element.IsGas)
-                        {
-                            Element liquid = element.lowTempTransition;
+                        storage.items.Remove(item);
+                        storage.AddGasChunk(gas.id, primaryElement.Mass, primaryElement.Temperature, primaryElement.DiseaseIdx, primaryElement.DiseaseCount, false);
 
-                            storage.items.Remove(item);
-                            storage.AddLiquid(liquid.id, primaryElement.Mass, primaryElement.Temperature, primaryElement.DiseaseIdx, primaryElement.DiseaseCount, false);
-                            converted++;
-                        }
+                        converted++;
+                    }
+                    else if (!IsEvaporator && element.IsGas)
+                    {
+                        Element liquid = element.lowTempTransition;
+
+                        storage.items.Remove(item);
+                        storage.AddLiquid(liquid.id, primaryElement.Mass, primaryElement.Temperature, primaryElement.DiseaseIdx, primaryElement.DiseaseCount, false);
+
+                        converted++;
                     }
                 }
-
-                return true;
             }
-            catch (Exception e)
-            {
-                Debug.Log(e.ToString());
 
-                return false;
-            }
+            return true;
         }
 
         public void UpdateTint()
@@ -163,10 +156,15 @@ namespace HVACExpansion.Buildings
                     .PlayAnim("working_pre")
                     .OnAnimQueueComplete(working);
                 working
-                    .EventHandler(GameHashes.OnStorageChange, smi =>
+                    .Enter("Working", (smi) =>
                     {
-                        smi.master.hasConverted = smi.master.TryConvert();
                         smi.master.UpdateTint();
+                        smi.master.hasConverted = smi.master.TryConvert();
+                    })
+                    .EventHandler(GameHashes.OnStorageChange, (smi) =>
+                    {
+                        smi.master.UpdateTint();
+                        smi.master.hasConverted = smi.master.TryConvert();
                     })
                     .PlayAnim("working_loop", KAnim.PlayMode.Loop)
                     .Transition(working_post, smi => smi.master.hasConverted == false);
