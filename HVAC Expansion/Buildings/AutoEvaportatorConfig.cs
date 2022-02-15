@@ -25,7 +25,7 @@ namespace HVACExpansion.Buildings
             string[] allMetals = MATERIALS.REFINED_METALS;
             EffectorValues noise = NOISE_POLLUTION.NOISY.TIER2;
             EffectorValues decor = BUILDINGS.DECOR.NONE;
-            BuildingDef buildingDef = BuildingTemplates.CreateBuildingDef(ID, 3, 1, "filter_liquid_kanim", 30, 10f, mass, allMetals, 1600f, BuildLocationRule.Anywhere, decor, noise);
+            BuildingDef buildingDef = BuildingTemplates.CreateBuildingDef(ID, 2, 3, "vaporizer_kanim", 30, 10f, mass, allMetals, 1600f, BuildLocationRule.Anywhere, decor, noise);
 
             BuildingTemplates.CreateElectricalBuildingDef(buildingDef);
 
@@ -35,9 +35,9 @@ namespace HVACExpansion.Buildings
             buildingDef.OutputConduitType = ConduitType.Gas;
             buildingDef.Floodable = false;
             buildingDef.PowerInputOffset = new CellOffset(0, 0);
-            buildingDef.UtilityInputOffset = new CellOffset(-1, 0);
-            buildingDef.UtilityOutputOffset = new CellOffset(1, 0);
-            buildingDef.PermittedRotations = PermittedRotations.R360;
+            buildingDef.UtilityInputOffset = new CellOffset(1, 0);
+            buildingDef.UtilityOutputOffset = new CellOffset(0, 2);
+            buildingDef.PermittedRotations = PermittedRotations.FlipH;
             buildingDef.ViewMode = OverlayModes.GasConduits.ID;
             buildingDef.LogicInputPorts = LogicOperationalController.CreateSingleInputPortList(new CellOffset(0,0));
 
