@@ -1,4 +1,5 @@
-﻿using KSerialization;
+﻿using FMOD.Studio;
+using KSerialization;
 using STRINGS;
 using System;
 using System.Collections.Generic;
@@ -18,6 +19,7 @@ namespace HVACExpansion.Buildings
         private Operational operational;
         private bool hasConverted = false;
         private HandleVector<int>.Handle structureTemperature;
+        EventInstance soundEventInstance;
 
         public bool IsEvaporator = false;
         public float temperatureDelta = 0.0f;
@@ -128,6 +130,22 @@ namespace HVACExpansion.Buildings
             ApplyTint(Color.clear, false);
         }
 
+
+        private void PlaySound()
+        {
+            soundEventInstance = KFMOD.BeginOneShot(GlobalAssets.GetSound("SpaceHeater_wave_long"), smi.master.gameObject.transform.position, 2f);
+            if (soundEventInstance.isValid())
+            {
+                KFMOD.EndOneShot(soundEventInstance);
+            }
+        }
+
+        private void StopSound()
+        {
+            KFMOD.EndOneShot(soundEventInstance);
+        }
+
+
         public class StatesInstance : GameStateMachine<States, StatesInstance, FluidConverter, object>.GameInstance
         {
             public StatesInstance(FluidConverter master) : base(master)
@@ -159,16 +177,25 @@ namespace HVACExpansion.Buildings
                     {
                         smi.master.operational.SetActive(true);
                         smi.master.UpdateTint();
+                        smi.master.PlaySound();
                     })
                     .PlayAnim("working_pre")
                     .OnAnimQueueComplete(working);
                 working
                     .Enter("Working", (smi) => smi.master.hasConverted = smi.master.TryConvert())
-                    .EventHandler(GameHashes.OnStorageChange, (smi) => smi.master.hasConverted = smi.master.TryConvert())
+                    .EventHandler(GameHashes.OnStorageChange, (smi) =>
+                    {
+                        smi.master.hasConverted = smi.master.TryConvert();
+                        smi.master.PlaySound();
+                    })
                     .PlayAnim("working_loop", KAnim.PlayMode.Loop)
                     .Transition(working_post, smi => smi.master.hasConverted == false);
                 working_post
-                    .Enter(smi => smi.master.ClearTint())
+                    .Enter(smi =>
+                    {
+                        smi.master.ClearTint();
+                        smi.master.StopSound();
+                    })
                     .PlayAnim("working_pst")
                     .OnAnimQueueComplete(waiting);
             }

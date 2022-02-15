@@ -159,5 +159,15 @@ namespace HVACExpansion
                 }
             }
         }
+
+        [HarmonyPatch(typeof(AudioSheets))]
+        [HarmonyPatch("CreateSound")]
+        public static class AudioSheets_CreateSoundPatch
+        {
+            public static void Prefix(string file_name, string anim_name, string type, float min_interval, string sound_name)
+            {
+                // Debug.Log("File name: " + file_name + " Sound name: " + sound_name);
+            }
+        }
     }
 }
