@@ -87,14 +87,6 @@ namespace HVACExpansion.Buildings
             }
         }
 
-        public void ClearTint(object data)
-        {
-            if (!((Operational)data).IsActive)
-            {
-                ClearTint();
-            }
-        }
-
         private void ApplyTint(Color color, bool gas)
         {
             var controller = GetComponent<KBatchedAnimController>();
@@ -103,16 +95,12 @@ namespace HVACExpansion.Buildings
             {
                 if (gas)
                 {
-                    controller.SetSymbolTint("gas_1", color);
-                    controller.SetSymbolTint("gas_2", color);
-                    controller.SetSymbolTint("gas_3", color);
-                    controller.SetSymbolTint("gas_4", color);
-                    controller.SetSymbolTint("gas_5", color);
+                    controller.SetSymbolTint("gas", color);
                 }
                 else
                 {
-                    controller.SetSymbolTint("liquid_0", color);
-                    controller.SetSymbolTint("liquid_top_0", color);
+                    controller.SetSymbolTint("liquid", color);
+                    controller.SetSymbolTint("liquid_top", color);
                 }
             }
             else
