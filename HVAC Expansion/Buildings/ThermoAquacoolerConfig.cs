@@ -45,7 +45,7 @@ namespace HVACExpansion.Buildings
         public override void ConfigureBuildingTemplate(GameObject go, Tag prefab_tag)
         {
             go.AddOrGet<LoopingSounds>();
-            AirConditioner airConditioner = go.AddOrGet<FluidHeater>();
+            NewAirConditioner airConditioner = go.AddOrGet<NewAirConditioner>();
             airConditioner.temperatureDelta = 14f;
             airConditioner.maxEnvironmentDelta = 50f;
             airConditioner.isLiquidConditioner = true;

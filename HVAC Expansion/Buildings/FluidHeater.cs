@@ -17,15 +17,10 @@ namespace HVACExpansion.Buildings
             }
         });
 
-        [MyCmpReq]
-        private BuildingComplete building;
-        private int inputCell = -1;
-
 
         protected override void OnSpawn()
         {
             base.OnSpawn();
-            inputCell = building.GetUtilityInputCell();
         }
 
         protected override void OnPrefabInit()
@@ -55,20 +50,6 @@ namespace HVACExpansion.Buildings
                 {
                     ApplyTint(color);
                     break;
-                }
-            }
-
-            if (items.Length <= 0)
-            {
-                ConduitFlow flow = (isLiquidConditioner ? Game.Instance.liquidConduitFlow : Game.Instance.gasConduitFlow);
-
-                if (flow.HasConduit(inputCell))
-                {
-                    SimHashes hashes = flow.GetContents(inputCell).element;
-                    Element element = ElementLoader.FindElementByHash(hashes);
-                    var color = element.substance.uiColour;
-
-                    ApplyTint(color);
                 }
             }
         }

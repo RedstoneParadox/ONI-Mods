@@ -32,7 +32,7 @@ namespace HVACExpansion.Buildings
         public override void ConfigureBuildingTemplate(GameObject go, Tag prefab_tag)
         {
             go.AddOrGet<LoopingSounds>();
-            AirConditioner refrigerationUnit = go.AddOrGet<FluidHeater>();
+            NewAirConditioner refrigerationUnit = go.AddOrGet<NewAirConditioner>();
             refrigerationUnit.temperatureDelta = 14f;
             refrigerationUnit.maxEnvironmentDelta = 50f;
             BuildingTemplates.CreateDefaultStorage(go).showInUI = true;
