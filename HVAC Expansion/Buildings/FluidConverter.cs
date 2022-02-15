@@ -1,4 +1,5 @@
 ﻿using KSerialization;
+using STRINGS;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,12 +17,15 @@ namespace HVACExpansion.Buildings
         [MyCmpReq]
         private Operational operational;
         private bool hasConverted = false;
+        private HandleVector<int>.Handle structureTemperature;
 
         public bool IsEvaporator = false;
+        public float temperatureDelta = 0.0f;
 
         protected override void OnSpawn()
         {
             base.OnSpawn();
+            structureTemperature = GameComps.StructureTemperatures.GetHandle(gameObject);
             smi.StartSM();
         }
 
@@ -38,6 +42,8 @@ namespace HVACExpansion.Buildings
                 PrimaryElement primaryElement = item.GetComponent<PrimaryElement>();
                 Element element = primaryElement.Element;
 
+                float kj = temperatureDelta * element.specificHeatCapacity * primaryElement.Mass;
+
                 if (primaryElement.Mass > 0)
                 {
                     if (IsEvaporator && element.IsLiquid)
@@ -48,7 +54,9 @@ namespace HVACExpansion.Buildings
                         ApplyTint(gas.substance.uiColour, true);
 
                         storage.items.Remove(item);
-                        storage.AddGasChunk(gas.id, primaryElement.Mass, primaryElement.Temperature, primaryElement.DiseaseIdx, primaryElement.DiseaseCount, false);
+                        storage.AddGasChunk(gas.id, primaryElement.Mass, primaryElement.Temperature + temperatureDelta, primaryElement.DiseaseIdx, primaryElement.DiseaseCount, false);
+
+                        GameComps.StructureTemperatures.ProduceEnergy(structureTemperature, -kj, BUILDING.STATUSITEMS.OPERATINGENERGY.PIPECONTENTS_TRANSFER, 0.0f);
 
                         converted++;
                     }
@@ -60,7 +68,9 @@ namespace HVACExpansion.Buildings
                         ApplyTint(element.substance.uiColour, true);
 
                         storage.items.Remove(item);
-                        storage.AddLiquid(liquid.id, primaryElement.Mass, primaryElement.Temperature, primaryElement.DiseaseIdx, primaryElement.DiseaseCount, false);
+                        storage.AddLiquid(liquid.id, primaryElement.Mass, primaryElement.Temperature - temperatureDelta, primaryElement.DiseaseIdx, primaryElement.DiseaseCount, false);
+
+                        GameComps.StructureTemperatures.ProduceEnergy(structureTemperature, kj, BUILDING.STATUSITEMS.OPERATINGENERGY.PIPECONTENTS_TRANSFER, 0.0f);
 
                         converted++;
                     }

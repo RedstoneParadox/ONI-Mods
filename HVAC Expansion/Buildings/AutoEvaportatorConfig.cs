@@ -29,7 +29,7 @@ namespace HVACExpansion.Buildings
 
             BuildingTemplates.CreateElectricalBuildingDef(buildingDef);
 
-            buildingDef.EnergyConsumptionWhenActive = 90f;
+            buildingDef.EnergyConsumptionWhenActive = 480f;
             buildingDef.SelfHeatKilowattsWhenActive = 0.0f;
             buildingDef.InputConduitType = ConduitType.Liquid;
             buildingDef.OutputConduitType = ConduitType.Gas;
@@ -57,6 +57,7 @@ namespace HVACExpansion.Buildings
             Storage defaultStorage = BuildingTemplates.CreateDefaultStorage(go);
 
             converter.IsEvaporator = true;
+            converter.temperatureDelta = 7.0f;
             conduitConsumer.conduitType = ConduitType.Liquid;
             conduitConsumer.consumptionRate = ConduitFlow.MAX_GAS_MASS;
             conduitConsumer.capacityTag = HVACTags.FullyEvaporatable;
