@@ -70,23 +70,6 @@ namespace HVACExpansion.Buildings
             return true;
         }
 
-        public void UpdateTint()
-        {
-            var items = storage.GetItems().ToArray();
-
-            foreach (GameObject item in items)
-            {
-                var primaryElement = item.GetComponent<PrimaryElement>();
-                var color = primaryElement.Element.substance.uiColour;
-
-                if (primaryElement.Mass > 0)
-                {
-                    ApplyTint(color, primaryElement.Element.IsGas);
-                    break;
-                }
-            }
-        }
-
         private void ApplyTint(Color color, bool gas)
         {
             var controller = GetComponent<KBatchedAnimController>();
