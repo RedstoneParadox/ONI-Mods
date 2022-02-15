@@ -71,6 +71,63 @@ namespace HVACExpansion.Buildings
             }
         }
 
+        public void UpdateTint()
+        {
+            var items = storage.GetItems().ToArray();
+
+            foreach (GameObject item in items)
+            {
+                var primaryElement = item.GetComponent<PrimaryElement>();
+                var color = primaryElement.Element.substance.uiColour;
+
+                if (primaryElement.Mass > 0)
+                {
+                    ApplyTint(color, primaryElement.Element.IsGas);
+                    break;
+                }
+            }
+        }
+
+        public void ClearTint(object data)
+        {
+            if (!((Operational)data).IsActive)
+            {
+                ClearTint();
+            }
+        }
+
+        private void ApplyTint(Color color, bool gas)
+        {
+            var controller = GetComponent<KBatchedAnimController>();
+
+            if (IsEvaporator)
+            {
+                if (gas)
+                {
+                    controller.SetSymbolTint("gas_1", color);
+                    controller.SetSymbolTint("gas_2", color);
+                    controller.SetSymbolTint("gas_3", color);
+                    controller.SetSymbolTint("gas_4", color);
+                    controller.SetSymbolTint("gas_5", color);
+                }
+                else
+                {
+                    controller.SetSymbolTint("liquid_0", color);
+                    controller.SetSymbolTint("liquid_top_0", color);
+                }
+            }
+            else
+            {
+                
+            }
+        }
+
+        private void ClearTint()
+        {
+            ApplyTint(Color.clear, true);
+            ApplyTint(Color.clear, false);
+        }
+
         public class StatesInstance : GameStateMachine<States, StatesInstance, FluidConverter, object>.GameInstance
         {
             public StatesInstance(FluidConverter master) : base(master)
@@ -101,14 +158,20 @@ namespace HVACExpansion.Buildings
                     .Enter("Ready", smi =>
                     {
                         smi.master.operational.SetActive(true);
+                        smi.master.UpdateTint();
                     })
                     .PlayAnim("working_pre")
                     .OnAnimQueueComplete(working);
                 working
-                    .EventHandler(GameHashes.OnStorageChange, smi => smi.master.hasConverted = smi.master.TryConvert())
+                    .EventHandler(GameHashes.OnStorageChange, smi =>
+                    {
+                        smi.master.hasConverted = smi.master.TryConvert();
+                        smi.master.UpdateTint();
+                    })
                     .PlayAnim("working_loop", KAnim.PlayMode.Loop)
-                    .Transition(working_post, smi => smi.master.hasConverted = false);
+                    .Transition(working_post, smi => smi.master.hasConverted == false);
                 working_post
+                    .Enter(smi => smi.master.ClearTint())
                     .PlayAnim("working_pst")
                     .OnAnimQueueComplete(waiting);
             }
