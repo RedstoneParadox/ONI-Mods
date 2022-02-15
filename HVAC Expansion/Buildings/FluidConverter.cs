@@ -44,6 +44,9 @@ namespace HVACExpansion.Buildings
                     {
                         Element gas = element.highTempTransition;
 
+                        ApplyTint(element.substance.uiColour, false);
+                        ApplyTint(gas.substance.uiColour, true);
+
                         storage.items.Remove(item);
                         storage.AddGasChunk(gas.id, primaryElement.Mass, primaryElement.Temperature, primaryElement.DiseaseIdx, primaryElement.DiseaseCount, false);
 
@@ -52,6 +55,9 @@ namespace HVACExpansion.Buildings
                     else if (!IsEvaporator && element.IsGas)
                     {
                         Element liquid = element.lowTempTransition;
+
+                        ApplyTint(liquid.substance.uiColour, false);
+                        ApplyTint(element.substance.uiColour, true);
 
                         storage.items.Remove(item);
                         storage.AddLiquid(liquid.id, primaryElement.Mass, primaryElement.Temperature, primaryElement.DiseaseIdx, primaryElement.DiseaseCount, false);
@@ -148,24 +154,12 @@ namespace HVACExpansion.Buildings
                     .Enter("Waiting", smi => smi.master.operational.SetActive(false))
                     .EventTransition(GameHashes.OnStorageChange, working_pre, smi => !smi.master.storage.IsEmpty());
                 working_pre
-                    .Enter("Ready", smi =>
-                    {
-                        smi.master.operational.SetActive(true);
-                        smi.master.UpdateTint();
-                    })
+                    .Enter("Ready", smi => smi.master.operational.SetActive(true))
                     .PlayAnim("working_pre")
                     .OnAnimQueueComplete(working);
                 working
-                    .Enter("Working", (smi) =>
-                    {
-                        smi.master.UpdateTint();
-                        smi.master.hasConverted = smi.master.TryConvert();
-                    })
-                    .EventHandler(GameHashes.OnStorageChange, (smi) =>
-                    {
-                        smi.master.UpdateTint();
-                        smi.master.hasConverted = smi.master.TryConvert();
-                    })
+                    .Enter("Working", (smi) => smi.master.hasConverted = smi.master.TryConvert())
+                    .EventHandler(GameHashes.OnStorageChange, (smi) => smi.master.hasConverted = smi.master.TryConvert())
                     .PlayAnim("working_loop", KAnim.PlayMode.Loop)
                     .Transition(working_post, smi => smi.master.hasConverted == false);
                 working_post
