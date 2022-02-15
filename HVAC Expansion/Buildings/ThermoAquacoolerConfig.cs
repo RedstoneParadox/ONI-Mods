@@ -8,7 +8,7 @@ using UnityEngine;
 
 namespace HVACExpansion.Buildings
 {
-    class LiquidRefrigerationUnitConfig: IBuildingConfig
+    class ThermoAquacoolerConfig: IBuildingConfig
     {
         public const string ID = "LiquidRefrigerationUnit";
         private static readonly List<Storage.StoredItemModifier> StoredItemModifiers = new List<Storage.StoredItemModifier>()
@@ -45,7 +45,7 @@ namespace HVACExpansion.Buildings
         public override void ConfigureBuildingTemplate(GameObject go, Tag prefab_tag)
         {
             go.AddOrGet<LoopingSounds>();
-            AirConditioner airConditioner = go.AddOrGet<RefrigerationUnit>();
+            AirConditioner airConditioner = go.AddOrGet<FluidHeater>();
             airConditioner.temperatureDelta = 14f;
             airConditioner.maxEnvironmentDelta = 50f;
             airConditioner.isLiquidConditioner = true;

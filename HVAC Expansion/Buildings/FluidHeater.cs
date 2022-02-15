@@ -7,10 +7,26 @@ using UnityEngine;
 
 namespace HVACExpansion.Buildings
 {
-    class RefrigerationUnit: AirConditioner
+    class FluidHeater: AirConditioner
     {
-        private static readonly EventSystem.IntraObjectHandler<RefrigerationUnit> OnStorageChangeDelegate = new EventSystem.IntraObjectHandler<RefrigerationUnit>((component, data) => component.UpdateTint());
-        private static readonly EventSystem.IntraObjectHandler<RefrigerationUnit> OnActiveChangedDelegate = new EventSystem.IntraObjectHandler<RefrigerationUnit>((component, data) => component.ClearTint(data));
+        private static readonly EventSystem.IntraObjectHandler<FluidHeater> OnStorageChangeDelegate = new EventSystem.IntraObjectHandler<FluidHeater>((component, data) => component.UpdateTint());
+        private static readonly EventSystem.IntraObjectHandler<FluidHeater> OnActiveChangedDelegate = new EventSystem.IntraObjectHandler<FluidHeater>((component, data) => {
+            if (((Operational)data).IsActive)
+            {
+                component.UpdateTint();
+            }
+        });
+
+        [MyCmpReq]
+        private BuildingComplete building;
+        private int inputCell = -1;
+
+
+        protected override void OnSpawn()
+        {
+            base.OnSpawn();
+            inputCell = building.GetUtilityInputCell();
+        }
 
         protected override void OnPrefabInit()
         {
@@ -39,6 +55,20 @@ namespace HVACExpansion.Buildings
                 {
                     ApplyTint(color);
                     break;
+                }
+            }
+
+            if (items.Length <= 0)
+            {
+                ConduitFlow flow = (isLiquidConditioner ? Game.Instance.liquidConduitFlow : Game.Instance.gasConduitFlow);
+
+                if (flow.HasConduit(inputCell))
+                {
+                    SimHashes hashes = flow.GetContents(inputCell).element;
+                    Element element = ElementLoader.FindElementByHash(hashes);
+                    var color = element.substance.uiColour;
+
+                    ApplyTint(color);
                 }
             }
         }

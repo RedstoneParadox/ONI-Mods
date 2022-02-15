@@ -31,21 +31,21 @@ namespace HVACExpansion.Locale
         public class GasRefrigerator
         {
             public static LocString NAME = new LocString("Thermo Conditioner",
-    "STRINGS.BUILDINGS.PREFABS." + GasRefrigerationUnitConfig.ID.ToUpper() + ".NAME");
+    "STRINGS.BUILDINGS.PREFABS." + ThermoConditionerConfig.ID.ToUpper() + ".NAME");
             public static LocString DESC = new LocString("A thermo conditioner doesn't remove heat, but relocates it to a new area.",
-                "STRINGS.BUILDINGS.PREFABS." + GasRefrigerationUnitConfig.ID.ToUpper() + ".DESC");
+                "STRINGS.BUILDINGS.PREFABS." + ThermoConditionerConfig.ID.ToUpper() + ".DESC");
             public static LocString EFFECT = new LocString(STRINGS.UI.FormatAsLink("Heats", "HEAT") + " the " + STRINGS.UI.FormatAsLink("Gas", "ELEMENTS_GAS") + " piped through it, cooling its immediate vicinity.",
-                "STRINGS.BUILDINGS.PREFABS." + GasRefrigerationUnitConfig.ID.ToUpper() + ".EFFECT");
+                "STRINGS.BUILDINGS.PREFABS." + ThermoConditionerConfig.ID.ToUpper() + ".EFFECT");
         }
 
         public class LiquidRefrigerator
         {
             public static LocString NAME = new LocString("Thermo Aquacooler",
-                "STRINGS.BUILDINGS.PREFABS." + LiquidRefrigerationUnitConfig.ID.ToUpper() + ".NAME");
+                "STRINGS.BUILDINGS.PREFABS." + ThermoAquacoolerConfig.ID.ToUpper() + ".NAME");
             public static LocString DESC = new LocString("A thermo aquacooler heats liquids to cool its surroundings.",
-                "STRINGS.BUILDINGS.PREFABS." + LiquidRefrigerationUnitConfig.ID.ToUpper() + ".DESC");
+                "STRINGS.BUILDINGS.PREFABS." + ThermoAquacoolerConfig.ID.ToUpper() + ".DESC");
             public static LocString EFFECT = new LocString(STRINGS.UI.FormatAsLink("Heats", "HEAT") + " the " + STRINGS.UI.FormatAsLink("Liquid", "ELEMENTS_LIQUID") + " piped through it, cooling its immediate vicinity.",
-                "STRINGS.BUILDINGS.PREFABS." + LiquidRefrigerationUnitConfig.ID.ToUpper() + ".EFFECT");
+                "STRINGS.BUILDINGS.PREFABS." + ThermoAquacoolerConfig.ID.ToUpper() + ".EFFECT");
         }
     }
 }

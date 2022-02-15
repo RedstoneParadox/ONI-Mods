@@ -39,12 +39,12 @@ namespace HVACExpansion
                 Util.AddBuildingStrings(GRU_NAME, GRU_DESC, GRU_EFFECT);
                 Util.AddString(HEATCONSUMED_GRU);
                 Util.AddString(HC_GRU_EFFECT);
-                ModUtil.AddBuildingToPlanScreen("Utilities", GasRefrigerationUnitConfig.ID);
+                ModUtil.AddBuildingToPlanScreen("Utilities", ThermoConditionerConfig.ID);
 
                 Util.AddBuildingStrings(LRU_NAME, LRU_DESC, LRU_EFFECT);
                 Util.AddString(HEATCONSUMED_LRU);
                 Util.AddString(HC_LRU_EFFECT);
-                ModUtil.AddBuildingToPlanScreen("Utilities", LiquidRefrigerationUnitConfig.ID);
+                ModUtil.AddBuildingToPlanScreen("Utilities", ThermoAquacoolerConfig.ID);
 
                 Util.AddString(LIQUIDHEATING);
                 Util.AddString(GASHEATING);
@@ -68,8 +68,8 @@ namespace HVACExpansion
         {
             public static void Postfix()
             {
-                Util.AddToTech("HVAC", GasRefrigerationUnitConfig.ID);
-                Util.AddToTech("LiquidTemperature", LiquidRefrigerationUnitConfig.ID);
+                Util.AddToTech("HVAC", ThermoConditionerConfig.ID);
+                Util.AddToTech("LiquidTemperature", ThermoAquacoolerConfig.ID);
 
                 /*
                 Techs techs = Db.Get().Techs;
@@ -99,7 +99,7 @@ namespace HVACExpansion
         {
             public static void Postfix(ref List<Descriptor> __result, ref AirConditioner __instance)
             {
-                if (__instance is RefrigerationUnit)
+                if (__instance is FluidHeater)
                 {
                     AirConditioner @this = __instance;
 

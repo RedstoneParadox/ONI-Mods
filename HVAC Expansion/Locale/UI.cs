@@ -27,12 +27,12 @@ namespace HVACExpansion.Locale
                     STRINGS.UI.PRE_KEYWORD + "Volume" + STRINGS.UI.PST_KEYWORD + " and " + STRINGS.UI.PRE_KEYWORD + "Specific Heat Capacity" + STRINGS.UI.PST_KEYWORD + " of the pumped " +
                     STRINGS.UI.PRE_KEYWORD + "Gas" + STRINGS.UI.PST_KEYWORD + "\n\nHeating 1 " + STRINGS.UI.UNITSUFFIXES.MASS.KILOGRAM + " of " + ELEMENTS.OXYGEN.NAME +
                     " the entire <b>{1}</b> will consume <b>{0}</b>",
-                    "STRINGS.UI.BUILDINGEFFECTS.TOOLTIPS.HEATGENERATED_" + GasRefrigerationUnitConfig.ID.ToUpper());
+                    "STRINGS.UI.BUILDINGEFFECTS.TOOLTIPS.HEATGENERATED_" + ThermoConditionerConfig.ID.ToUpper());
                 public static LocString HEATCONSUMED_LIQUIDREFRIGERATOR = new LocString("Dissapates " + STRINGS.UI.PRE_KEYWORD + "Heat" + STRINGS.UI.PST_KEYWORD + " based on the " +
                     STRINGS.UI.PRE_KEYWORD + "Volume" + STRINGS.UI.PST_KEYWORD + " and " + STRINGS.UI.PRE_KEYWORD + "Specific Heat Capacity" + STRINGS.UI.PST_KEYWORD + " of the pumped " +
                     STRINGS.UI.PRE_KEYWORD + "Liquid" + STRINGS.UI.PST_KEYWORD + "\n\nHeating 10 " + STRINGS.UI.UNITSUFFIXES.MASS.KILOGRAM + " of " + ELEMENTS.WATER.NAME +
                     " the entire <b>{1}</b> will consume <b>{0}</b>",
-                    "STRINGS.UI.BUILDINGEFFECTS.TOOLTIPS.HEATGENERATED_" + LiquidRefrigerationUnitConfig.ID.ToUpper());
+                    "STRINGS.UI.BUILDINGEFFECTS.TOOLTIPS.HEATGENERATED_" + ThermoAquacoolerConfig.ID.ToUpper());
             }
         }
 

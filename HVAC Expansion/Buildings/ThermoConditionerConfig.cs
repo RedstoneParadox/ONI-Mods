@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace HVACExpansion.Buildings
 {
-    class GasRefrigerationUnitConfig: IBuildingConfig
+    class ThermoConditionerConfig: IBuildingConfig
     {
         public const string ID = "GasRefrigerationUnit";
 
@@ -32,7 +32,7 @@ namespace HVACExpansion.Buildings
         public override void ConfigureBuildingTemplate(GameObject go, Tag prefab_tag)
         {
             go.AddOrGet<LoopingSounds>();
-            AirConditioner refrigerationUnit = go.AddOrGet<RefrigerationUnit>();
+            AirConditioner refrigerationUnit = go.AddOrGet<FluidHeater>();
             refrigerationUnit.temperatureDelta = 14f;
             refrigerationUnit.maxEnvironmentDelta = 50f;
             BuildingTemplates.CreateDefaultStorage(go).showInUI = true;

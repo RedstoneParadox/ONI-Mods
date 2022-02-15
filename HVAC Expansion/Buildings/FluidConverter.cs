@@ -35,7 +35,7 @@ namespace HVACExpansion.Buildings
             smi.StartSM();
         }
 
-        private bool TryConvert()
+        private bool TryConvert(float dt)
         {
             GameObject[] items = storage.GetItems().ToArray();
 
@@ -188,10 +188,10 @@ namespace HVACExpansion.Buildings
                     .PlayAnim("working_pre")
                     .OnAnimQueueComplete(working);
                 working
-                    .Enter("Working", (smi) => smi.master.hasConverted = smi.master.TryConvert())
-                    .EventHandler(GameHashes.OnStorageChange, (smi) =>
+                    .Enter("Working", (smi) => smi.master.hasConverted = smi.master.TryConvert(0.0f))
+                    .Update((smi, dt) =>
                     {
-                        smi.master.hasConverted = smi.master.TryConvert();
+                        smi.master.hasConverted = smi.master.TryConvert(dt);
                         smi.master.PlaySound();
                     })
                     .PlayAnim("working_loop", KAnim.PlayMode.Loop)
