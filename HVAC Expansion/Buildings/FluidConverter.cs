@@ -80,6 +80,26 @@ namespace HVACExpansion.Buildings
             return true;
         }
 
+
+        public void UpdateTint()
+        {
+            var items = storage.GetItems().ToArray();
+
+            foreach (GameObject item in items)
+            {
+                var primaryElement = item.GetComponent<PrimaryElement>();
+                var color = primaryElement.Element.substance.uiColour;
+
+                if (primaryElement.Mass > 0)
+                {
+                    ApplyTint(color, primaryElement.Element.IsGas);
+                    break;
+                }
+            }
+        }
+
+
+
         private void ApplyTint(Color color, bool gas)
         {
             var controller = GetComponent<KBatchedAnimController>();
@@ -98,7 +118,7 @@ namespace HVACExpansion.Buildings
             }
             else
             {
-                
+
             }
         }
 
@@ -115,7 +135,7 @@ namespace HVACExpansion.Buildings
             }
         }
 
-        public class States: GameStateMachine<States, StatesInstance, FluidConverter>
+        public class States : GameStateMachine<States, StatesInstance, FluidConverter>
         {
             public State disabled;
             public State waiting;
@@ -135,7 +155,11 @@ namespace HVACExpansion.Buildings
                     .Enter("Waiting", smi => smi.master.operational.SetActive(false))
                     .EventTransition(GameHashes.OnStorageChange, working_pre, smi => !smi.master.storage.IsEmpty());
                 working_pre
-                    .Enter("Ready", smi => smi.master.operational.SetActive(true))
+                    .Enter("Ready", smi =>
+                    {
+                        smi.master.operational.SetActive(true);
+                        smi.master.UpdateTint();
+                    })
                     .PlayAnim("working_pre")
                     .OnAnimQueueComplete(working);
                 working
