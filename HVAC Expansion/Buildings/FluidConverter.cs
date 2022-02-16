@@ -130,12 +130,6 @@ namespace HVACExpansion.Buildings
             }
         }
 
-        private void ClearTint()
-        {
-            ApplyTint(Color.clear, true);
-            ApplyTint(Color.clear, false);
-        }
-
 
         private void PlaySound()
         {
@@ -189,9 +183,9 @@ namespace HVACExpansion.Buildings
                     .OnAnimQueueComplete(working);
                 working
                     .Enter("Working", (smi) => smi.master.hasConverted = smi.master.TryConvert(0.0f))
-                    .Update((smi, dt) =>
+                    .EventHandler(GameHashes.OnStorageChange, (smi) =>
                     {
-                        smi.master.hasConverted = smi.master.TryConvert(dt);
+                        smi.master.hasConverted = smi.master.TryConvert(0.0f);
                         smi.master.PlaySound();
                     })
                     .PlayAnim("working_loop", KAnim.PlayMode.Loop)
@@ -199,7 +193,6 @@ namespace HVACExpansion.Buildings
                 working_post
                     .Enter(smi =>
                     {
-                        smi.master.ClearTint();
                         smi.master.StopSound();
                     })
                     .PlayAnim("working_pst")
