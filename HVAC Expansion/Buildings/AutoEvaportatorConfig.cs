@@ -25,7 +25,7 @@ namespace HVACExpansion.Buildings
             string[] allMetals = MATERIALS.REFINED_METALS;
             EffectorValues noise = NOISE_POLLUTION.NOISY.TIER2;
             EffectorValues decor = BUILDINGS.DECOR.NONE;
-            BuildingDef buildingDef = BuildingTemplates.CreateBuildingDef(ID, 2, 3, "vaporizer_kanim", 30, 10f, mass, allMetals, 1600f, BuildLocationRule.Anywhere, decor, noise);
+            BuildingDef buildingDef = BuildingTemplates.CreateBuildingDef(ID, 2, 3, "vaporizer_kanim", 30, 10f, mass, allMetals, 1600f, BuildLocationRule.OnFloor, decor, noise);
 
             BuildingTemplates.CreateElectricalBuildingDef(buildingDef);
 
