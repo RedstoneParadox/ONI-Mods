@@ -7,7 +7,7 @@ using UnityEngine;
 namespace HVACExpansion.Buildings
 {
     [SerializationConfig(MemberSerialization.OptIn)]
-    public class NewAirConditioner : KMonoBehaviour, ISaveLoadable, IGameObjectEffectDescriptor, ISim200ms
+    public class NewAirConditioner : StateMachineComponent<NewAirConditioner.StatesInstance>, ISaveLoadable, IGameObjectEffectDescriptor
     {
         [MyCmpReq]
         private KSelectable selectable;
@@ -60,6 +60,7 @@ namespace HVACExpansion.Buildings
             this.structureTemperature = GameComps.StructureTemperatures.GetHandle(this.gameObject);
             this.cooledAirOutputCell = this.building.GetUtilityOutputCell();
             inputCell = building.GetUtilityInputCell();
+            smi.StartSM();
         }
 
         public void Sim200ms(float dt)
@@ -115,7 +116,6 @@ namespace HVACExpansion.Buildings
                     float display_dt = (double)this.lastSampleTime > 0.0 ? Time.time - this.lastSampleTime : 1f;
                     this.lastSampleTime = Time.time;
                     GameComps.StructureTemperatures.ProduceEnergy(this.structureTemperature, -num4, (string)BUILDING.STATUSITEMS.OPERATINGENERGY.PIPECONTENTS_TRANSFER, display_dt);
-                    ApplyTint(component.Element.substance.uiColour);
                     break;
                 }
             }
@@ -126,31 +126,7 @@ namespace HVACExpansion.Buildings
             }
 
             KBatchedAnimController anim = GetComponent<KBatchedAnimController>();
-
-            if (flag)
-            {
-                if (!operational.IsActive)
-                {
-                    operational.SetActive(true);
-                    anim.Play("on");
-                }
-            }
-            else
-            {
-                if (operational.IsActive)
-                {
-                    operational.SetActive(false);
-                    anim.Play("off");
-                }
-            }
             this.UpdateStatus();
-        }
-
-        private void OnOperationalChanged(object data)
-        {
-            if (!this.operational.IsOperational)
-                return;
-            this.UpdateState(0.0f);
         }
 
         private void OnActiveChanged(object data) => this.UpdateStatus();
@@ -184,6 +160,23 @@ namespace HVACExpansion.Buildings
                 this.statusHandle = this.selectable.SetStatusItem(Db.Get().StatusItemCategories.Main, (StatusItem)null);
         }
 
+        public void UpdateTint()
+        {
+            var items = storage.GetItems().ToArray();
+
+            foreach (GameObject item in items)
+            {
+                var primaryElement = item.GetComponent<PrimaryElement>();
+                var color = primaryElement.Element.substance.uiColour;
+
+                if (primaryElement.Mass > 0)
+                {
+                    ApplyTint(color);
+                    break;
+                }
+            }
+        }
+
         private void ApplyTint(Color color)
         {
             var controller = GetComponent<KBatchedAnimController>();
@@ -214,6 +207,63 @@ namespace HVACExpansion.Buildings
             descriptor2.SetupDescriptor(string.Format((string)(this.isLiquidConditioner ? UI.BUILDINGEFFECTS.LIQUIDCOOLING : UI.BUILDINGEFFECTS.GASCOOLING), (object)formattedTemperature), string.Format((string)(this.isLiquidConditioner ? UI.BUILDINGEFFECTS.TOOLTIPS.LIQUIDCOOLING : UI.BUILDINGEFFECTS.TOOLTIPS.GASCOOLING), (object)formattedTemperature));
             descriptorList.Add(descriptor2);
             return descriptorList;
+        }
+
+        public class StatesInstance: GameStateMachine<States, StatesInstance, NewAirConditioner, object>.GameInstance
+        {
+            public StatesInstance(NewAirConditioner master): base(master)
+            {
+
+            }
+        }
+
+        public class States: GameStateMachine<States, StatesInstance, NewAirConditioner>
+        {
+            public State disabled;
+            public State waiting;
+            public State working_pre;
+            public State working;
+            public State working_post;
+
+            public override void InitializeStates(out BaseState default_state)
+            {
+                default_state = disabled;
+                root
+                    .EventTransition(GameHashes.OperationalChanged, disabled, smi => !smi.master.operational.IsOperational);
+                disabled
+                    .EventTransition(GameHashes.OperationalChanged, waiting, smi => smi.master.operational.IsOperational)
+                    .PlayAnim("ffo");
+                waiting
+                    .Enter("Waiting", smi => smi.master.operational.SetActive(false))
+                    .EventTransition(GameHashes.OnStorageChange, working_pre, smi => !smi.master.storage.IsEmpty())
+                    .PlayAnim("no");
+                working_pre
+                    .Enter("Ready", smi =>
+                    {
+                        smi.master.operational.SetActive(true);
+                        smi.master.UpdateTint();
+                        // smi.master.PlaySound();
+                    })
+                    .PlayAnim("working_pre")
+                    .OnAnimQueueComplete(working);
+                working
+                    .Enter("Working", (smi) => smi.master.UpdateState(0.0f))
+                    .Update((smi, dt) =>
+                    {
+                        smi.master.UpdateState(dt);
+                        // smi.master.hasConverted = smi.master.TryConvert(0.0f);
+                        // smi.master.PlaySound();
+                    })
+                    .PlayAnim("working_loop", KAnim.PlayMode.Loop)
+                    .EventTransition(GameHashes.ActiveChanged, working_post);
+                working_post
+                    .Enter(smi =>
+                    {
+                        // smi.master.StopSound();
+                    })
+                    .PlayAnim("working_pst")
+                    .OnAnimQueueComplete(waiting);
+            }
         }
     }
 }

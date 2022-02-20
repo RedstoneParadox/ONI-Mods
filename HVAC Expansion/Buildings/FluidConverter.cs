@@ -168,10 +168,11 @@ namespace HVACExpansion.Buildings
                     .EventTransition(GameHashes.OperationalChanged, disabled, smi => !smi.master.operational.IsOperational);
                 disabled
                     .EventTransition(GameHashes.OperationalChanged, waiting, smi => smi.master.operational.IsOperational)
-                    .PlayAnim("off");
+                    .PlayAnim("ffo");
                 waiting
                     .Enter("Waiting", smi => smi.master.operational.SetActive(false))
-                    .EventTransition(GameHashes.OnStorageChange, working_pre, smi => !smi.master.storage.IsEmpty());
+                    .EventTransition(GameHashes.OnStorageChange, working_pre, smi => !smi.master.storage.IsEmpty())
+                    .PlayAnim("no");
                 working_pre
                     .Enter("Ready", smi =>
                     {
