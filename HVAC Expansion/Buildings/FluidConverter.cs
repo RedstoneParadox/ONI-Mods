@@ -132,7 +132,10 @@ namespace HVACExpansion.Buildings
             }
             else
             {
-
+                if (!gas)
+                {
+                    controller.SetSymbolTint("liquid", color);
+                }
             }
         }
 
