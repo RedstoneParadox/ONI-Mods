@@ -35,6 +35,13 @@ namespace HVACExpansion.Buildings
             smi.StartSM();
         }
 
+        private void Run(float dt)
+        {
+            UpdateTint();
+            PlaySound();
+            hasConverted = TryConvert(dt);
+        }
+
         private bool TryConvert(float dt)
         {
             GameObject[] items = storage.GetItems().ToArray();
@@ -50,6 +57,8 @@ namespace HVACExpansion.Buildings
 
                 if (primaryElement.Mass > 0)
                 {
+                    float kj = temperatureDelta * element.specificHeatCapacity * primaryElement.Mass;
+
                     if (IsEvaporator && element.IsLiquid)
                     {
                         Element gas = element.highTempTransition;
@@ -57,13 +66,11 @@ namespace HVACExpansion.Buildings
                         ApplyTint(element.substance.uiColour, false);
                         ApplyTint(gas.substance.uiColour, true);
 
+
                         storage.items.Remove(item);
+                        storage.AddGasChunk(gas.id, primaryElement.Mass, primaryElement.Temperature + temperatureDelta, primaryElement.DiseaseIdx, primaryElement.DiseaseCount, false);
 
-                        float massOutputted = (IsEvaporator ? Game.Instance.gasConduitFlow : Game.Instance.liquidConduitFlow).AddElement(cooledAirOutputCell, gas.id, primaryElement.Mass, primaryElement.Temperature + temperatureDelta, primaryElement.DiseaseIdx, primaryElement.DiseaseCount);
-                        float kj = temperatureDelta * element.specificHeatCapacity * massOutputted;
-
-
-                        GameComps.StructureTemperatures.ProduceEnergy(structureTemperature, -kj, BUILDING.STATUSITEMS.OPERATINGENERGY.PIPECONTENTS_TRANSFER, 0.0f);
+                        kj = -kj;
 
                         converted++;
                     }
@@ -75,13 +82,12 @@ namespace HVACExpansion.Buildings
                         ApplyTint(element.substance.uiColour, true);
 
                         storage.items.Remove(item);
-                        float massOutputted = (IsEvaporator ? Game.Instance.gasConduitFlow : Game.Instance.liquidConduitFlow).AddElement(cooledAirOutputCell, liquid.id, primaryElement.Mass, primaryElement.Temperature - temperatureDelta, primaryElement.DiseaseIdx, primaryElement.DiseaseCount);
-                        float kj = temperatureDelta * element.specificHeatCapacity * massOutputted;
-
-                        GameComps.StructureTemperatures.ProduceEnergy(structureTemperature, kj, BUILDING.STATUSITEMS.OPERATINGENERGY.PIPECONTENTS_TRANSFER, 0.0f);
+                        storage.AddLiquid(liquid.id, primaryElement.Mass, primaryElement.Temperature - temperatureDelta, primaryElement.DiseaseIdx, primaryElement.DiseaseCount);
 
                         converted++;
                     }
+
+                    GameComps.StructureTemperatures.ProduceEnergy(structureTemperature, kj, BUILDING.STATUSITEMS.OPERATINGENERGY.PIPECONTENTS_TRANSFER, dt);
                 }
             }
 
@@ -155,50 +161,45 @@ namespace HVACExpansion.Buildings
 
         public class States : GameStateMachine<States, StatesInstance, FluidConverter>
         {
-            public State disabled;
-            public State waiting;
-            public State working_pre;
-            public State working;
-            public State working_post;
+            public State off;
+            public OnStates on;
 
             public override void InitializeStates(out BaseState default_state)
             {
-                default_state = disabled;
+                default_state = off;
                 root
-                    .EventTransition(GameHashes.OperationalChanged, disabled, smi => !smi.master.operational.IsOperational);
-                disabled
-                    .EventTransition(GameHashes.OperationalChanged, waiting, smi => smi.master.operational.IsOperational)
+                    .EventTransition(GameHashes.OperationalChanged, off, smi => !smi.master.operational.IsOperational);
+                off
+                    .EventTransition(GameHashes.OperationalChanged, on.waiting, smi => smi.master.operational.IsOperational)
                     .PlayAnim("ffo");
-                waiting
-                    .Enter("Waiting", smi => smi.master.operational.SetActive(false))
-                    .EventTransition(GameHashes.OnStorageChange, working_pre, smi => !smi.master.storage.IsEmpty())
-                    .PlayAnim("no");
-                working_pre
-                    .Enter("Ready", smi =>
-                    {
-                        smi.master.operational.SetActive(true);
-                        smi.master.UpdateTint();
-                        smi.master.PlaySound();
-                    })
+                on
+                    .PlayAnim("no")
+                    .EventTransition(GameHashes.OperationalChanged, off, smi => !smi.master.operational.IsOperational)
+                    .DefaultState(on.waiting);
+                on.waiting
+                    .EventTransition(GameHashes.OnStorageChange, on.working_pre, smi => !smi.master.storage.IsEmpty());
+                on.working_pre
                     .PlayAnim("working_pre")
-                    .OnAnimQueueComplete(working);
-                working
-                    .Enter("Working", (smi) => smi.master.hasConverted = smi.master.TryConvert(0.0f))
-                    .EventHandler(GameHashes.OnStorageChange, (smi) =>
-                    {
-                        smi.master.hasConverted = smi.master.TryConvert(0.0f);
-                        smi.master.PlaySound();
-                    })
+                    .OnAnimQueueComplete(on.working);
+                on.working
+                    .Enter("Working", (smi) => smi.master.operational.SetActive(true))
+                    .Update((smi, dt) => smi.master.Run(dt))
                     .PlayAnim("working_loop", KAnim.PlayMode.Loop)
-                    .Transition(working_post, smi => smi.master.hasConverted == false);
-                working_post
-                    .Enter(smi =>
-                    {
-                        smi.master.StopSound();
-                    })
+                    .EventTransition(GameHashes.OnStorageChange, on.working_pst, smi => smi.master.hasConverted == false)
+                    .Exit(smi => smi.master.operational.SetActive(false));
+                on.working_pst
+                    .Enter(smi => smi.master.StopSound())
                     .PlayAnim("working_pst")
-                    .OnAnimQueueComplete(waiting);
+                    .OnAnimQueueComplete(on.waiting);
             }
+        }
+
+        public class OnStates: GameStateMachine<States, StatesInstance, FluidConverter, object>.State
+        {
+            public GameStateMachine<States, StatesInstance, FluidConverter, object>.State waiting;
+            public GameStateMachine<States, StatesInstance, FluidConverter, object>.State working_pre;
+            public GameStateMachine<States, StatesInstance, FluidConverter, object>.State working;
+            public GameStateMachine<States, StatesInstance, FluidConverter, object>.State working_pst;
         }
     }
 }
