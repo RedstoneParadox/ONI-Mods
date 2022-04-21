@@ -35,8 +35,8 @@ namespace HVACExpansion.Buildings
             buildingDef.OutputConduitType = ConduitType.Gas;
             buildingDef.Floodable = false;
             buildingDef.PowerInputOffset = new CellOffset(0, 0);
-            buildingDef.UtilityInputOffset = new CellOffset(0, 2);
-            buildingDef.UtilityOutputOffset = new CellOffset(1, 0);
+            buildingDef.UtilityInputOffset = new CellOffset(1, 0);
+            buildingDef.UtilityOutputOffset = new CellOffset(0, 2);
             buildingDef.PermittedRotations = PermittedRotations.FlipH;
             buildingDef.ViewMode = OverlayModes.GasConduits.ID;
             buildingDef.LogicInputPorts = LogicOperationalController.CreateSingleInputPortList(new CellOffset(0,0));
