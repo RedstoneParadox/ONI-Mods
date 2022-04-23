@@ -64,7 +64,7 @@ namespace HVACExpansion.Buildings
             conduitConsumer.wrongElementResult = ConduitConsumer.WrongElementResult.Dump;
             conduitDispenser.conduitType = ConduitType.Gas;
             defaultStorage.showInUI = true;
-            defaultStorage.capacityKg = conduitConsumer.consumptionRate * 2f;
+            defaultStorage.capacityKg = conduitConsumer.consumptionRate * 3f;
             defaultStorage.SetDefaultStoredItemModifiers(StoredItemModifiers);
 
             go.AddOrGet<MinimumOperatingTemperature>().minimumTemperature = 16f;

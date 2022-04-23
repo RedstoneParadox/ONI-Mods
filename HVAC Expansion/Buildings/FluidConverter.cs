@@ -20,6 +20,7 @@ namespace HVACExpansion.Buildings
         [MyCmpReq]
         private BuildingComplete building;
         private bool hasConverted = false;
+        private bool attemptedConversion = false;
         private HandleVector<int>.Handle structureTemperature;
         EventInstance soundEventInstance;
         private int cooledAirOutputCell = -1;
@@ -40,6 +41,7 @@ namespace HVACExpansion.Buildings
             UpdateTint();
             PlaySound();
             hasConverted = TryConvert(dt);
+            attemptedConversion = true;
         }
 
         private bool TryConvert(float dt)
@@ -66,7 +68,6 @@ namespace HVACExpansion.Buildings
                         ApplyTint(element.substance.uiColour, false);
                         ApplyTint(gas.substance.uiColour, true);
 
-
                         storage.items.Remove(item);
                         storage.AddGasChunk(gas.id, primaryElement.Mass, primaryElement.Temperature + temperatureDelta, primaryElement.DiseaseIdx, primaryElement.DiseaseCount, false);
 
@@ -91,7 +92,7 @@ namespace HVACExpansion.Buildings
                 }
             }
 
-            return true;
+            return converted > 0;
         }
 
 
@@ -182,13 +183,14 @@ namespace HVACExpansion.Buildings
                 on.waiting
                     .EventTransition(GameHashes.OnStorageChange, on.working_pre, smi => !smi.master.storage.IsEmpty());
                 on.working_pre
+                    .Enter(smi => { smi.master.attemptedConversion = false; smi.master.Run(0.0f); })
                     .PlayAnim("working_pre")
                     .OnAnimQueueComplete(on.working);
                 on.working
                     .Enter("Working", (smi) => smi.master.operational.SetActive(true))
-                    .Update((smi, dt) => smi.master.Run(dt))
+                    .EventHandler(GameHashes.OnStorageChange, (smi) => smi.master.Run(0.0f))
                     .PlayAnim("working_loop", KAnim.PlayMode.Loop)
-                    .EventTransition(GameHashes.OnStorageChange, on.working_pst, smi => smi.master.hasConverted == false)
+                    .EventTransition(GameHashes.OnStorageChange, on.working_pst, smi => smi.master.attemptedConversion == true && smi.master.hasConverted == false)
                     .Exit(smi => smi.master.operational.SetActive(false));
                 on.working_pst
                     .Enter(smi => smi.master.StopSound())

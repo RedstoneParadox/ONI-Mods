@@ -63,7 +63,7 @@ namespace HVACExpansion.Buildings
             conduitConsumer.wrongElementResult = ConduitConsumer.WrongElementResult.Dump;
             conduitDispenser.conduitType = ConduitType.Liquid;
             defaultStorage.showInUI = true;
-            defaultStorage.capacityKg = conduitConsumer.consumptionRate * 2f;
+            defaultStorage.capacityKg = conduitConsumer.consumptionRate * 3f;
             defaultStorage.SetDefaultStoredItemModifiers(StoredItemModifiers);
         }
     }
