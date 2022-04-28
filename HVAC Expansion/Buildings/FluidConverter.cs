@@ -23,7 +23,7 @@ namespace HVACExpansion.Buildings
         private bool attemptedConversion = false;
         private HandleVector<int>.Handle structureTemperature;
         EventInstance soundEventInstance;
-        private int cooledAirOutputCell = -1;
+        private int outputCell = -1;
 
         public bool IsEvaporator = false;
         public float temperatureDelta = 0.0f;
@@ -32,7 +32,7 @@ namespace HVACExpansion.Buildings
         {
             base.OnSpawn();
             structureTemperature = GameComps.StructureTemperatures.GetHandle(gameObject);
-            cooledAirOutputCell = building.GetUtilityOutputCell();
+            outputCell = building.GetUtilityOutputCell();
             smi.StartSM();
         }
 
@@ -48,10 +48,6 @@ namespace HVACExpansion.Buildings
         {
             GameObject[] items = storage.GetItems().ToArray();
 
-            if (items.Length <= 0) return false;
-
-            int converted = 0;
-
             foreach (GameObject item in items)
             {
                 PrimaryElement primaryElement = item.GetComponent<PrimaryElement>();
@@ -59,40 +55,29 @@ namespace HVACExpansion.Buildings
 
                 if (primaryElement.Mass > 0)
                 {
+                    Element transitionElement = IsEvaporator ? element.highTempTransition : element.lowTempTransition;
+                    ConduitFlow conduitFlow = IsEvaporator ? Game.Instance.gasConduitFlow : Game.Instance.liquidConduitFlow;
+                    float finalTemperature = IsEvaporator ? primaryElement.Temperature + temperatureDelta : primaryElement.Temperature - temperatureDelta;
+                    float emittedMass = conduitFlow.AddElement(outputCell, transitionElement.id, primaryElement.Mass, finalTemperature, primaryElement.DiseaseIdx, primaryElement.DiseaseCount);
                     float kj = temperatureDelta * element.specificHeatCapacity * primaryElement.Mass;
 
-                    if (IsEvaporator && element.IsLiquid)
-                    {
-                        Element gas = element.highTempTransition;
+                    if (IsEvaporator) kj = -kj;
 
-                        ApplyTint(element.substance.uiColour, false);
-                        ApplyTint(gas.substance.uiColour, true);
+                    primaryElement.Mass -= emittedMass;
 
-                        storage.items.Remove(item);
-                        storage.AddGasChunk(gas.id, primaryElement.Mass, primaryElement.Temperature + temperatureDelta, primaryElement.DiseaseIdx, primaryElement.DiseaseCount, false);
-
-                        kj = -kj;
-
-                        converted++;
-                    }
-                    else if (!IsEvaporator && element.IsGas)
-                    {
-                        Element liquid = element.lowTempTransition;
-
-                        ApplyTint(liquid.substance.uiColour, false);
-                        ApplyTint(element.substance.uiColour, true);
-
-                        storage.items.Remove(item);
-                        storage.AddLiquid(liquid.id, primaryElement.Mass, primaryElement.Temperature - temperatureDelta, primaryElement.DiseaseIdx, primaryElement.DiseaseCount);
-
-                        converted++;
-                    }
+                    ApplyTint(element.substance.uiColour, element.IsGas);
+                    ApplyTint(transitionElement.substance.uiColour, transitionElement.IsGas);
 
                     GameComps.StructureTemperatures.ProduceEnergy(structureTemperature, kj, BUILDING.STATUSITEMS.OPERATINGENERGY.PIPECONTENTS_TRANSFER, dt);
+
+                    if (emittedMass > 0)
+                    {
+                        return true;
+                    }
                 }
             }
 
-            return converted > 0;
+            return false;
         }
 
 
