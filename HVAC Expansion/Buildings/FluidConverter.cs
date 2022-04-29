@@ -57,6 +57,9 @@ namespace HVACExpansion.Buildings
                 {
                     Element transitionElement = IsEvaporator ? element.highTempTransition : element.lowTempTransition;
                     ConduitFlow conduitFlow = IsEvaporator ? Game.Instance.gasConduitFlow : Game.Instance.liquidConduitFlow;
+
+                    if (transitionElement == null) continue;
+
                     float finalTemperature = IsEvaporator ? primaryElement.Temperature + temperatureDelta : primaryElement.Temperature - temperatureDelta;
                     float emittedMass = conduitFlow.AddElement(outputCell, transitionElement.id, primaryElement.Mass, finalTemperature, primaryElement.DiseaseIdx, primaryElement.DiseaseCount);
                     float kj = temperatureDelta * element.specificHeatCapacity * primaryElement.Mass;
