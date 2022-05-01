@@ -172,7 +172,8 @@ namespace HVACExpansion.Buildings
                     .EventTransition(GameHashes.OnStorageChange, on.working_pre, smi => !smi.master.storage.IsEmpty());
                 on.working_pre
                     .Enter(smi => { smi.master.attemptedConversion = false; smi.master.Run(0.0f); })
-                    .PlayAnim("working_pre");
+                    .PlayAnim("working_pre")
+                    .OnAnimQueueComplete(on.working);
                 on.working
                     .Enter("Working", (smi) => smi.master.operational.SetActive(true))
                     .EventHandler(GameHashes.OnStorageChange, (smi) => smi.master.Run(0.0f))
