@@ -159,29 +159,39 @@ namespace HVACExpansion.Buildings
             public override void InitializeStates(out BaseState default_state)
             {
                 default_state = off;
-                root
-                    .EventTransition(GameHashes.OperationalChanged, off, smi => !smi.master.operational.IsOperational);
                 off
+                    .Enter(smi => Debug.Log("Transition to off state!"))
                     .EventTransition(GameHashes.OperationalChanged, on.waiting, smi => smi.master.operational.IsOperational)
                     .PlayAnim("ffo");
                 on
+                    .Enter(smi => Debug.Log("Transition to on state!"))
                     .PlayAnim("no")
                     .EventTransition(GameHashes.OperationalChanged, off, smi => !smi.master.operational.IsOperational)
                     .DefaultState(on.waiting);
                 on.waiting
+                    .Enter(smi => Debug.Log("Transition to on.waiting state!"))
                     .EventTransition(GameHashes.OnStorageChange, on.working_pre, smi => !smi.master.storage.IsEmpty());
                 on.working_pre
-                    .Enter(smi => { smi.master.attemptedConversion = false; smi.master.Run(0.0f); })
+                    .Enter(smi =>
+                    {
+                        smi.master.UpdateTint(); Debug.Log("Transition to on.working_pre state!");
+                    })
                     .PlayAnim("working_pre")
                     .OnAnimQueueComplete(on.working);
                 on.working
-                    .Enter("Working", (smi) => smi.master.operational.SetActive(true))
-                    .EventHandler(GameHashes.OnStorageChange, (smi) => smi.master.Run(0.0f))
+                    .Enter("Working", (smi) =>
+                    {
+                        smi.master.operational.SetActive(true); Debug.Log("Transition to on.working state!");
+                    })
                     .QueueAnim("working_loop", true)
+                    .EventHandler(GameHashes.OnStorageChange, (smi) => smi.master.Run(0.0f))
                     .EventTransition(GameHashes.OnStorageChange, on.working_pst, smi => smi.master.attemptedConversion == true && smi.master.hasConverted == false)
                     .Exit(smi => smi.master.operational.SetActive(false));
                 on.working_pst
-                    .Enter(smi => smi.master.StopSound())
+                    .Enter(smi =>
+                    {
+                        smi.master.StopSound(); Debug.Log("Transition to on.working_pst state!");
+                    })
                     .PlayAnim("working_pst")
                     .OnAnimQueueComplete(on.waiting);
             }
