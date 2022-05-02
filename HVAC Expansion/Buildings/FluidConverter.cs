@@ -186,7 +186,10 @@ namespace HVACExpansion.Buildings
                     .QueueAnim("working_loop", true)
                     .EventHandler(GameHashes.OnStorageChange, (smi) => smi.master.Run(0.0f))
                     .EventTransition(GameHashes.OnStorageChange, on.working_pst, smi => smi.master.attemptedConversion == true && smi.master.hasConverted == false)
-                    .Exit(smi => smi.master.operational.SetActive(false));
+                    .Exit(smi =>
+                    {
+                        smi.master.operational.SetActive(false); Debug.Log($"Operational? {smi.master.operational.IsOperational}");
+                    });
                 on.working_pst
                     .Enter(smi =>
                     {
