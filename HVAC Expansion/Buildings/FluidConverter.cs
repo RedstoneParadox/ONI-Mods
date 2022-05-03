@@ -38,7 +38,6 @@ namespace HVACExpansion.Buildings
 
         private void Run(float dt)
         {
-            UpdateTint();
             PlaySound();
             hasConverted = TryConvert(dt);
             attemptedConversion = true;
@@ -91,11 +90,16 @@ namespace HVACExpansion.Buildings
             foreach (GameObject item in items)
             {
                 var primaryElement = item.GetComponent<PrimaryElement>();
-                var color = primaryElement.Element.substance.uiColour;
+                Element element = primaryElement.Element;
 
                 if (primaryElement.Mass > 0)
                 {
-                    ApplyTint(color, primaryElement.Element.IsGas);
+                    Element transitionElement = IsEvaporator ? element.highTempTransition : element.lowTempTransition;
+
+                    if (transitionElement == null) continue;
+
+                    ApplyTint(element.substance.uiColour, element.IsGas);
+                    ApplyTint(transitionElement.substance.uiColour, transitionElement.IsGas);
                     break;
                 }
             }
