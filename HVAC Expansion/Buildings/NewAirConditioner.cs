@@ -32,7 +32,6 @@ namespace HVACExpansion.Buildings
         [Serialize]
         private float targetTemperature;
         private int cooledAirOutputCell = -1;
-        private int inputCell = -1;
         private static readonly EventSystem.IntraObjectHandler<NewAirConditioner> OnOperationalChangedDelegate = new EventSystem.IntraObjectHandler<NewAirConditioner>((component, data) => component.OnOperationalChanged(data));
         private static readonly EventSystem.IntraObjectHandler<NewAirConditioner> OnActiveChangedDelegate = new EventSystem.IntraObjectHandler<NewAirConditioner>((component, data) => component.OnActiveChanged(data));
         private float lastSampleTime = -1f;
@@ -59,7 +58,6 @@ namespace HVACExpansion.Buildings
             GameScheduler.Instance.Schedule("InsulationTutorial", 2f, (System.Action<object>)(obj => Tutorial.Instance.TutorialMessage(Tutorial.TutorialMessages.TM_Insulation)), (object)null, (SchedulerGroup)null);
             this.structureTemperature = GameComps.StructureTemperatures.GetHandle(this.gameObject);
             this.cooledAirOutputCell = this.building.GetUtilityOutputCell();
-            inputCell = building.GetUtilityInputCell();
         }
 
         public void Sim200ms(float dt)
