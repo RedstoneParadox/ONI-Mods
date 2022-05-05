@@ -32,9 +32,9 @@ namespace HVACExpansion.Buildings
         public override void ConfigureBuildingTemplate(GameObject go, Tag prefab_tag)
         {
             go.AddOrGet<LoopingSounds>();
-            NewAirConditioner refrigerationUnit = go.AddOrGet<NewAirConditioner>();
-            refrigerationUnit.temperatureDelta = 14f;
-            refrigerationUnit.maxEnvironmentDelta = 50f;
+            AirConditioner airConditioner = go.AddOrGet<AirConditioner>();
+            airConditioner.temperatureDelta = 14f;
+            airConditioner.maxEnvironmentDelta = 50f;
             BuildingTemplates.CreateDefaultStorage(go).showInUI = true;
             ConduitConsumer conduitConsumer = go.AddOrGet<ConduitConsumer>();
             conduitConsumer.conduitType = ConduitType.Gas;
@@ -43,6 +43,9 @@ namespace HVACExpansion.Buildings
 
         public override void DoPostConfigureComplete(GameObject go)
         {
+            AirConditionerTint tint = go.AddOrGet<AirConditionerTint>();
+            tint.symbols = new string[] { "gas" };
+
             go.AddOrGet<LogicOperationalController>();
             go.AddOrGetDef<PoweredActiveController.Def>();
             go.AddOrGet<MinimumOperatingTemperature>().minimumTemperature = 16f;

@@ -90,6 +90,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Buildings\AirConditionerTint.cs" />
     <Compile Include="Buildings\FluidHeater.cs" />
     <Compile Include="Buildings\NewAirConditioner.cs" />
     <Compile Include="Buildings\AutoEvaportatorConfig.cs" />
