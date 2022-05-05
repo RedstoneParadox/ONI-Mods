@@ -60,7 +60,7 @@ namespace HVACExpansion.Buildings
             converter.IsEvaporator = true;
             converter.temperatureDelta = 7.0f;
             conduitConsumer.conduitType = ConduitType.Liquid;
-            conduitConsumer.consumptionRate = ConduitFlow.MAX_GAS_MASS;
+            conduitConsumer.consumptionRate = Util.GetMaxGasMass() * Util.GetThroughputPercent();
             conduitConsumer.capacityTag = HVACTags.FullyEvaporatable;
             conduitConsumer.wrongElementResult = ConduitConsumer.WrongElementResult.Dump;
             conduitDispenser.conduitType = ConduitType.Gas;

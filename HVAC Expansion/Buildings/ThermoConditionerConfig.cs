@@ -38,7 +38,7 @@ namespace HVACExpansion.Buildings
             BuildingTemplates.CreateDefaultStorage(go).showInUI = true;
             ConduitConsumer conduitConsumer = go.AddOrGet<ConduitConsumer>();
             conduitConsumer.conduitType = ConduitType.Gas;
-            conduitConsumer.consumptionRate = ConduitFlow.MAX_GAS_MASS;
+            conduitConsumer.consumptionRate = Util.GetMaxGasMass() * Util.GetThroughputPercent();
         }
 
         public override void DoPostConfigureComplete(GameObject go)
