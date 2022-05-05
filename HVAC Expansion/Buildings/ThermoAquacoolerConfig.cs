@@ -45,7 +45,7 @@ namespace HVACExpansion.Buildings
         public override void ConfigureBuildingTemplate(GameObject go, Tag prefab_tag)
         {
             go.AddOrGet<LoopingSounds>();
-            AirConditioner airConditioner = go.AddOrGet<AirConditioner>();
+            AirConditioner airConditioner = go.AddOrGet<FluidHeater>();
             airConditioner.temperatureDelta = 14f;
             airConditioner.maxEnvironmentDelta = 50f;
             airConditioner.isLiquidConditioner = true;
@@ -60,9 +60,6 @@ namespace HVACExpansion.Buildings
 
         public override void DoPostConfigureComplete(GameObject go)
         {
-            AirConditionerTint tint = go.AddOrGet<AirConditionerTint>();
-            tint.symbols = new string[] { "liquid", "liquid_trans" };
-
             go.AddOrGet<LogicOperationalController>();
             go.AddOrGetDef<PoweredActiveController.Def>();
             go.GetComponent<KPrefabID>().AddTag(GameTags.OverlayBehindConduits);
