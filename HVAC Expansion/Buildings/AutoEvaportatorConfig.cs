@@ -49,6 +49,7 @@ namespace HVACExpansion.Buildings
 
         public override void DoPostConfigureComplete(GameObject go)
         {
+            go.AddOrGetDef<PoweredActiveController.Def>().showWorkingStatus = true;
             go.AddOrGet<LoopingSounds>();
 
             FluidConverter converter = go.AddOrGet<FluidConverter>();
