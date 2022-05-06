@@ -59,13 +59,16 @@ namespace HVACExpansion.Buildings
 
                     if (transitionElement == null) continue;
 
+                    float maxMass = Util.GetMaxGasMass() * Util.GetThroughputPercent();
                     float finalTemperature = IsEvaporator ? primaryElement.Temperature + temperatureDelta : primaryElement.Temperature - temperatureDelta;
-                    float emittedMass = conduitFlow.AddElement(outputCell, transitionElement.id, primaryElement.Mass, finalTemperature, primaryElement.DiseaseIdx, primaryElement.DiseaseCount);
-                    float kj = temperatureDelta * element.specificHeatCapacity * primaryElement.Mass;
+                    float emittedMass = conduitFlow.AddElement(outputCell, transitionElement.id, Mathf.Min(primaryElement.Mass, maxMass), finalTemperature, primaryElement.DiseaseIdx, primaryElement.DiseaseCount);
+                    float percent = emittedMass / primaryElement.Mass;
+                    float kj = temperatureDelta * element.specificHeatCapacity * emittedMass;
 
                     if (IsEvaporator) kj = -kj;
 
                     primaryElement.Mass -= emittedMass;
+                    primaryElement.ModifyDiseaseCount(-(int)(primaryElement.DiseaseCount * percent), IsEvaporator ? "Evaporator.Convert" : "Condenser.Convert");
 
                     ApplyTint(element.substance.uiColour, element.IsGas);
                     ApplyTint(transitionElement.substance.uiColour, transitionElement.IsGas);
