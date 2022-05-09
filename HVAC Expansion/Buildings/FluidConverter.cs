@@ -202,7 +202,7 @@ namespace HVACExpansion.Buildings
                         smi.master.Run(0.0f);
                     })
                     .QueueAnim("working_loop", true)
-                    .Update((smi, dt) => smi.master.Run(dt))
+                    .EventHandler(GameHashes.OnStorageChange, smi => smi.master.Run(0.0f))
                     .EventTransition(GameHashes.OnStorageChange, on.working_pst, smi => smi.master.attemptedConversion == true && smi.master.hasConverted == false)
                     .Exit(smi => smi.master.operational.SetActive(false));
                 on.working_pst
