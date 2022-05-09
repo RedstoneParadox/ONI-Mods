@@ -45,10 +45,13 @@ namespace HVACExpansion.Buildings
 
         private bool TryConvert(float dt)
         {
+            Debug.Log("TryConvert!");
             GameObject[] items = storage.GetItems().ToArray();
 
             foreach (GameObject item in items)
             {
+                Debug.Log("Attempting Conversion!");
+
                 PrimaryElement primaryElement = item.GetComponent<PrimaryElement>();
                 Element element = primaryElement.Element;
 
@@ -67,8 +70,11 @@ namespace HVACExpansion.Buildings
 
                     if (IsEvaporator) kj = -kj;
 
+                    primaryElement.KeepZeroMassObject = false;
                     primaryElement.Mass -= emittedMass;
                     primaryElement.ModifyDiseaseCount(-(int)(primaryElement.DiseaseCount * percent), IsEvaporator ? "Evaporator.Convert" : "Condenser.Convert");
+
+                    if (primaryElement.Mass == 0) storage.Remove(item);
 
                     ApplyTint(element.substance.uiColour, element.IsGas);
                     ApplyTint(transitionElement.substance.uiColour, transitionElement.IsGas);
@@ -77,10 +83,17 @@ namespace HVACExpansion.Buildings
 
                     if (emittedMass > 0)
                     {
+                        Debug.Log($"Successfully emitted {emittedMass} kg!");
                         return true;
+                    }
+                    else
+                    {
+                        Debug.Log("Failed to convert!");
                     }
                 }
             }
+
+            
 
             return false;
         }
@@ -174,21 +187,22 @@ namespace HVACExpansion.Buildings
                     .EventTransition(GameHashes.OperationalChanged, off, smi => !smi.master.operational.IsOperational)
                     .DefaultState(on.waiting);
                 on.waiting
+                    .Enter(smi => smi.master.attemptedConversion = false)
                     .EventTransition(GameHashes.OnStorageChange, on.working_pre, smi => !smi.master.storage.IsEmpty());
                 on.working_pre
                     .Enter(smi => smi.master.UpdateTint())
                     .PlayAnim("working_pre")
                     .OnAnimQueueComplete(on.working);
                 on.working
-                    .Enter("Working", (smi) => smi.master.operational.SetActive(true))
-                    .QueueAnim("working_loop", true)
-                    .EventHandler(GameHashes.OnStorageChange, (smi) => smi.master.Run(0.0f))
-                    .EventTransition(GameHashes.OnStorageChange, on.working_pst, smi => smi.master.attemptedConversion == true && smi.master.hasConverted == false)
-                    .Exit(smi =>
+                    .Enter("Working", (smi) =>
                     {
-                        smi.master.operational.SetActive(false); 
-                        Debug.Log($"Operational? {smi.master.operational.IsOperational}");
-                    });
+                        smi.master.operational.SetActive(true);
+                        smi.master.Run(0.0f);
+                    })
+                    .QueueAnim("working_loop", true)
+                    .Update((smi, dt) => smi.master.Run(dt))
+                    .EventTransition(GameHashes.OnStorageChange, on.working_pst, smi => smi.master.attemptedConversion == true && smi.master.hasConverted == false)
+                    .Exit(smi => smi.master.operational.SetActive(false));
                 on.working_pst
                     .Enter(smi => smi.master.StopSound())
                     .PlayAnim("working_pst")

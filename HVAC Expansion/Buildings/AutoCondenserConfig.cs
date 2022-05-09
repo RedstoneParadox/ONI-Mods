@@ -54,19 +54,20 @@ namespace HVACExpansion.Buildings
 
             FluidConverter converter = go.AddOrGet<FluidConverter>();
             ConduitConsumer conduitConsumer = go.AddOrGet<ConduitConsumer>();
-            ConduitDispenser conduitDispenser = go.AddOrGet<ConduitDispenser>();
-            Storage defaultStorage = BuildingTemplates.CreateDefaultStorage(go);
+            // ConduitDispenser conduitDispenser = go.AddOrGet<ConduitDispenser>();
+            Storage storage = BuildingTemplates.CreateDefaultStorage(go);
 
             converter.IsEvaporator = false;
             converter.temperatureDelta = 7.0f;
             conduitConsumer.conduitType = ConduitType.Gas;
             conduitConsumer.consumptionRate = Util.GetMaxGasMass() * Util.GetThroughputPercent();
             conduitConsumer.capacityTag = HVACTags.FullyCondensable;
+            conduitConsumer.forceAlwaysSatisfied = true;
             conduitConsumer.wrongElementResult = ConduitConsumer.WrongElementResult.Dump;
-            conduitDispenser.conduitType = ConduitType.Liquid;
-            defaultStorage.showInUI = true;
-            defaultStorage.capacityKg = conduitConsumer.consumptionRate * 3f;
-            defaultStorage.SetDefaultStoredItemModifiers(StoredItemModifiers);
+            // conduitDispenser.conduitType = ConduitType.Liquid;
+            storage.showInUI = true;
+            storage.capacityKg = conduitConsumer.consumptionRate * 2f;
+            storage.SetDefaultStoredItemModifiers(StoredItemModifiers);
         }
     }
 }
