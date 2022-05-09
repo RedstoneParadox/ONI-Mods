@@ -48,6 +48,8 @@ namespace HVACExpansion.Buildings
             Debug.Log("TryConvert!");
             GameObject[] items = storage.GetItems().ToArray();
 
+            if (items.Length == 0) Debug.Log($"Is storage empty? {storage.IsEmpty()}");
+
             foreach (GameObject item in items)
             {
                 Debug.Log("Attempting Conversion!");
@@ -70,7 +72,7 @@ namespace HVACExpansion.Buildings
 
                     if (IsEvaporator) kj = -kj;
 
-                    primaryElement.KeepZeroMassObject = false;
+                    
                     primaryElement.Mass -= emittedMass;
                     primaryElement.ModifyDiseaseCount(-(int)(primaryElement.DiseaseCount * percent), IsEvaporator ? "Evaporator.Convert" : "Condenser.Convert");
 
@@ -91,9 +93,11 @@ namespace HVACExpansion.Buildings
                         Debug.Log("Failed to convert!");
                     }
                 }
+                else
+                {
+                    Debug.Log("Item with no mass!");
+                }
             }
-
-            
 
             return false;
         }
