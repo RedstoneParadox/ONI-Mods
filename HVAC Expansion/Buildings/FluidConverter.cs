@@ -72,11 +72,9 @@ namespace HVACExpansion.Buildings
 
                     if (IsEvaporator) kj = -kj;
 
-                    
+                    primaryElement.KeepZeroMassObject = false;
                     primaryElement.Mass -= emittedMass;
                     primaryElement.ModifyDiseaseCount(-(int)(primaryElement.DiseaseCount * percent), IsEvaporator ? "Evaporator.Convert" : "Condenser.Convert");
-
-                    if (primaryElement.Mass == 0) storage.Remove(item);
 
                     ApplyTint(element.substance.uiColour, element.IsGas);
                     ApplyTint(transitionElement.substance.uiColour, transitionElement.IsGas);

@@ -62,7 +62,7 @@ namespace HVACExpansion.Buildings
             conduitConsumer.conduitType = ConduitType.Gas;
             conduitConsumer.consumptionRate = Util.GetMaxGasMass() * Util.GetThroughputPercent();
             conduitConsumer.capacityTag = HVACTags.FullyCondensable;
-            conduitConsumer.forceAlwaysSatisfied = true;
+            // conduitConsumer.forceAlwaysSatisfied = true;
             conduitConsumer.wrongElementResult = ConduitConsumer.WrongElementResult.Dump;
             // conduitDispenser.conduitType = ConduitType.Liquid;
             storage.showInUI = true;
