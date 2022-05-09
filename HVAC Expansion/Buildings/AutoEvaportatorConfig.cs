@@ -47,28 +47,33 @@ namespace HVACExpansion.Buildings
             return buildingDef;
         }
 
-        public override void DoPostConfigureComplete(GameObject go)
+        public override void ConfigureBuildingTemplate(GameObject go, Tag prefab_tag)
         {
-            go.AddOrGetDef<PoweredActiveController.Def>().showWorkingStatus = true;
-            go.AddOrGet<LoopingSounds>();
-
             FluidConverter converter = go.AddOrGet<FluidConverter>();
             ConduitConsumer conduitConsumer = go.AddOrGet<ConduitConsumer>();
-            ConduitDispenser conduitDispenser = go.AddOrGet<ConduitDispenser>();
+            // ConduitDispenser conduitDispenser = go.AddOrGet<ConduitDispenser>();
             Storage defaultStorage = BuildingTemplates.CreateDefaultStorage(go);
 
             converter.IsEvaporator = true;
             converter.temperatureDelta = 7.0f;
+
             conduitConsumer.conduitType = ConduitType.Liquid;
             conduitConsumer.consumptionRate = Util.GetMaxGasMass() * Util.GetThroughputPercent();
             conduitConsumer.capacityTag = HVACTags.FullyEvaporatable;
             conduitConsumer.wrongElementResult = ConduitConsumer.WrongElementResult.Dump;
-            conduitDispenser.conduitType = ConduitType.Gas;
+            // conduitDispenser.conduitType = ConduitType.Gas;
             defaultStorage.showInUI = true;
             defaultStorage.capacityKg = conduitConsumer.consumptionRate * 3f;
             defaultStorage.SetDefaultStoredItemModifiers(StoredItemModifiers);
 
             go.AddOrGet<MinimumOperatingTemperature>().minimumTemperature = 16f;
+        }
+
+        public override void DoPostConfigureComplete(GameObject go)
+        {
+            go.AddOrGet<LogicOperationalController>();
+           //  go.AddOrGetDef<PoweredActiveController.Def>().showWorkingStatus = true;
+            go.AddOrGet<LoopingSounds>();
         }
     }
 }
