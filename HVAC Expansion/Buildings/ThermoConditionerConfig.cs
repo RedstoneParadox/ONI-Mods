@@ -1,10 +1,10 @@
-﻿using RefrigerationUnits.Buildings;
+﻿using HVACExpansion.Buildings;
 using TUNING;
 using UnityEngine;
 
-namespace RefrigerationUnits.Buildings
+namespace HVACExpansion.Buildings
 {
-    class GasRefrigerationUnitConfig: IBuildingConfig
+    class ThermoConditionerConfig: IBuildingConfig
     {
         public const string ID = "GasRefrigerationUnit";
 
@@ -15,7 +15,7 @@ namespace RefrigerationUnits.Buildings
             EffectorValues tieR2 = NOISE_POLLUTION.NOISY.TIER2;
             EffectorValues none = TUNING.BUILDINGS.DECOR.NONE;
             EffectorValues noise = tieR2;
-            BuildingDef buildingDef = BuildingTemplates.CreateBuildingDef(ID, 2, 2, "airconditioner_kanim", 100, 120f, tieR3, allMetals, 1600f, BuildLocationRule.OnFloor, none, noise);
+            BuildingDef buildingDef = BuildingTemplates.CreateBuildingDef(ID, 2, 2, "air_heater_kanim", 100, 120f, tieR3, allMetals, 1600f, BuildLocationRule.OnFloor, none, noise);
             BuildingTemplates.CreateElectricalBuildingDef(buildingDef);
             buildingDef.EnergyConsumptionWhenActive = 240f;
             buildingDef.SelfHeatKilowattsWhenActive = 0.0f;
@@ -32,9 +32,9 @@ namespace RefrigerationUnits.Buildings
         public override void ConfigureBuildingTemplate(GameObject go, Tag prefab_tag)
         {
             go.AddOrGet<LoopingSounds>();
-            AirConditioner refrigerationUnit = go.AddOrGet<RefrigerationUnit>();
-            refrigerationUnit.temperatureDelta = 14f;
-            refrigerationUnit.maxEnvironmentDelta = 50f;
+            AirConditioner airConditioner = go.AddOrGet<FluidHeater>();
+            airConditioner.temperatureDelta = 14f;
+            airConditioner.maxEnvironmentDelta = 50f;
             BuildingTemplates.CreateDefaultStorage(go).showInUI = true;
             ConduitConsumer conduitConsumer = go.AddOrGet<ConduitConsumer>();
             conduitConsumer.conduitType = ConduitType.Gas;

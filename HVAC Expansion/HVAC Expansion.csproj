@@ -8,8 +8,8 @@
     <ProjectGuid>{35990A4E-C61E-428C-94CC-9A17D5283787}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>RefrigerationUnits</RootNamespace>
-    <AssemblyName>Refrigeration Units</AssemblyName>
+    <RootNamespace>HVACExpansion</RootNamespace>
+    <AssemblyName>HVAC Expansion</AssemblyName>
     <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
@@ -46,14 +46,20 @@
     <Reference Include="Assembly-CSharp-firstpass">
       <HintPath>..\lib\Assembly-CSharp-firstpass.dll</HintPath>
     </Reference>
+    <Reference Include="FMODUnity">
+      <HintPath>..\lib\FMODUnity.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Build.Framework, Version=15.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Build.Framework.15.1.1012\lib\net46\Microsoft.Build.Framework.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Build.Utilities.Core, Version=15.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Build.Utilities.Core.15.1.1012\lib\net46\Microsoft.Build.Utilities.Core.dll</HintPath>
     </Reference>
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>..\lib\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.13.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="PipLib">
+      <HintPath>..\..\ParadoxTech\lib\PipLib.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
@@ -84,13 +90,20 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Buildings\GasRefrigerationUnitConfig.cs" />
-    <Compile Include="Buildings\LiquidRefrigerationUnitConfig.cs" />
-    <Compile Include="Buildings\RefrigerationUnit.cs" />
+    <Compile Include="Buildings\AutoEvaportatorConfig.cs" />
+    <Compile Include="Buildings\AutoCondenserConfig.cs" />
+    <Compile Include="Buildings\FluidHeater.cs" />
+    <Compile Include="Buildings\ThermoConditionerConfig.cs" />
+    <Compile Include="Buildings\ThermoAquacoolerConfig.cs" />
+    <Compile Include="Buildings\FluidConverter.cs" />
+    <Compile Include="HVACTags.cs" />
+    <Compile Include="Locale\Misc.cs" />
+    <Compile Include="Locale\Research.cs" />
     <Compile Include="Patches.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="STRINGS\BUILDINGS.cs" />
-    <Compile Include="STRINGS\RefrigerationUnitsUI.cs" />
+    <Compile Include="HVACExpansionMod.cs" />
+    <Compile Include="Locale\Buildings.cs" />
+    <Compile Include="Locale\UI.cs" />
     <Compile Include="Util.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -106,5 +119,8 @@
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
     <Error Condition="!Exists('..\packages\Cairath.ONIMetadataFileGenerator.1.0.0\build\Cairath.ONIMetadataFileGenerator.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Cairath.ONIMetadataFileGenerator.1.0.0\build\Cairath.ONIMetadataFileGenerator.props'))" />
+  </Target>
+  <Target Name="GenerateMetadataFiles" BeforeTargets="Build">
+    <GenerateMetadataFiles OutputPath="C:\Development\ONI\Mods\ONI Mods\HVAC Expansion\bin\Release" Title="HVAC Expansion" Description="Adds machines that use liquids or gas to cool their surroundings." StaticID="HVACExpansion" SupportedContent="VANILLA_ID,EXPANSION1_ID" MinimumSupportedBuild="469473" Version="2.0.0" APIVersion="2" />
   </Target>
 </Project>

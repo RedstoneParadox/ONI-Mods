@@ -1,4 +1,4 @@
-﻿using RefrigerationUnits.Buildings;
+﻿using HVACExpansion.Buildings;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,9 +6,9 @@ using System.Text;
 using TUNING;
 using UnityEngine;
 
-namespace RefrigerationUnits.Buildings
+namespace HVACExpansion.Buildings
 {
-    class LiquidRefrigerationUnitConfig: IBuildingConfig
+    class ThermoAquacoolerConfig: IBuildingConfig
     {
         public const string ID = "LiquidRefrigerationUnit";
         private static readonly List<Storage.StoredItemModifier> StoredItemModifiers = new List<Storage.StoredItemModifier>()
@@ -25,7 +25,7 @@ namespace RefrigerationUnits.Buildings
             EffectorValues tieR2 = NOISE_POLLUTION.NOISY.TIER2;
             EffectorValues none = BUILDINGS.DECOR.NONE;
             EffectorValues noise = tieR2;
-            BuildingDef buildingDef = BuildingTemplates.CreateBuildingDef(ID, 2, 2, "liquidconditioner_kanim", 100, 120f, tieR6, allMetals, 1600f, BuildLocationRule.OnFloor, none, noise);
+            BuildingDef buildingDef = BuildingTemplates.CreateBuildingDef(ID, 2, 2, "liquid_heater_kanim", 100, 120f, tieR6, allMetals, 1600f, BuildLocationRule.OnFloor, none, noise);
             BuildingTemplates.CreateElectricalBuildingDef(buildingDef);
             buildingDef.EnergyConsumptionWhenActive = 1200f;
             buildingDef.SelfHeatKilowattsWhenActive = 0.0f;
@@ -45,7 +45,7 @@ namespace RefrigerationUnits.Buildings
         public override void ConfigureBuildingTemplate(GameObject go, Tag prefab_tag)
         {
             go.AddOrGet<LoopingSounds>();
-            AirConditioner airConditioner = go.AddOrGet<RefrigerationUnit>();
+            AirConditioner airConditioner = go.AddOrGet<FluidHeater>();
             airConditioner.temperatureDelta = 14f;
             airConditioner.maxEnvironmentDelta = 50f;
             airConditioner.isLiquidConditioner = true;
