@@ -51,7 +51,6 @@ namespace HVACExpansion.Buildings
         {
             FluidConverter converter = go.AddOrGet<FluidConverter>();
             ConduitConsumer conduitConsumer = go.AddOrGet<ConduitConsumer>();
-            // ConduitDispenser conduitDispenser = go.AddOrGet<ConduitDispenser>();
             Storage defaultStorage = BuildingTemplates.CreateDefaultStorage(go);
 
             converter.IsEvaporator = true;
@@ -61,8 +60,6 @@ namespace HVACExpansion.Buildings
             conduitConsumer.consumptionRate = Util.GetMaxGasMass() * Util.GetThroughputPercent();
             conduitConsumer.capacityTag = HVACTags.FullyEvaporatable;
             conduitConsumer.wrongElementResult = ConduitConsumer.WrongElementResult.Dump;
-            conduitConsumer.capacityKG = conduitConsumer.consumptionRate;
-            // conduitDispenser.conduitType = ConduitType.Gas;
             defaultStorage.showInUI = true;
             defaultStorage.capacityKg = conduitConsumer.consumptionRate * 2f;
             defaultStorage.SetDefaultStoredItemModifiers(StoredItemModifiers);
@@ -73,7 +70,7 @@ namespace HVACExpansion.Buildings
         public override void DoPostConfigureComplete(GameObject go)
         {
             go.AddOrGet<LogicOperationalController>();
-           //  go.AddOrGetDef<PoweredActiveController.Def>().showWorkingStatus = true;
+            go.AddOrGetDef<PoweredActiveController.Def>().showWorkingStatus = true;
             go.AddOrGet<LoopingSounds>();
         }
     }
