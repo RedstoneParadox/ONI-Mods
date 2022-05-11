@@ -39,11 +39,11 @@ namespace HVACExpansion.Buildings
         private void Run(float dt)
         {
             PlaySound();
-            hasConverted = TryConvert(dt);
+            TryConvert(dt);
             attemptedConversion = true;
         }
 
-        private bool TryConvert(float dt)
+        private void TryConvert(float dt)
         {
             Debug.Log("TryConvert!");
             GameObject[] items = storage.GetItems().ToArray();
@@ -84,11 +84,7 @@ namespace HVACExpansion.Buildings
                     if (emittedMass > 0)
                     {
                         Debug.Log($"Successfully emitted {emittedMass} kg!");
-                        return true;
-                    }
-                    else
-                    {
-                        Debug.Log("Failed to convert!");
+                        hasConverted = true;
                     }
                 }
                 else
@@ -97,7 +93,7 @@ namespace HVACExpansion.Buildings
                 }
             }
 
-            return false;
+            hasConverted = false;
         }
 
 
@@ -182,17 +178,27 @@ namespace HVACExpansion.Buildings
             {
                 default_state = off;
                 off
+                    .Enter(smi => Debug.Log("Entering off!"))
                     .PlayAnim("ffo")
                     .EventTransition(GameHashes.OperationalChanged, on, smi => smi.master.operational.IsOperational);
                 on
+                    .Enter(smi => Debug.Log("Entering on!"))
                     .PlayAnim("no")
                     .EventTransition(GameHashes.OperationalChanged, off, smi => !smi.master.operational.IsOperational)
                     .DefaultState(on.waiting);
                 on.waiting
-                    .Enter(smi => smi.master.attemptedConversion = false)
+                    .Enter(smi =>
+                    {
+                        smi.master.attemptedConversion = false;
+                        Debug.Log("Entering on.waiting!");
+                    })
                     .EventTransition(GameHashes.OnStorageChange, on.working_pre, smi => !smi.master.storage.IsEmpty());
                 on.working_pre
-                    .Enter(smi => smi.master.UpdateTint())
+                    .Enter(smi =>
+                    {
+                        smi.master.UpdateTint();
+                        Debug.Log("Entering on.working_pre");
+                    })
                     .PlayAnim("working_pre")
                     .OnAnimQueueComplete(on.working);
                 on.working
@@ -200,13 +206,18 @@ namespace HVACExpansion.Buildings
                     {
                         smi.master.operational.SetActive(true);
                         smi.master.Run(0.0f);
+                        Debug.Log("Entering on.working!");
                     })
                     .QueueAnim("working_loop", true)
                     .EventHandler(GameHashes.OnStorageChange, smi => smi.master.Run(0.0f))
                     .EventTransition(GameHashes.OnStorageChange, on.working_pst, smi => smi.master.attemptedConversion == true && smi.master.hasConverted == false)
                     .Exit(smi => smi.master.operational.SetActive(false));
                 on.working_pst
-                    .Enter(smi => smi.master.StopSound())
+                    .Enter(smi =>
+                    {
+                        smi.master.StopSound();
+                        Debug.Log("Entering on.working_pst");
+                    })
                     .PlayAnim("working_pst")
                     .OnAnimQueueComplete(on.waiting);
             }

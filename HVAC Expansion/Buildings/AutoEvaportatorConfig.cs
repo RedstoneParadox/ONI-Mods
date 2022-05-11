@@ -61,9 +61,10 @@ namespace HVACExpansion.Buildings
             conduitConsumer.consumptionRate = Util.GetMaxGasMass() * Util.GetThroughputPercent();
             conduitConsumer.capacityTag = HVACTags.FullyEvaporatable;
             conduitConsumer.wrongElementResult = ConduitConsumer.WrongElementResult.Dump;
+            conduitConsumer.capacityKG = conduitConsumer.consumptionRate;
             // conduitDispenser.conduitType = ConduitType.Gas;
             defaultStorage.showInUI = true;
-            defaultStorage.capacityKg = conduitConsumer.consumptionRate * 3f;
+            defaultStorage.capacityKg = conduitConsumer.consumptionRate * 2f;
             defaultStorage.SetDefaultStoredItemModifiers(StoredItemModifiers);
 
             go.AddOrGet<MinimumOperatingTemperature>().minimumTemperature = 16f;
