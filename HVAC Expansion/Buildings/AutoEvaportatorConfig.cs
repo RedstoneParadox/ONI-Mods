@@ -54,7 +54,7 @@ namespace HVACExpansion.Buildings
             Storage defaultStorage = BuildingTemplates.CreateDefaultStorage(go);
 
             converter.IsEvaporator = true;
-            converter.temperatureDelta = 7.0f;
+            converter.temperatureDelta = 3.5f;
 
             conduitConsumer.conduitType = ConduitType.Liquid;
             conduitConsumer.consumptionRate = Util.GetMaxGasMass() * Util.GetThroughputPercent();
