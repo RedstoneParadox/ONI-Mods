@@ -23,7 +23,7 @@ namespace NuclearWasteRecycling.Buildings
             string[] allMetals = MATERIALS.REFINED_METALS;
             EffectorValues noise = NOISE_POLLUTION.NOISY.TIER2;
             EffectorValues decor = BUILDINGS.DECOR.NONE;
-            BuildingDef buildingDef = BuildingTemplates.CreateBuildingDef(ID, 2, 3, "nuclear_waste_recycler_kanim", 30, 10f, mass, allMetals, 1600f, BuildLocationRule.OnFloor, decor, noise);
+            BuildingDef buildingDef = BuildingTemplates.CreateBuildingDef(ID, 5, 3, "nuclear_waste_recycler_kanim", 30, 10f, mass, allMetals, 1600f, BuildLocationRule.OnFloor, decor, noise);
 
             BuildingTemplates.CreateElectricalBuildingDef(buildingDef);
 
@@ -94,7 +94,7 @@ namespace NuclearWasteRecycling.Buildings
                     TagManager.Create(ID)
                 }
             };
-            ComplexRecipe irriadiatedRecipe = new ComplexRecipe(ComplexRecipeManager.MakeRecipeID(ID, ingredients, irradiatedResults), ingredients, normalResults, 1000, 0)
+            ComplexRecipe irriadiatedRecipe = new ComplexRecipe(ComplexRecipeManager.MakeRecipeID(ID, ingredients, irradiatedResults), ingredients, irradiatedResults, 1000, 0)
             {
                 time = 80f,
                 consumedHEP = 200,
