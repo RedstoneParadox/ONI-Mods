@@ -75,10 +75,9 @@ namespace NuclearWasteRecycling.Buildings
                 new ComplexRecipe.RecipeElement(SimHashes.Radium.CreateTag(), 4f, ComplexRecipe.RecipeElement.TemperatureOperation.AverageTemperature),
                 new ComplexRecipe.RecipeElement(SimHashes.Lead.CreateTag(), 1f, ComplexRecipe.RecipeElement.TemperatureOperation.AverageTemperature)
             };
-            ComplexRecipe.RecipeElement[] irradiatedResults = new ComplexRecipe.RecipeElement[4]
+            ComplexRecipe.RecipeElement[] irradiatedResults = new ComplexRecipe.RecipeElement[3]
             {
-                new ComplexRecipe.RecipeElement(SimHashes.EnrichedUranium.CreateTag(), 1f, ComplexRecipe.RecipeElement.TemperatureOperation.AverageTemperature),
-                new ComplexRecipe.RecipeElement(SimHashes.DepletedUranium.CreateTag(), 1f, ComplexRecipe.RecipeElement.TemperatureOperation.AverageTemperature),
+                new ComplexRecipe.RecipeElement(SimHashes.DepletedUranium.CreateTag(), 2f, ComplexRecipe.RecipeElement.TemperatureOperation.AverageTemperature),
                 new ComplexRecipe.RecipeElement(SimHashes.Radium.CreateTag(), 6f, ComplexRecipe.RecipeElement.TemperatureOperation.AverageTemperature),
                 new ComplexRecipe.RecipeElement(SimHashes.Lead.CreateTag(), 2f, ComplexRecipe.RecipeElement.TemperatureOperation.AverageTemperature)
             };
@@ -107,6 +106,10 @@ namespace NuclearWasteRecycling.Buildings
                     TagManager.Create(ID)
                 }
             };
+
+            ConduitConsumer conduitConsumer = go.AddOrGet<ConduitConsumer>();
+            conduitConsumer.conduitType = ConduitType.Liquid;
+            conduitConsumer.consumptionRate = 1.0f;
 
             Prioritizable.AddRef(go);
         }
