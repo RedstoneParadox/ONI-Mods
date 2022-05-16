@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Tinted_Aquatuner_Liquid
+namespace NuclearWasteRecycling
 {
     class NuclearWasteRecyclingMod: UserMod2
     {

@@ -5,7 +5,7 @@ using System.Text;
 using TUNING;
 using UnityEngine;
 
-namespace Nuclear_Waste_Recycling.Buildings
+namespace NuclearWasteRecycling.Buildings
 {
     class NuclearWasteRecyclerConfig : IBuildingConfig
     {

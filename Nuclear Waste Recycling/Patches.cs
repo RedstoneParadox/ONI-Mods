@@ -1,16 +1,29 @@
 ﻿using HarmonyLib;
+using NuclearWasteRecycling.Buildings;
 
-namespace Nuclear_Waste_Recycling
+namespace NuclearWasteRecycling
 {
     public class Patches
     {
+        // Based off of Pholith's code.
+        [HarmonyPatch(typeof(GeneratedBuildings))]
+        [HarmonyPatch("LoadGeneratedBuildings")]
+        public class BuildingInfoPatch
+        {
+            static void Prefix()
+            {
+                ModUtil.AddBuildingToPlanScreen("Radiation", NuclearWasteRecyclerConfig.ID);
+            }
+
+        }
+
         [HarmonyPatch(typeof(Db))]
         [HarmonyPatch("Initialize")]
         public class Db_Initialize_Patch
         {
             public static void Prefix()
             {
-                Debug.Log("I execute before Db.Initialize!");
+                Util.AddToTech("NuclearRefinement", NuclearWasteRecyclerConfig.ID);
             }
 
             public static void Postfix()
