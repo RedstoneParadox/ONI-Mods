@@ -12,7 +12,7 @@ namespace NuclearWasteRecycling
         {
             static void Prefix()
             {
-                ModUtil.AddBuildingToPlanScreen("Radiation", NuclearWasteRecyclerConfig.ID);
+                ModUtil.AddBuildingToPlanScreen("HEP", NuclearWasteRecyclerConfig.ID);
             }
 
         }
