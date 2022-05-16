@@ -21,14 +21,9 @@ namespace NuclearWasteRecycling
         [HarmonyPatch("Initialize")]
         public class Db_Initialize_Patch
         {
-            public static void Prefix()
-            {
-                Util.AddToTech("NuclearRefinement", NuclearWasteRecyclerConfig.ID);
-            }
-
             public static void Postfix()
             {
-                Debug.Log("I execute after Db.Initialize!");
+                Util.AddToTech("NuclearRefinement", NuclearWasteRecyclerConfig.ID);
             }
         }
     }
