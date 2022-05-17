@@ -8,19 +8,33 @@ namespace TechLib
 {
     class TechTreeGraph
     {
-        List<GraphTitle> graphTitles = new List<GraphTitle>();
+        private List<GraphTitle> graphTitles = new List<GraphTitle>();
 
         public void AddTitle(string titleID)
         {
-            graphTitles.Add(new GraphTitle()
-            {
-                name = titleID
-            });
+            graphTitles.Add(new GraphTitle(titleID));
         }
 
-        public struct GraphTitle
+        public class GraphTitle
         {
-            public string name;
+            public readonly string Name;
+            public Dictionary<int, List<GraphTech>> Columns;
+
+            public GraphTitle(string name)
+            {
+                Name = name;
+            }
+        }
+
+        public class GraphTech
+        {
+            public readonly string Name;
+            public List<GraphTech> dependencies = new List<GraphTech>();
+
+            public GraphTech(string Name)
+            {
+
+            }
         }
     }
 }
