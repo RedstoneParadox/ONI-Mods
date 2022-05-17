@@ -246,6 +246,7 @@ namespace TechLib
                 {
                     techRow = new Dictionary<int, List<global::Tech>>();
                     techTable.Add(row, techRow);
+                    Debug.Log($"Added tech with row '{row}' to techTable.");
                 }
 
                 List<global::Tech> techCol;
@@ -258,9 +259,13 @@ namespace TechLib
                 techCol.Add(tech);
             }
 
+            Debug.Log($"techTable.Count = {techTable.Count}");
+
             // space the techs out in their 2D table
             float rowHeight = Y0;
             List<Tuple<string, ResourceTreeNode>> titles = new List<Tuple<string, ResourceTreeNode>>(techTable.Count);
+            for (int i = 0; i < techTable.Count; i++) titles.Add(null); // Prepopulate list
+            Debug.Log($"titles.count = {titles.Count}");
             foreach (var techTableEntry in techTable)
             {
                 var techRowI = techTableEntry.Key;
@@ -278,6 +283,7 @@ namespace TechLib
                 {
                     titleID = titleAssociations[titleID];
                 }
+                Debug.Log($"Inserting to index {techRowI}");
                 titles.Insert(techRowI, new Tuple<string, ResourceTreeNode>(titleID, new ResourceTreeNode()
                 {
                     nodeX = -X0,
