@@ -1,0 +1,27 @@
+elements:
+# This is simply a file with 11 elements. The mod will work with the last element commented out, but crashes with it present
+  - elementId: MOXFuel
+    specificHeatCapacity: 1
+    thermalConductivity: 20
+    solidSurfaceAreaMultiplier: 1
+    liquidSurfaceAreaMultiplier: 1
+    gasSurfaceAreaMultiplier: 1
+    strength: 1
+    highTemp: 1132
+    highTempTransitionTarget: MoltenUranium
+    defaultTemperature: 300
+    defaultMass: 100
+    maxMass: 200
+    hardness: 250
+    molarMass: 120
+    lightAbsorptionFactor: 1
+    radiationAbsorptionFactor: 0.3
+    radiationPer1000Mass: 250
+    materialCategory: ManufacturedMaterial
+    tags:
+    - ReactorFuel
+    buildMenuSort: 21
+    isDisabled: false
+    state: Solid
+    localizationID: STRINGS.ELEMENTS.ENRICHEDURANIUM.NAME
+    dlcId: EXPANSION1_ID
