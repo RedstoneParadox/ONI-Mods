@@ -264,9 +264,9 @@ namespace TechLib
             // space the techs out in their 2D table
             float rowHeight = Y0;
             List<Tuple<string, ResourceTreeNode>> titles = new List<Tuple<string, ResourceTreeNode>>(techTable.Count);
-            for (int i = 0; i < techTable.Count; i++) titles.Add(null); // Prepopulate list
+            var orderedEntries = techTable.OrderBy(entry => entry.Key);
             Debug.Log($"titles.count = {titles.Count}");
-            foreach (var techTableEntry in techTable)
+            foreach (var techTableEntry in orderedEntries)
             {
                 var techRowI = techTableEntry.Key;
                 var techRow = techTableEntry.Value;
