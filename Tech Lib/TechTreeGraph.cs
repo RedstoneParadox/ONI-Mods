@@ -31,9 +31,9 @@ namespace TechLib
             public readonly string Name;
             public List<GraphTech> dependencies = new List<GraphTech>();
 
-            public GraphTech(string Name)
+            public GraphTech(string name)
             {
-
+                Name = name;
             }
         }
     }
