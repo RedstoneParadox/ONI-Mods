@@ -84,8 +84,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Buildings\NuclearWasteRecyclerConfig.cs" />
-    <Compile Include="Patches.cs" />
+    <Compile Include="Content\Buildings\NuclearWasteRecyclerConfig.cs" />
+    <Compile Include="Content\Elements.cs" />
+    <Compile Include="Patches\EnumPatch.cs" />
+    <Compile Include="Content\Tags.cs" />
+    <Compile Include="Patches\Patches.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="NuclearWasteRecyclingMod.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
