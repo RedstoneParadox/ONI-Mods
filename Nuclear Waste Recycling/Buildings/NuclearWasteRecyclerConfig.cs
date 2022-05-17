@@ -75,9 +75,10 @@ namespace NuclearWasteRecycling.Buildings
                 new ComplexRecipe.RecipeElement(SimHashes.Radium.CreateTag(), 4f, ComplexRecipe.RecipeElement.TemperatureOperation.AverageTemperature),
                 new ComplexRecipe.RecipeElement(SimHashes.Lead.CreateTag(), 1f, ComplexRecipe.RecipeElement.TemperatureOperation.AverageTemperature)
             };
-            ComplexRecipe.RecipeElement[] irradiatedResults = new ComplexRecipe.RecipeElement[3]
+            ComplexRecipe.RecipeElement[] irradiatedResults = new ComplexRecipe.RecipeElement[4]
             {
-                new ComplexRecipe.RecipeElement(SimHashes.DepletedUranium.CreateTag(), 2f, ComplexRecipe.RecipeElement.TemperatureOperation.AverageTemperature),
+                new ComplexRecipe.RecipeElement(SimHashes.EnrichedUranium.CreateTag(), 1f, ComplexRecipe.RecipeElement.TemperatureOperation.AverageTemperature),
+                new ComplexRecipe.RecipeElement(SimHashes.DepletedUranium.CreateTag(), 1f, ComplexRecipe.RecipeElement.TemperatureOperation.AverageTemperature),
                 new ComplexRecipe.RecipeElement(SimHashes.Radium.CreateTag(), 6f, ComplexRecipe.RecipeElement.TemperatureOperation.AverageTemperature),
                 new ComplexRecipe.RecipeElement(SimHashes.Lead.CreateTag(), 2f, ComplexRecipe.RecipeElement.TemperatureOperation.AverageTemperature)
             };
@@ -94,7 +95,7 @@ namespace NuclearWasteRecycling.Buildings
                     TagManager.Create(ID)
                 }
             };
-            ComplexRecipe irriadiatedRecipe = new ComplexRecipe(ComplexRecipeManager.MakeRecipeID(ID, ingredients, irradiatedResults), ingredients, irradiatedResults, 1000, 0)
+            ComplexRecipe irriadiatedRecipe = new ComplexRecipe(ComplexRecipeManager.MakeRecipeID(ID, ingredients, irradiatedResults) + "_2", ingredients, irradiatedResults, 1000, 0)
             {
                 time = 80f,
                 consumedHEP = 200,
