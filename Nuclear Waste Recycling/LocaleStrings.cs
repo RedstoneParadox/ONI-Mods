@@ -23,12 +23,12 @@ namespace NuclearWasteRecycling
         {
             public class PREFABS
             {
-                public class NUCLEAR_WASTE_RECYCLER
+                public class NUCLEARWASTERECYCLER
                 {
-                    public static LocString NAME = new LocString(UI.FormatAsLink("Nuclear Waste Recycler", Elements.MOXFuel.ToString()), "STRINGS.BUILDINGS.PREFABS.NUCLEAR_WASTE_RECYCLER.NAME");
-                    public static LocString DESC = new LocString("Nuclear Waste Recyclers process the byproducts of a nuclear reaction.", "STRINGS.BUILDINGS.PREFABS.NUCLEAR_WASTE_RECYCLER.DESC");
+                    public static LocString NAME = new LocString(UI.FormatAsLink("Nuclear Waste Recycler", Elements.MOXFuel.ToString()), "STRINGS.BUILDINGS.PREFABS.NUCLEARWASTERECYCLER.NAME");
+                    public static LocString DESC = new LocString("Nuclear Waste Recyclers process the byproducts of a nuclear reaction.", "STRINGS.BUILDINGS.PREFABS.NUCLEARWASTERECYCLER.DESC");
                     public static LocString EFFECT = new LocString($"Extracts various elements from {UI.FormatAsLink("Nuclear Waste", SimHashes.NuclearWaste.ToString())}.\n\nRadbolts can be used to change the quantities of those elements.", 
-                        "STRINGS.BUILDINGS.PREFABS.NUCLEAR_WASTE_RECYCLER.EFFECT");
+                        "STRINGS.BUILDINGS.PREFABS.NUCLEARWASTERECYCLER.EFFECT");
                 }
 
                 public class URANIUMCENTRIFUGE
@@ -36,6 +36,13 @@ namespace NuclearWasteRecycling
                     public static LocString MOX_FUEL_RECIPE_DESCRIPTION = new LocString($"Create {UI.FormatAsLink("Radium MOX Fuel", Elements.MOXFuel.ToString())} from {UI.FormatAsLink("Depleted Uranium", SimHashes.DepletedUranium.ToString())} and {UI.FormatAsLink("Radium", SimHashes.Radium.ToString())}",
                         "STRINGS.BUILDINGS.PREFABS.URANIUMCENTRIFUGE.MOX_FUEL_RECIPE_DESCRIPTION");
                 }
+            }
+        }
+
+        public class MISC
+        {
+            public class TAGS {
+                public static LocString REACTORFUEL = new LocString("Reactor Fuel", "STRINGS.MISC.TAGS.REACTORFUEL");
             }
         }
     }

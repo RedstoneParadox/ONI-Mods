@@ -17,9 +17,11 @@ namespace NuclearWasteRecycling.Patches
                 Util.AddString(LocaleStrings.ELEMENTS.MOXFUEL.NAME);
                 Util.AddString(LocaleStrings.ELEMENTS.MOXFUEL.DESC);
 
-                Util.AddString(LocaleStrings.BUILDINGS.PREFABS.NUCLEAR_WASTE_RECYCLER.NAME);
-                Util.AddString(LocaleStrings.BUILDINGS.PREFABS.NUCLEAR_WASTE_RECYCLER.DESC);
-                Util.AddString(LocaleStrings.BUILDINGS.PREFABS.NUCLEAR_WASTE_RECYCLER.EFFECT);
+                Util.AddString(LocaleStrings.BUILDINGS.PREFABS.NUCLEARWASTERECYCLER.NAME);
+                Util.AddString(LocaleStrings.BUILDINGS.PREFABS.NUCLEARWASTERECYCLER.DESC);
+                Util.AddString(LocaleStrings.BUILDINGS.PREFABS.NUCLEARWASTERECYCLER.EFFECT);
+
+                Util.AddString(LocaleStrings.MISC.TAGS.REACTORFUEL);
             }
         }
     }
