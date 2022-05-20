@@ -61,5 +61,22 @@ namespace NuclearWasteRecycling.Patches
                 Elements.SetSolidMaterials();
             }
         }
+
+        [HarmonyPatch(typeof(ElementLoader))]
+        [HarmonyPatch("FinaliseElementsTable")]
+        public static class ElementLoader_FinaliseElementsTable_Patch
+        {
+            public static void Postfix()
+            {
+                foreach (Element elem in ElementLoader.elements)
+                {
+                    if (elem.id == SimHashes.EnrichedUranium)
+                    {
+                        elem.oreTags.AddItem(Tags.ReactorFuel);
+                        return;
+                    }
+                }
+            }
+        }
     }
 }
