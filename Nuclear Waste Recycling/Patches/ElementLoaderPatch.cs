@@ -18,7 +18,7 @@ namespace NuclearWasteRecycling.Patches
         {
             public static void Postfix(ref List<ElementLoader.ElementEntry> __result)
             {
-                var path = Path.Combine(Util.ModPath, "elements", "solid.yaml");
+                var path = Path.Combine(Util.ModPath, "elements", "elements.yaml");
                 var elementListText = ReadText(path);
 
                 if (elementListText.IsNullOrWhiteSpace())
@@ -41,7 +41,7 @@ namespace NuclearWasteRecycling.Patches
                 catch (Exception e) when (e is IOException || e is UnauthorizedAccessException)
                 {
                     Debug.LogWarning($"Element configuration could not be read: {e.Message}\n" +
-                        $"Slag will not be added to the game.");
+                        $"Some elements will not be added to the game.");
 
                     return null;
                 }
