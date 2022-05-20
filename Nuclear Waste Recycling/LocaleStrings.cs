@@ -33,7 +33,7 @@ namespace NuclearWasteRecycling
 
                 public class URANIUMCENTRIFUGE
                 {
-                    public static LocString MOX_FUEL_RECIPE_DESCRIPTION = new LocString($"Create Radium MOX Fuel from {UI.FormatAsLink("Depleted Uranium", SimHashes.DepletedUranium.ToString())} and {UI.FormatAsLink("Nuclear Waste", SimHashes.Radium.ToString())}",
+                    public static LocString MOX_FUEL_RECIPE_DESCRIPTION = new LocString($"Create {UI.FormatAsLink("Radium MOX Fuel", Elements.MOXFuel.ToString())} from {UI.FormatAsLink("Depleted Uranium", SimHashes.DepletedUranium.ToString())} and {UI.FormatAsLink("Radium", SimHashes.Radium.ToString())}",
                         "STRINGS.BUILDINGS.PREFABS.URANIUMCENTRIFUGE.MOX_FUEL_RECIPE_DESCRIPTION");
                 }
             }

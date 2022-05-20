@@ -13,9 +13,9 @@ namespace NuclearWasteRecycling.Patches
         [HarmonyPatch(typeof(UraniumCentrifuge), "DropEnrichedProducts")]
         public class UraniumCentrifuge_DropEnrichedProducts_Patch
         {
-            public static void Postfix(ref UraniumCentrifuge _instance)
+            public static void Postfix(ref UraniumCentrifuge __instance)
             {
-                foreach (Storage storage in _instance.GetComponents<Storage>())
+                foreach (Storage storage in __instance.GetComponents<Storage>())
                 {
                     storage.Drop(ElementLoader.FindElementByHash(Elements.MOXFuel).tag);
                 }
