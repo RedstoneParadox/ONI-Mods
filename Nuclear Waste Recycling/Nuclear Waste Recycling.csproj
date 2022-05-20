@@ -95,6 +95,7 @@
     <Compile Include="Content\Tags.cs" />
     <Compile Include="Patches\BuildingPatches.cs" />
     <Compile Include="Patches\LocalizationPatch.cs" />
+    <Compile Include="Patches\NuclearReactorPatch.cs" />
     <Compile Include="Patches\UraniumCentrifugePatches.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="NuclearWasteRecyclingMod.cs">

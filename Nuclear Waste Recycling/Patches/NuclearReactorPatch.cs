@@ -16,7 +16,7 @@ namespace NuclearWasteRecycling.Patches
         {
             public static void Postfix(ref GameObject go)
             {
-                ManualDeliveryKG manualDeliveryKg = go.AddComponent<ManualDeliveryKG>();
+                ManualDeliveryKG manualDeliveryKg = go.GetComponent<ManualDeliveryKG>();
                 manualDeliveryKg.RequestedItemTag = Tags.ReactorFuel;
 
                 Reactor reactor = go.AddOrGet<Reactor>();

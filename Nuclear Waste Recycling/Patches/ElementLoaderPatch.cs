@@ -68,14 +68,10 @@ namespace NuclearWasteRecycling.Patches
         {
             public static void Postfix()
             {
-                foreach (Element elem in ElementLoader.elements)
-                {
-                    if (elem.id == SimHashes.EnrichedUranium)
-                    {
-                        elem.oreTags.AddItem(Tags.ReactorFuel);
-                        return;
-                    }
-                }
+                var uranium = ElementLoader.GetElement(SimHashes.EnrichedUranium.CreateTag());
+                List<Tag> tags = new List<Tag>(new Tag[] { Tags.ReactorFuel });
+                tags.AddRange(uranium.oreTags);
+                uranium.oreTags = tags.ToArray();
             }
         }
     }
