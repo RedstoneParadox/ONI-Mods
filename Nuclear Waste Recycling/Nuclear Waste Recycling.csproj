@@ -97,7 +97,7 @@
     <Compile Include="NuclearWasteRecyclingMod.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
-    <Compile Include="Assets.cs" />
+    <Compile Include="AssetUtil.cs" />
     <Compile Include="Util.cs" />
   </ItemGroup>
   <ItemGroup>
