@@ -8,7 +8,7 @@ elements:
     gasSurfaceAreaMultiplier: 1
     strength: 1
     highTemp: 1132
-    highTempTransitionTarget: MoltenUranium
+    highTempTransitionTarget: NuclearWaste
     defaultTemperature: 300
     defaultMass: 100
     maxMass: 200
@@ -23,5 +23,5 @@ elements:
     buildMenuSort: 21
     isDisabled: false
     state: Solid
-    localizationID: STRINGS.ELEMENTS.ENRICHEDURANIUM.NAME
+    localizationID: STRINGS.ELEMENTS.MOXFUEL.NAME
     dlcId: EXPANSION1_ID
