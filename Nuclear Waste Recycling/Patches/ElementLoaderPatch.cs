@@ -18,7 +18,7 @@ namespace NuclearWasteRecycling.Patches
         {
             public static void Postfix(ref List<ElementLoader.ElementEntry> __result)
             {
-                var path = Path.Combine(Util.ModPath, "assets", "elements", "elements.yaml");
+                var path = Path.Combine(Util.ModPath, "elements", "solid.yaml");
                 var elementListText = ReadText(path);
 
                 if (elementListText.IsNullOrWhiteSpace())

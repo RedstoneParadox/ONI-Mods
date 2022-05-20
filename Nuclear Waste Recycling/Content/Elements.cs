@@ -29,7 +29,7 @@ namespace NuclearWasteRecycling.Content
         private static Material GetMaterialForState(Element.State state)
         {
             // (gases use liquid material)
-            var material = state == Element.State.Solid ? Assets.instance.substanceTable.solidMaterial : Assets.instance.substanceTable.liquidMaterial
+            var material = state == Element.State.Solid ? Assets.instance.substanceTable.solidMaterial : Assets.instance.substanceTable.liquidMaterial;
             return new Material(material);
         }
         public static void SetSolidMaterials()
@@ -44,6 +44,7 @@ namespace NuclearWasteRecycling.Content
         public static Material SetTextures(SimHashes id, Material newMaterial, string folder, string texture, string spec = null)
         {
             var substance = ElementLoader.FindElementByHash(id).substance;
+            Debug.Log($"Is substance null? {substance == null}");
             var tex = AssetUtil.LoadTexture(texture, folder);
 
             if (newMaterial != null)
