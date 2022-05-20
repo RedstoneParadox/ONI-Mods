@@ -30,6 +30,12 @@ namespace NuclearWasteRecycling
                     public static LocString EFFECT = new LocString($"Extracts various elements from {UI.FormatAsLink("Nuclear Waste", SimHashes.NuclearWaste.ToString())}.\n\nRadbolts can be used to change the quantities of those elements.", 
                         "STRINGS.BUILDINGS.PREFABS.NUCLEAR_WASTE_RECYCLER.EFFECT");
                 }
+
+                public class URANIUMCENTRIFUGE
+                {
+                    public static LocString MOX_FUEL_RECIPE_DESCRIPTION = new LocString($"Create Radium MOX Fuel from {UI.FormatAsLink("Depleted Uranium", SimHashes.DepletedUranium.ToString())} and {UI.FormatAsLink("Nuclear Waste", SimHashes.Radium.ToString())}",
+                        "STRINGS.BUILDINGS.PREFABS.URANIUMCENTRIFUGE.MOX_FUEL_RECIPE_DESCRIPTION");
+                }
             }
         }
     }
