@@ -6,7 +6,7 @@ using UnityEngine;
 namespace NuclearWasteRecycling
 {
     // Credit: Aki (FUtility)
-    public class Assets
+    public class AssetUtil
     {
         public static Texture2D LoadTexture(string name, string directory)
         {

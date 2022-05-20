@@ -29,7 +29,7 @@ namespace NuclearWasteRecycling.Content
         private static Material GetMaterialForState(Element.State state)
         {
             // (gases use liquid material)
-            var material = state == Element.State.Solid ? Assets.instance.substanceTable.solidMaterial : Assets.instance.substanceTable.liquidMaterial;
+            var material = state == Element.State.Solid ? Assets.instance.substanceTable.solidMaterial : Assets.instance.substanceTable.liquidMaterial
             return new Material(material);
         }
         public static void SetSolidMaterials()
@@ -38,13 +38,13 @@ namespace NuclearWasteRecycling.Content
             //var shinyMaterial = Assets.instance.substanceTable.GetSubstance(SimHashes.Diamond).material;
             var shinyMaterial = Assets.instance.substanceTable.GetSubstance(SimHashes.Cuprite).material;
 
-            SetTextures(MOXFuel, null, folder, "mox_fuel", "mox_fuel_specular");
+            SetTextures(MOXFuel, null, folder, "mox_fuel");
         }
 
         public static Material SetTextures(SimHashes id, Material newMaterial, string folder, string texture, string spec = null)
         {
             var substance = ElementLoader.FindElementByHash(id).substance;
-            var tex = FUtility.Assets.LoadTexture(texture, folder);
+            var tex = AssetUtil.LoadTexture(texture, folder);
 
             if (newMaterial != null)
             {
@@ -55,7 +55,7 @@ namespace NuclearWasteRecycling.Content
 
             if (!spec.IsNullOrWhiteSpace())
             {
-                var specTex = FUtility.Assets.LoadTexture(spec, folder);
+                var specTex = AssetUtil.LoadTexture(spec, folder);
                 substance.material.SetTexture("_ShineMask", specTex);
             }
 
