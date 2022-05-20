@@ -1,16 +1,17 @@
-﻿using KMod;
-using STRINGS;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
-using UnityEngine;
+using System.Threading.Tasks;
 
 namespace NuclearWasteRecycling
 {
     class Util
     {
+        public static string ModPath => Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+
         public static void AddToTech(HashedString tech, string item)
         {
             Db.Get().Techs.Get(tech).unlockedItemIDs.Add(item);

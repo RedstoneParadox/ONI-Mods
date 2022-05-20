@@ -3,7 +3,7 @@ using NuclearWasteRecycling.Buildings;
 
 namespace NuclearWasteRecycling
 {
-    public class Patches
+    public class BuildingPatches
     {
         // Based off of Pholith's code.
         [HarmonyPatch(typeof(GeneratedBuildings))]

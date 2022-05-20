@@ -13,7 +13,7 @@ namespace NuclearWasteRecycling.Content
     {
         public static SimHashes MOXFuel = EnumPatch.RegisterSimHash("MOXFuel");
 
-        public static void RegisterSubstance(Hashtable substanceList)
+        public static void RegisterSubstances(Hashtable substanceList)
         {
             substanceList.Add(MOXFuel, CreateSubstance(MOXFuel, "mox_fuel_kanim", Element.State.Solid, Color.green));
         }
@@ -32,16 +32,13 @@ namespace NuclearWasteRecycling.Content
             var material = state == Element.State.Solid ? Assets.instance.substanceTable.solidMaterial : Assets.instance.substanceTable.liquidMaterial;
             return new Material(material);
         }
-
-        /*
         public static void SetSolidMaterials()
         {
-            var folder = Path.Combine(Utils.ModPath, "assets", "elements", "textures");
+            var folder = Path.Combine(Util.ModPath, "assets", "elements", "textures");
             //var shinyMaterial = Assets.instance.substanceTable.GetSubstance(SimHashes.Diamond).material;
             var shinyMaterial = Assets.instance.substanceTable.GetSubstance(SimHashes.Cuprite).material;
 
-            SetTextures(Slag, null, folder, "slag");
-            SetTextures(SlagGlass, shinyMaterial, folder, "slag_glass", "slag_glass_specular");
+            SetTextures(MOXFuel, null, folder, "mox_fuel", "mox_fuel_specular");
         }
 
         public static Material SetTextures(SimHashes id, Material newMaterial, string folder, string texture, string spec = null)
@@ -64,6 +61,5 @@ namespace NuclearWasteRecycling.Content
 
             return substance.material;
         }
-        */
     }
 }
