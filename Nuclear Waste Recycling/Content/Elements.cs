@@ -15,7 +15,7 @@ namespace NuclearWasteRecycling.Content
 
         public static void RegisterSubstance(Hashtable substanceList)
         {
-            substanceList.Add(MOXFuel, CreateSubstance(MOXFuel, "glass_kanim", Element.State.Solid, Color.green));
+            substanceList.Add(MOXFuel, CreateSubstance(MOXFuel, "mox_fuel_kanim", Element.State.Solid, Color.green));
         }
 
         public static Substance CreateSubstance(SimHashes id, string uiAnim, Element.State state, Color color)
