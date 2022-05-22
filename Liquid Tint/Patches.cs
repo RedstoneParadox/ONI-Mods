@@ -1,7 +1,7 @@
 ﻿using HarmonyLib;
 using UnityEngine;
 
-namespace Tinted_Aquatuner_Liquid
+namespace LiquidTint
 {
     public class Patches
     {

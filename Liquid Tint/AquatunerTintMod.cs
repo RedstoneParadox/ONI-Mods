@@ -7,7 +7,7 @@ using System.Text;
 
 namespace Tinted_Aquatuner_Liquid
 {
-    class TintedAquatunerLiquidMod: UserMod2
+    class LiquidTintMod: UserMod2
     {
         public override void OnLoad(Harmony harmony)
         {

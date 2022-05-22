@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.29806.167
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HVAC Expansion", "HVAC Expansion\HVAC Expansion.csproj", "{35990A4E-C61E-428C-94CC-9A17D5283787}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tinted Aquatuner Liquid", "Tinted Aquatuner Liquid\Tinted Aquatuner Liquid.csproj", "{575BB480-D859-48CD-AB5E-55C52AD9F115}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Liquid Tint", "Liquid Tint\Liquid Tint.csproj", "{575BB480-D859-48CD-AB5E-55C52AD9F115}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

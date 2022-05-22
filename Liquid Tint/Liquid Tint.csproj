@@ -8,8 +8,8 @@
     <ProjectGuid>{575BB480-D859-48CD-AB5E-55C52AD9F115}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Tinted_Aquatuner_Liquid</RootNamespace>
-    <AssemblyName>Tinted Aquatuner Liquid</AssemblyName>
+    <RootNamespace>LiquidTint</RootNamespace>
+    <AssemblyName>Liquid Tint</AssemblyName>
     <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
@@ -84,7 +84,7 @@
     <Compile Include="AquatunerTint.cs" />
     <Compile Include="Patches.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TintedAquatunerLiquidMod.cs">
+    <Compile Include="AquatunerTintMod.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
   </ItemGroup>
@@ -93,7 +93,7 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="GenerateMetadataFiles" BeforeTargets="Build">
-    <GenerateMetadataFiles OutputPath="C:\Development\ONI\Mods\ONI Mods\Tinted Aquatuner Liquid\bin\Release" Title="Tinted Aquatuner Liquid" Description="" StaticID="TintedAquatunerLiquid" SupportedContent="VANILLA_ID,EXPANSION1_ID" MinimumSupportedBuild="469473" Version="1.0.0" APIVersion="2" />
+    <GenerateMetadataFiles OutputPath="C:\Development\ONI\Mods\ONI Mods\Tinted Aquatuner Liquid\bin\Release" Title="Liquid Tint" Description="" StaticID="LiquidTint" SupportedContent="VANILLA_ID,EXPANSION1_ID" MinimumSupportedBuild="469473" Version="2.0.0" APIVersion="2" />
   </Target>
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>

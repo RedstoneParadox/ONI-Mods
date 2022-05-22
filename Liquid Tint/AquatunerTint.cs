@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 
-namespace Tinted_Aquatuner_Liquid
+namespace LiquidTint
 {
     class AquatunerTint: KMonoBehaviour
     {
