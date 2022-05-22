@@ -8,13 +8,14 @@ using UnityEngine;
 
 namespace LiquidTint
 {
-    class AquatunerTint: KMonoBehaviour
+    class StorageLiquidTint: KMonoBehaviour
     {
         [MyCmpGet]
         private Storage storage;
+        public string[] symbols;
 
-        private static readonly EventSystem.IntraObjectHandler<AquatunerTint> OnStorageChangeDelegate = new EventSystem.IntraObjectHandler<AquatunerTint>((component, data) => component.UpdateTint());
-        private static readonly EventSystem.IntraObjectHandler<AquatunerTint> OnActiveChangedDelegate = new EventSystem.IntraObjectHandler<AquatunerTint>((component, data) => component.ClearTint(data));
+        private static readonly EventSystem.IntraObjectHandler<StorageLiquidTint> OnStorageChangeDelegate = new EventSystem.IntraObjectHandler<StorageLiquidTint>((component, data) => component.UpdateTint());
+        private static readonly EventSystem.IntraObjectHandler<StorageLiquidTint> OnActiveChangedDelegate = new EventSystem.IntraObjectHandler<StorageLiquidTint>((component, data) => component.ClearTint(data));
 
         protected override void OnPrefabInit()
         {
@@ -41,7 +42,7 @@ namespace LiquidTint
                     var primaryElement = item.GetComponent<PrimaryElement>();
                     var color = primaryElement.Element.substance.uiColour;
 
-                    if (primaryElement.Mass > 0)
+                    if (primaryElement.Mass > 0 && primaryElement.Element.IsLiquid)
                     {
                         ApplyTint(color);
                         break;
@@ -62,7 +63,10 @@ namespace LiquidTint
         {
             var controller = GetComponent<KBatchedAnimController>();
 
-            controller.SetSymbolTint("liquid", color);
+            foreach (string symbol in symbols)
+            {
+                controller.SetSymbolTint("liquid", color);
+            }
         }
     }
 }

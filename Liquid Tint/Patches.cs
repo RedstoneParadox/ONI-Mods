@@ -10,7 +10,8 @@ namespace LiquidTint
         {
             public static void Prefix(GameObject go)
             {
-                go.AddOrGet<AquatunerTint>();
+                StorageLiquidTint tint = go.AddOrGet<StorageLiquidTint>();
+                tint.symbols = new string[] { "liquid" };
             }
         }
     }
