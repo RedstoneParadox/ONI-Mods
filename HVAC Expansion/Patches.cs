@@ -136,6 +136,19 @@ namespace HVACExpansion
             }
         }
 
+        [HarmonyPatch(typeof(AirConditioner))]
+        [HarmonyPatch("")]
+        class AirConditioner_Sim200ms_Patch
+        {
+            public static void prefix(ref AirConditioner __instance)
+            {
+                if (__instance is FluidHeater)
+                {
+                    ((FluidHeater)__instance).UpdateTemperatureDelta();
+                }
+            }
+        }
+
         [HarmonyPatch(typeof(ElementLoader))]
         [HarmonyPatch("FinaliseElementsTable")]
         public static class ElementLoader_FinaliseElementsTablePatch
