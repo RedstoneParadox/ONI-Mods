@@ -9,7 +9,7 @@ namespace HVACExpansion.Buildings
 {
     class FluidHeater : AirConditioner
     {
-        private float maxTemperatureDelta = 0.0f;
+        public float maxTemperatureDelta = 0.0f;
         [MyCmpGet]
         private MinimumOperatingTemperature minOpTemperature;
         [MyCmpGet]
@@ -22,13 +22,6 @@ namespace HVACExpansion.Buildings
                 component.UpdateTint();
             }
         });
-
-
-        protected override void OnSpawn()
-        {
-            base.OnSpawn();
-            maxTemperatureDelta = temperatureDelta;
-        }
 
         protected override void OnPrefabInit()
         {
