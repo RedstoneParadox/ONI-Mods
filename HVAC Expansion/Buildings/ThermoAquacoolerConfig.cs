@@ -45,6 +45,7 @@ namespace HVACExpansion.Buildings
         public override void ConfigureBuildingTemplate(GameObject go, Tag prefab_tag)
         {
             go.AddOrGet<LoopingSounds>();
+            go.AddOrGet<MinimumOperatingTemperature>().minimumTemperature = 16f;
             FluidHeater airConditioner = go.AddOrGet<FluidHeater>();
             airConditioner.temperatureDelta = 14f;
             airConditioner.maxTemperatureDelta = 14f;
@@ -64,7 +65,6 @@ namespace HVACExpansion.Buildings
             go.AddOrGet<LogicOperationalController>();
             go.AddOrGetDef<PoweredActiveController.Def>();
             go.GetComponent<KPrefabID>().AddTag(GameTags.OverlayBehindConduits);
-            go.AddOrGet<MinimumOperatingTemperature>().minimumTemperature = 16f;
         }
     }
 }

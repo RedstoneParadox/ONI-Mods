@@ -32,6 +32,7 @@ namespace HVACExpansion.Buildings
         public override void ConfigureBuildingTemplate(GameObject go, Tag prefab_tag)
         {
             go.AddOrGet<LoopingSounds>();
+            go.AddOrGet<MinimumOperatingTemperature>().minimumTemperature = 16f;
             FluidHeater airConditioner = go.AddOrGet<FluidHeater>();
             airConditioner.temperatureDelta = 14f;
             airConditioner.maxTemperatureDelta = 14f;
@@ -45,9 +46,7 @@ namespace HVACExpansion.Buildings
         public override void DoPostConfigureComplete(GameObject go)
         {
             go.AddOrGet<LogicOperationalController>();
-            go.AddOrGetDef<PoweredActiveController.Def>();
-            go.AddOrGet<MinimumOperatingTemperature>().minimumTemperature = 16f;
-           
+            go.AddOrGetDef<PoweredActiveController.Def>(); 
         }
     }
 }

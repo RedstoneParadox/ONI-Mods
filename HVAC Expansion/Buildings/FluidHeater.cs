@@ -10,10 +10,6 @@ namespace HVACExpansion.Buildings
     class FluidHeater : AirConditioner
     {
         public float maxTemperatureDelta = 0.0f;
-        [MyCmpGet]
-        private MinimumOperatingTemperature minOpTemperature;
-        [MyCmpGet]
-        private BuildingComplete building;
 
         private static readonly EventSystem.IntraObjectHandler<FluidHeater> OnStorageChangeDelegate = new EventSystem.IntraObjectHandler<FluidHeater>((component, data) => component.UpdateTint());
         private static readonly EventSystem.IntraObjectHandler<FluidHeater> OnActiveChangedDelegate = new EventSystem.IntraObjectHandler<FluidHeater>((component, data) => {
@@ -39,7 +35,8 @@ namespace HVACExpansion.Buildings
 
         public void UpdateTemperatureDelta()
         {
-            float foo = building.primaryElement.Temperature - minOpTemperature.minimumTemperature;
+            MinimumOperatingTemperature minOpTemperature = gameObject.GetComponent<MinimumOperatingTemperature>();
+            float foo = GetComponent<BuildingComplete>().primaryElement.Temperature - minOpTemperature.minimumTemperature;
             temperatureDelta = foo < maxTemperatureDelta ? foo : maxTemperatureDelta;
         }
 
