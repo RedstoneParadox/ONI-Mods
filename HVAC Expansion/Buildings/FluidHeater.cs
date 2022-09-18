@@ -36,8 +36,9 @@ namespace HVACExpansion.Buildings
         public void UpdateTemperatureDelta()
         {
             MinimumOperatingTemperature minOpTemperature = gameObject.GetComponent<MinimumOperatingTemperature>();
-            float foo = GetComponent<BuildingComplete>().primaryElement.Temperature - minOpTemperature.minimumTemperature;
-            temperatureDelta = foo < maxTemperatureDelta ? foo : maxTemperatureDelta;
+            float diff = GetComponent<BuildingComplete>().primaryElement.Temperature - minOpTemperature.minimumTemperature;
+            Debug.Log($"diff = {diff}, maxTemperatureDelta = {maxTemperatureDelta}");
+            temperatureDelta = diff < maxTemperatureDelta ? diff : maxTemperatureDelta;
         }
 
         public void UpdateTint()
