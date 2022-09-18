@@ -37,8 +37,9 @@ namespace HVACExpansion.Buildings
         {
             MinimumOperatingTemperature minOpTemperature = gameObject.GetComponent<MinimumOperatingTemperature>();
             float diff = GetComponent<BuildingComplete>().primaryElement.Temperature - minOpTemperature.minimumTemperature;
+            diff = Mathf.Max(0, diff);
             Debug.Log($"diff = {diff}, maxTemperatureDelta = {maxTemperatureDelta}");
-            temperatureDelta = diff < maxTemperatureDelta ? diff : maxTemperatureDelta;
+            temperatureDelta = Mathf.Min(diff, maxTemperatureDelta);
         }
 
         public void UpdateTint()
