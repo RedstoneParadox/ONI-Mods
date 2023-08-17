@@ -115,7 +115,7 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="GenerateMetadataFiles" BeforeTargets="Build">
-    <GenerateMetadataFiles OutputPath="C:\Development\ONI\Mods\ONI Mods\Refrigeration Units\bin\Release" Title="Refrigeration Units" Description="Adds machines that use liquids or gas to cool their surroundings." StaticID="RefigerationUnits" SupportedContent="VANILLA_ID,EXPANSION1_ID" MinimumSupportedBuild="469473" Version="1.0.4" APIVersion="2" />
+    <GenerateMetadataFiles OutputPath="C:\Development\ONI\Mods\ONI Mods\Refrigeration Units\bin\Release" Title="Refrigeration Units" Description="Adds machines that use liquids or gas to cool their surroundings." StaticID="RefigerationUnits" SupportedContent="VANILLA_ID,EXPANSION1_ID" MinimumSupportedBuild="469473" Version="1.1.0" APIVersion="2" />
   </Target>
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
