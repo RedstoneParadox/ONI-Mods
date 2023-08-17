@@ -52,6 +52,12 @@ namespace HVACExpansion.Buildings
                 PrimaryElement primaryElement = item.GetComponent<PrimaryElement>();
                 Element element = primaryElement.Element;
 
+                if ((IsEvaporator && element.highTemp - primaryElement.Temperature > temperatureDelta) || (primaryElement.Temperature - element.lowTemp > temperatureDelta))
+                {
+                    storage.Drop(item);
+                    continue;
+                }
+
                 if (primaryElement.Mass > 0)
                 {
                     Element transitionElement = IsEvaporator ? element.highTempTransition : element.lowTempTransition;
