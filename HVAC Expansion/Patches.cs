@@ -70,26 +70,6 @@ namespace HVACExpansion
             {
                 Util.AddToTech("HVAC", ThermoConditionerConfig.ID);
                 Util.AddToTech("LiquidTemperature", ThermoAquacoolerConfig.ID);
-
-                /*
-                Techs techs = Db.Get().Techs;
-
-                TechTree.CreateTech("RefrigerationCycle");
-                TechTree.AddRequirement(techs.Get("RefrigerationCycle"), techs.Get("HVAC"));
-                TechTree.AddRequirement(techs.Get("RefrigerationCycle"), techs.Get("LiquidTemperature"));
-                
-                if (DlcManager.IsExpansion1Active())
-                {
-                    TechTree.SetTier(techs.Get("RefrigerationCycle"), 5);
-                }
-                else
-                {
-                    TechTree.SetTier(techs.Get("RefrigerationCycle"), 5);
-                }
-                */
-
-                Util.AddToTech("HVAC", AutoCondenserConfig.ID);
-                Util.AddToTech("HVAC", AutoEvaporatorConfig.ID);
             }
         }
 
@@ -110,10 +90,10 @@ namespace HVACExpansion
                     Descriptor descriptor1 = new Descriptor();
                     string txt = string.Format(@this.isLiquidConditioner ? Locale.UI.BuildingEffects.HEATCONSUMED_LIQUIDREFRIGERATOR : Locale.UI.BuildingEffects.HEATCONSUMED_AIRREFRIGERATOR, GameUtil.GetFormattedHeatEnergy(dtu), GameUtil.GetFormattedTemperature(Mathf.Abs(@this.temperatureDelta), interpretation: GameUtil.TemperatureInterpretation.Relative));
                     string tooltip = string.Format(
-                        @this.isLiquidConditioner ? Locale.UI.BuildingEffects.Tooltips.HEATCONSUMED_LIQUIDREFRIGERATOR : Locale.UI.BuildingEffects.Tooltips.HEATCONSUMED_AIRREFRIGERATOR, 
-                        GameUtil.GetFormattedHeatEnergy(dtu), 
+                        @this.isLiquidConditioner ? Locale.UI.BuildingEffects.Tooltips.HEATCONSUMED_LIQUIDREFRIGERATOR : Locale.UI.BuildingEffects.Tooltips.HEATCONSUMED_AIRREFRIGERATOR,
+                        GameUtil.GetFormattedHeatEnergy(dtu),
                         GameUtil.GetFormattedTemperature(
-                            Mathf.Abs(@this.temperatureDelta), 
+                            Mathf.Abs(@this.temperatureDelta),
                             interpretation: GameUtil.TemperatureInterpretation.Relative
                             )
                         );
@@ -122,11 +102,11 @@ namespace HVACExpansion
                     Descriptor descriptor2 = new Descriptor();
                     descriptor2.SetupDescriptor(
                         string.Format(
-                            @this.isLiquidConditioner ? Locale.UI.BuildingEffects.LIQUIDHEATING : Locale.UI.BuildingEffects.LIQUIDHEATING, 
+                            @this.isLiquidConditioner ? Locale.UI.BuildingEffects.LIQUIDHEATING : Locale.UI.BuildingEffects.LIQUIDHEATING,
                             formattedTemperature
-                            ), 
+                            ),
                         string.Format(
-                            @this.isLiquidConditioner ? Locale.UI.BuildingEffects.Tooltips.LIQUIDHEATING : Locale.UI.BuildingEffects.Tooltips.GASHEATING, 
+                            @this.isLiquidConditioner ? Locale.UI.BuildingEffects.Tooltips.LIQUIDHEATING : Locale.UI.BuildingEffects.Tooltips.GASHEATING,
                             formattedTemperature
                             )
                         );
@@ -180,6 +160,27 @@ namespace HVACExpansion
             public static void Prefix(string file_name, string anim_name, string type, float min_interval, string sound_name)
             {
                 // Debug.Log("File name: " + file_name + " Sound name: " + sound_name);
+            }
+        }
+
+        /// <summary>
+        /// Add research node to tree (thx Sgt_Imalas)
+        /// </summary>
+        [HarmonyPatch(typeof(Database.Techs), "Init")]
+        public class Techs_TargetMethod_Patch
+        {
+            public static void Postfix(Database.Techs __instance)
+            {
+                string refrigerationCycle = "RefrigerationCycle";
+
+                HVACExpansionMod.RefrigerationCycleTech = new Tech(refrigerationCycle, new List<string>
+                {
+                    AutoEvaporatorConfig.ID, AutoCondenserConfig.ID
+                },
+                __instance
+                );
+
+                
             }
         }
     }
