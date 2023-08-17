@@ -64,7 +64,7 @@ namespace HVACExpansion.Buildings
             defaultStorage.capacityKg = conduitConsumer.consumptionRate * 2f;
             defaultStorage.SetDefaultStoredItemModifiers(StoredItemModifiers);
 
-            go.AddOrGet<MinimumOperatingTemperature>().minimumTemperature = 21f;
+            go.AddOrGet<MinimumOperatingTemperature>().minimumTemperature = 16f;
         }
 
         public override void DoPostConfigureComplete(GameObject go)
