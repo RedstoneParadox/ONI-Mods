@@ -36,6 +36,12 @@ namespace HVACExpansion.Science
     [HarmonyPatch(typeof(Database.Techs), "Init")]
     public class Techs_TargetMethod_Patch
     {
+        public static void Prefix()
+        {
+            Util.AddString(Locale.Research.Techs.RefrigerationCycle.NAME);
+            Util.AddString(Locale.Research.Techs.RefrigerationCycle.DESC);
+        }
+
         public static void Postfix(Database.Techs __instance)
         {
             Techs.RefrigerationCycleTech = new Tech(Techs.RefigerationCycleTechID, new List<string>
