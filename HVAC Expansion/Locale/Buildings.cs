@@ -16,8 +16,11 @@ namespace HVACExpansion.Locale
     "STRINGS.BUILDINGS.PREFABS." + AutoCondenserConfig.ID.ToUpper() + ".NAME");
             public static LocString DESC = new LocString("Condenses gases.",
                 "STRINGS.BUILDINGS.PREFABS." + AutoCondenserConfig.ID.ToUpper() + ".DESC");
-            public static LocString EFFECT = new LocString("Condenses piped " + STRINGS.UI.FormatAsLink("Gases", "ELEMENTS_GAS") + " into their " + STRINGS.UI.FormatAsLink("Liquid", "ELEMENTS_LIQUID") + " form while maintaining temperature. Gases with transition byproducts damage the machine.",
-                "STRINGS.BUILDINGS.PREFABS." + AutoCondenserConfig.ID.ToUpper() + ".EFFECT");
+            public static LocString EFFECT = new LocString(
+                STRINGS.UI.FormatAsLink("Cools", "HEAT") + " piped " + STRINGS.UI.FormatAsLink("Gases", "ELEMENTS_GAS") + " and condenses them into their " + STRINGS.UI.FormatAsLink("Liquid", "ELEMENTS_LIQUID") + " form.\n\n" + 
+                "Gases with transition byproducts damage the machine. Gases that are too hot will be dumped.",
+                "STRINGS.BUILDINGS.PREFABS." + AutoCondenserConfig.ID.ToUpper() + ".EFFECT"
+                );
         }
         public class AutoEvaporator
         {
@@ -25,8 +28,11 @@ namespace HVACExpansion.Locale
     "STRINGS.BUILDINGS.PREFABS." + AutoEvaporatorConfig.ID.ToUpper() + ".NAME");
             public static LocString DESC = new LocString("Evaporates liquids.",
                 "STRINGS.BUILDINGS.PREFABS." + AutoEvaporatorConfig.ID.ToUpper() + ".DESC");
-            public static LocString EFFECT = new LocString("Evaporates piped " + STRINGS.UI.FormatAsLink("Liquids", "ELEMENTS_LIQUID") + " into their " + STRINGS.UI.FormatAsLink("Gaseous", "ELEMENTS_GAS") + " form while maintaining temperature. Liquids with transition byproducts damage the machine.",
-                "STRINGS.BUILDINGS.PREFABS." + AutoEvaporatorConfig.ID.ToUpper() + ".EFFECT");
+            public static LocString EFFECT = new LocString(
+                STRINGS.UI.FormatAsLink("Heats", "HEAT") + " piped " + STRINGS.UI.FormatAsLink("Liquids", "ELEMENTS_LIQUID") + " and evaporates them into their " + STRINGS.UI.FormatAsLink("Gaseous", "ELEMENTS_GAS") + " form.\n\n" 
+                + "Liquids with transition byproducts damage the machine. Liquids that are too cold will be dumped.",
+                "STRINGS.BUILDINGS.PREFABS." + AutoEvaporatorConfig.ID.ToUpper() + ".EFFECT"
+                );
         }
         public class GasRefrigerator
         {
