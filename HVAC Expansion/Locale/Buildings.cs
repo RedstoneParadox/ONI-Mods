@@ -12,9 +12,8 @@ namespace HVACExpansion.Locale
     {
         public class AutoCondenser
         {
-            public static LocString NAME = new LocString("Auto Condenser",
-    "STRINGS.BUILDINGS.PREFABS." + AutoCondenserConfig.ID.ToUpper() + ".NAME");
-            public static LocString DESC = new LocString("Condenses gases.",
+            public static LocString NAME = UI.FormatAsLink("Auto Condenser", nameof(AutoCondenser));
+            public static LocString DESC = new LocString("Cools and condenses gases.",
                 "STRINGS.BUILDINGS.PREFABS." + AutoCondenserConfig.ID.ToUpper() + ".DESC");
             public static LocString EFFECT = new LocString(
                 STRINGS.UI.FormatAsLink("Cools", "HEAT") + " piped " + STRINGS.UI.FormatAsLink("Gases", "ELEMENTS_GAS") + " and condenses them into their " + STRINGS.UI.FormatAsLink("Liquid", "ELEMENTS_LIQUID") + " form.\n\n" + 
@@ -24,9 +23,8 @@ namespace HVACExpansion.Locale
         }
         public class AutoEvaporator
         {
-            public static LocString NAME = new LocString("Auto Evaporator",
-    "STRINGS.BUILDINGS.PREFABS." + AutoEvaporatorConfig.ID.ToUpper() + ".NAME");
-            public static LocString DESC = new LocString("Evaporates liquids.",
+            public static LocString NAME = UI.FormatAsLink("Auto Evaporator", nameof(AutoEvaporator));
+            public static LocString DESC = new LocString("Heats and evaporates liquids.",
                 "STRINGS.BUILDINGS.PREFABS." + AutoEvaporatorConfig.ID.ToUpper() + ".DESC");
             public static LocString EFFECT = new LocString(
                 STRINGS.UI.FormatAsLink("Heats", "HEAT") + " piped " + STRINGS.UI.FormatAsLink("Liquids", "ELEMENTS_LIQUID") + " and evaporates them into their " + STRINGS.UI.FormatAsLink("Gaseous", "ELEMENTS_GAS") + " form.\n\n" 
@@ -36,9 +34,8 @@ namespace HVACExpansion.Locale
         }
         public class GasRefrigerator
         {
-            public static LocString NAME = new LocString("Thermo Conditioner",
-    "STRINGS.BUILDINGS.PREFABS." + ThermoConditionerConfig.ID.ToUpper() + ".NAME");
-            public static LocString DESC = new LocString("A thermo conditioner doesn't remove heat, but relocates it to a new area.",
+            public static LocString NAME = UI.FormatAsLink("Thermo Conditioner", nameof(GasRefrigerator));
+            public static LocString DESC = new LocString("A thermo conditioner doesn't remove chill, but relocates it to a new area.",
                 "STRINGS.BUILDINGS.PREFABS." + ThermoConditionerConfig.ID.ToUpper() + ".DESC");
             public static LocString EFFECT = new LocString(STRINGS.UI.FormatAsLink("Heats", "HEAT") + " the " + STRINGS.UI.FormatAsLink("Gas", "ELEMENTS_GAS") + " piped through it, cooling its immediate vicinity.",
                 "STRINGS.BUILDINGS.PREFABS." + ThermoConditionerConfig.ID.ToUpper() + ".EFFECT");
@@ -46,9 +43,8 @@ namespace HVACExpansion.Locale
 
         public class LiquidRefrigerator
         {
-            public static LocString NAME = new LocString("Thermo Aquacooler",
-                "STRINGS.BUILDINGS.PREFABS." + ThermoAquacoolerConfig.ID.ToUpper() + ".NAME");
-            public static LocString DESC = new LocString("A thermo aquacooler heats liquids to cool its surroundings.",
+            public static LocString NAME = UI.FormatAsLink("Thermo Aquacooler", nameof(LiquidRefrigerator));
+            public static LocString DESC = new LocString("A thermo aquacooler heats liquids and outputs the chill elsewhere.",
                 "STRINGS.BUILDINGS.PREFABS." + ThermoAquacoolerConfig.ID.ToUpper() + ".DESC");
             public static LocString EFFECT = new LocString(STRINGS.UI.FormatAsLink("Heats", "HEAT") + " the " + STRINGS.UI.FormatAsLink("Liquid", "ELEMENTS_LIQUID") + " piped through it, cooling its immediate vicinity.",
                 "STRINGS.BUILDINGS.PREFABS." + ThermoAquacoolerConfig.ID.ToUpper() + ".EFFECT");
