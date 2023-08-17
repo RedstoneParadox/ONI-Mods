@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
+using static STRINGS.UI.ELEMENTAL;
 
 namespace HVACExpansion.Buildings
 {
@@ -27,6 +28,7 @@ namespace HVACExpansion.Buildings
 
         public bool IsEvaporator = false;
         public float temperatureDelta = 0.0f;
+        public Vector3 emitOffset = Vector3.zero;
 
         protected override void OnSpawn()
         {
@@ -51,12 +53,6 @@ namespace HVACExpansion.Buildings
             {
                 PrimaryElement primaryElement = item.GetComponent<PrimaryElement>();
                 Element element = primaryElement.Element;
-
-                if ((IsEvaporator && element.highTemp - primaryElement.Temperature > temperatureDelta) || (primaryElement.Temperature - element.lowTemp > temperatureDelta))
-                {
-                    storage.Drop(item);
-                    continue;
-                }
 
                 if (primaryElement.Mass > 0)
                 {
@@ -143,6 +139,46 @@ namespace HVACExpansion.Buildings
             }
         }
 
+        private bool CanConvert()
+        {
+            TryEmit();
+
+            GameObject[] items = storage.GetItems().ToArray();
+
+            foreach (GameObject item in items)
+            {
+                PrimaryElement primaryElement = item.GetComponent<PrimaryElement>();
+
+                if (!(primaryElement.Mass == 0)) return true;
+            }
+
+            return false;
+        }
+
+        private void TryEmit()
+        {
+            Rotatable component = GetComponent<Rotatable>();
+            Vector3 vector3 = component.transform.GetPosition() + component.GetRotatedOffset(this.emitOffset);
+            int cell = Grid.PosToCell(vector3);
+            if (Grid.Solid[cell])
+                vector3 += component.GetRotatedOffset(Vector3.left);
+
+            GameObject[] items = storage.GetItems().ToArray();
+            
+
+            foreach (GameObject item in items)
+            {
+                PrimaryElement primaryElement = item.GetComponent<PrimaryElement>();
+                Element element = primaryElement.Element;
+
+                if ((IsEvaporator && element.highTemp - primaryElement.Temperature > temperatureDelta) || (primaryElement.Temperature - element.lowTemp > temperatureDelta))
+                {
+                    SimMessages.AddRemoveSubstance(Grid.PosToCell(vector3), primaryElement.ElementID, null, primaryElement.Mass, primaryElement.Temperature, primaryElement.DiseaseIdx, primaryElement.DiseaseCount);
+                    primaryElement.Mass = 0.0f;
+                }
+            }
+        }
+
 
         private void PlaySound()
         {
@@ -182,7 +218,7 @@ namespace HVACExpansion.Buildings
                     .EventTransition(GameHashes.OperationalChanged, off, smi => !smi.master.operational.IsOperational)
                     .DefaultState(on.waiting);
                 on.waiting
-                    .EventTransition(GameHashes.OnStorageChange, on.working_pre, smi => !smi.master.storage.IsEmpty());
+                    .EventTransition(GameHashes.OnStorageChange, on.working_pre, smi => smi.master.CanConvert());
                 on.working_pre
                     .Enter(smi =>
                     {
