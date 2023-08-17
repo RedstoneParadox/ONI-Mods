@@ -162,26 +162,5 @@ namespace HVACExpansion
                 // Debug.Log("File name: " + file_name + " Sound name: " + sound_name);
             }
         }
-
-        /// <summary>
-        /// Add research node to tree (thx Sgt_Imalas)
-        /// </summary>
-        [HarmonyPatch(typeof(Database.Techs), "Init")]
-        public class Techs_TargetMethod_Patch
-        {
-            public static void Postfix(Database.Techs __instance)
-            {
-                string refrigerationCycle = "RefrigerationCycle";
-
-                HVACExpansionMod.RefrigerationCycleTech = new Tech(refrigerationCycle, new List<string>
-                {
-                    AutoEvaporatorConfig.ID, AutoCondenserConfig.ID
-                },
-                __instance
-                );
-
-                
-            }
-        }
     }
 }

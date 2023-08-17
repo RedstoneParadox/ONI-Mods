@@ -104,6 +104,9 @@
     <Compile Include="HVACExpansionMod.cs" />
     <Compile Include="Locale\Buildings.cs" />
     <Compile Include="Locale\UI.cs" />
+    <Compile Include="Science\TechPatches.cs" />
+    <Compile Include="Science\Techs.cs" />
+    <Compile Include="Science\TechUtil.cs" />
     <Compile Include="Util.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -123,4 +126,8 @@
   <Target Name="GenerateMetadataFiles" BeforeTargets="Build">
     <GenerateMetadataFiles OutputPath="C:\Development\ONI\Mods\ONI Mods\HVAC Expansion\bin\Release" Title="HVAC Expansion" Description="Adds machines that use liquids or gas to cool their surroundings." StaticID="HVACExpansion" SupportedContent="VANILLA_ID,EXPANSION1_ID" MinimumSupportedBuild="469473" Version="2.0.1" APIVersion="2" />
   </Target>
+  <PropertyGroup>
+    <PostBuildEvent>
+    </PostBuildEvent>
+  </PropertyGroup>
 </Project>
