@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using UnityEngine;
 
@@ -49,6 +50,12 @@ namespace HVACExpansion
         public static void AddString(LocString @string)
         {
             Strings.Add(@string.key.String, @string.text);
+        }
+
+        public static LocString WithKey(LocString @string, string key)
+        {
+            @string.SetKey(key);
+            return @string;
         }
     }
 }

@@ -15,44 +15,37 @@ namespace HVACExpansion
         [HarmonyPatch("LoadGeneratedBuildings")]
         public class BuildingInfoPatch
         {
-            public static LocString GRU_NAME = Locale.Buildings.GasRefrigerator.NAME;
-            public static LocString GRU_DESC = Locale.Buildings.GasRefrigerator.DESC;
-            public static LocString GRU_EFFECT = Locale.Buildings.GasRefrigerator.EFFECT;
-            public static LocString HEATCONSUMED_GRU = Locale.UI.BuildingEffects.Tooltips.HEATCONSUMED_AIRREFRIGERATOR;
-            public static LocString HC_GRU_EFFECT = Locale.UI.BuildingEffects.HEATCONSUMED_AIRREFRIGERATOR;
-
-
-            public static LocString LRU_NAME = Locale.Buildings.LiquidRefrigerator.NAME;
-            public static LocString LRU_DESC = Locale.Buildings.LiquidRefrigerator.DESC;
-            public static LocString LRU_EFFECT = Locale.Buildings.LiquidRefrigerator.EFFECT;
-            public static LocString HEATCONSUMED_LRU = Locale.UI.BuildingEffects.Tooltips.HEATCONSUMED_LIQUIDREFRIGERATOR;
-            public static LocString HC_LRU_EFFECT = Locale.UI.BuildingEffects.HEATCONSUMED_LIQUIDREFRIGERATOR;
-
-            public static LocString LIQUIDHEATING = Locale.UI.BuildingEffects.Tooltips.LIQUIDHEATING;
-            public static LocString GASHEATING = Locale.UI.BuildingEffects.Tooltips.GASHEATING;
-            public static LocString LIQUIDHEATING_EFF = Locale.UI.BuildingEffects.LIQUIDHEATING;
-            public static LocString GASHEATING_EFF = Locale.UI.BuildingEffects.GASHEATING;
-
-
             static void Prefix()
             {
-                Util.AddBuildingStrings(GRU_NAME, GRU_DESC, GRU_EFFECT);
-                Util.AddString(HEATCONSUMED_GRU);
-                Util.AddString(HC_GRU_EFFECT);
+                Util.AddBuildingStrings(
+                    Locale.Buildings.GasRefrigerator.NAME,
+                    Locale.Buildings.GasRefrigerator.DESC,
+                    Locale.Buildings.GasRefrigerator.EFFECT
+                    );
+                Util.AddString(Locale.UI.BuildingEffects.Tooltips.HEATCONSUMED_AIRREFRIGERATOR);
+                Util.AddString(Locale.UI.BuildingEffects.HEATCONSUMED_AIRREFRIGERATOR);
                 ModUtil.AddBuildingToPlanScreen("Utilities", ThermoConditionerConfig.ID);
 
-                Util.AddBuildingStrings(LRU_NAME, LRU_DESC, LRU_EFFECT);
-                Util.AddString(HEATCONSUMED_LRU);
-                Util.AddString(HC_LRU_EFFECT);
+                Util.AddBuildingStrings(
+                    Locale.Buildings.LiquidRefrigerator.NAME,
+                    Locale.Buildings.LiquidRefrigerator.DESC,
+                    Locale.Buildings.LiquidRefrigerator.EFFECT
+                    );
+                Util.AddString(Locale.UI.BuildingEffects.Tooltips.HEATCONSUMED_LIQUIDREFRIGERATOR);
+                Util.AddString(Locale.UI.BuildingEffects.HEATCONSUMED_LIQUIDREFRIGERATOR);
                 ModUtil.AddBuildingToPlanScreen("Utilities", ThermoAquacoolerConfig.ID);
 
-                Util.AddString(LIQUIDHEATING);
-                Util.AddString(GASHEATING);
-                Util.AddString(LIQUIDHEATING_EFF);
-                Util.AddString(GASHEATING_EFF);
+                Util.AddString(Locale.UI.BuildingEffects.Tooltips.LIQUIDHEATING);
+                Util.AddString(Locale.UI.BuildingEffects.Tooltips.GASHEATING);
+                Util.AddString(Locale.UI.BuildingEffects.LIQUIDHEATING);
+                Util.AddString(Locale.UI.BuildingEffects.GASHEATING);
 
                 ModUtil.AddBuildingToPlanScreen("Utilities", AutoCondenserConfig.ID);
-                Util.AddBuildingStrings(Locale.Buildings.AutoCondenser.NAME, Locale.Buildings.AutoCondenser.DESC, Locale.Buildings.AutoCondenser.EFFECT);
+                Util.AddBuildingStrings(
+                    Locale.Buildings.AutoCondenser.NAME, 
+                    Locale.Buildings.AutoCondenser.DESC, 
+                    Locale.Buildings.AutoCondenser.EFFECT
+                    );
 
                 ModUtil.AddBuildingToPlanScreen("Utilities", AutoEvaporatorConfig.ID);
                 Util.AddBuildingStrings(Locale.Buildings.AutoEvaporator.NAME, Locale.Buildings.AutoEvaporator.DESC, Locale.Buildings.AutoEvaporator.EFFECT);
