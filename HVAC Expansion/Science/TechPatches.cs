@@ -25,7 +25,7 @@ namespace HVACExpansion.Science
                     "HVAC", "LiquidTemperature"
                 },
                 xDiff: 1,
-                yDiff: 3
+                yDiff: -1
                 );
         }
     }
