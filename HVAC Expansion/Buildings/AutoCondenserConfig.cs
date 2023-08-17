@@ -29,7 +29,7 @@ namespace HVACExpansion.Buildings
 
             BuildingTemplates.CreateElectricalBuildingDef(buildingDef);
 
-            buildingDef.EnergyConsumptionWhenActive = 480f;
+            buildingDef.EnergyConsumptionWhenActive = 960f;
             buildingDef.SelfHeatKilowattsWhenActive = 0.0f;
             buildingDef.InputConduitType = ConduitType.Gas;
             buildingDef.OutputConduitType = ConduitType.Liquid;

@@ -29,7 +29,7 @@ namespace HVACExpansion.Buildings
 
             BuildingTemplates.CreateElectricalBuildingDef(buildingDef);
 
-            buildingDef.EnergyConsumptionWhenActive = 480f;
+            buildingDef.EnergyConsumptionWhenActive = 960f;
             buildingDef.SelfHeatKilowattsWhenActive = 0.0f;
             buildingDef.InputConduitType = ConduitType.Liquid;
             buildingDef.OutputConduitType = ConduitType.Gas;
@@ -57,7 +57,7 @@ namespace HVACExpansion.Buildings
             converter.temperatureDelta = 14f;
 
             conduitConsumer.conduitType = ConduitType.Liquid;
-            conduitConsumer.consumptionRate = Util.GetMaxGasMass() * Util.GetThroughputPercent();
+            conduitConsumer.consumptionRate = Util.GetMaxLiquidMass() * Util.GetThroughputPercent();
             conduitConsumer.capacityTag = HVACTags.FullyEvaporatable;
             conduitConsumer.wrongElementResult = ConduitConsumer.WrongElementResult.Dump;
             defaultStorage.showInUI = true;
