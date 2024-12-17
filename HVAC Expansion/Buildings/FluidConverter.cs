@@ -19,6 +19,8 @@ namespace HVACExpansion.Buildings
         private Operational operational;
         [MyCmpReq]
         private BuildingComplete building;
+        [MyCmpGet]
+        private PrimaryElement primaryElement;
         private bool hasConverted = false;
         private bool attemptedConversion = false;
         private HandleVector<int>.Handle structureTemperature;
@@ -49,7 +51,6 @@ namespace HVACExpansion.Buildings
 
             foreach (GameObject item in items)
             {
-                PrimaryElement primaryElement = item.GetComponent<PrimaryElement>();
                 Element element = primaryElement.Element;
 
                 if ((IsEvaporator && element.highTemp - primaryElement.Temperature > temperatureDelta) || (!IsEvaporator && primaryElement.Temperature - element.lowTemp > temperatureDelta))
@@ -100,7 +101,6 @@ namespace HVACExpansion.Buildings
 
             foreach (GameObject item in items)
             {
-                var primaryElement = item.GetComponent<PrimaryElement>();
                 Element element = primaryElement.Element;
 
                 if (primaryElement.Mass > 0)
