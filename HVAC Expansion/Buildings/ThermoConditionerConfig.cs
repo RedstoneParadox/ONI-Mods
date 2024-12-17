@@ -33,6 +33,7 @@ namespace HVACExpansion.Buildings
         {
             go.AddOrGet<LoopingSounds>();
             go.AddOrGet<MinimumOperatingTemperature>().minimumTemperature = 16f;
+            go.AddOrGet<KBatchedAnimHeatPostProcessingEffect>();
             FluidHeater airConditioner = go.AddOrGet<FluidHeater>();
             airConditioner.temperatureDelta = 14f;
             airConditioner.maxTemperatureDelta = 14f;
