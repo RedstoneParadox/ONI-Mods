@@ -51,15 +51,17 @@ namespace HVACExpansion.Buildings
 
             foreach (GameObject item in items)
             {
-                Element element = primaryElement.Element;
+                PrimaryElement itemPrimaryElement = item.GetComponent<PrimaryElement>();
+                Element element = itemPrimaryElement.Element;
+                float itemTemp = itemPrimaryElement.Temperature;
 
-                if ((IsEvaporator && element.highTemp - primaryElement.Temperature > temperatureDelta) || (!IsEvaporator && primaryElement.Temperature - element.lowTemp > temperatureDelta))
+                if ((IsEvaporator && element.highTemp - itemTemp > temperatureDelta) || (!IsEvaporator && itemTemp - element.lowTemp > temperatureDelta))
                 {
                     storage.Drop(item);
                     continue;
                 }
 
-                if (primaryElement.Mass > 0)
+                if (itemPrimaryElement.Mass > 0)
                 {
                     Element transitionElement = IsEvaporator ? element.highTempTransition : element.lowTempTransition;
                     ConduitFlow conduitFlow = IsEvaporator ? Game.Instance.gasConduitFlow : Game.Instance.liquidConduitFlow;
@@ -70,8 +72,8 @@ namespace HVACExpansion.Buildings
                     if (transitionElement == null) continue;
 
                     float maxMass = Util.GetMaxGasMass() * Util.GetThroughputPercent();
-                    float finalTemperature = IsEvaporator ? primaryElement.Temperature + temperatureDelta : primaryElement.Temperature - temperatureDelta;
-                    float emittedMass = conduitFlow.AddElement(outputCell, transitionElement.id, Mathf.Min(primaryElement.Mass, maxMass), finalTemperature, primaryElement.DiseaseIdx, primaryElement.DiseaseCount);
+                    float finalTemperature = IsEvaporator ? itemTemp + temperatureDelta : itemTemp - temperatureDelta;
+                    float emittedMass = conduitFlow.AddElement(outputCell, transitionElement.id, Mathf.Min(itemPrimaryElement.Mass, maxMass), finalTemperature, itemPrimaryElement.DiseaseIdx, itemPrimaryElement.DiseaseCount);
                     float percent = emittedMass / primaryElement.Mass;
                     float kj = temperatureDelta * element.specificHeatCapacity * emittedMass;
 
@@ -81,9 +83,9 @@ namespace HVACExpansion.Buildings
                     {
                         hasConverted = true;
 
-                        primaryElement.KeepZeroMassObject = false;
-                        primaryElement.Mass -= emittedMass;
-                        primaryElement.ModifyDiseaseCount(-(int)(primaryElement.DiseaseCount * percent), IsEvaporator ? "Evaporator.Convert" : "Condenser.Convert");
+                        itemPrimaryElement.KeepZeroMassObject = false;
+                        itemPrimaryElement.Mass -= emittedMass;
+                        itemPrimaryElement.ModifyDiseaseCount(-(int)(itemPrimaryElement.DiseaseCount * percent), IsEvaporator ? "Evaporator.Convert" : "Condenser.Convert");
 
                         GameComps.StructureTemperatures.ProduceEnergy(structureTemperature, kj, BUILDING.STATUSITEMS.OPERATINGENERGY.PIPECONTENTS_TRANSFER, dt);
                         return;

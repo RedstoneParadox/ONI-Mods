@@ -124,7 +124,7 @@
     <Error Condition="!Exists('..\packages\Cairath.ONIMetadataFileGenerator.1.0.0\build\Cairath.ONIMetadataFileGenerator.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Cairath.ONIMetadataFileGenerator.1.0.0\build\Cairath.ONIMetadataFileGenerator.props'))" />
   </Target>
   <Target Name="GenerateMetadataFiles" BeforeTargets="Build">
-    <GenerateMetadataFiles OutputPath="C:\Development\ONI\Mods\ONI Mods\HVAC Expansion\bin\Release" Title="HVAC Expansion" Description="Adds new machines to manipulate the temperature of liquids and gases." StaticID="HVACExpansion" SupportedContent="VANILLA_ID,EXPANSION1_ID" MinimumSupportedBuild="469473" Version="2.2.0" APIVersion="2" />
+    <GenerateMetadataFiles OutputPath="C:\Development\ONI\Mods\ONI Mods\HVAC Expansion\bin\Release" Title="HVAC Expansion" Description="Adds new machines to manipulate the temperature of liquids and gases." StaticID="HVACExpansion" SupportedContent="VANILLA_ID,EXPANSION1_ID" MinimumSupportedBuild="469473" Version="2.2.1" APIVersion="2" />
   </Target>
   <PropertyGroup>
     <PostBuildEvent>
