@@ -35,7 +35,7 @@ namespace Industrial_Composter
             go.GetComponent<KPrefabID>().AddTag(RoomConstraints.ConstraintTags.IndustrialMachinery);
             Storage defaultStorage = BuildingTemplates.CreateDefaultStorage(go);
             defaultStorage.SetDefaultStoredItemModifiers(Storage.StandardSealedStorage);
-            go.AddOrGet<WaterPurifier>();
+            go.AddOrGet<IndustrialComposter>();
             ManualDeliveryKG manualDeliveryKg = go.AddOrGet<ManualDeliveryKG>();
             manualDeliveryKg.SetStorage(defaultStorage);
             manualDeliveryKg.requestedItemTag = GameTags.Compostable;
