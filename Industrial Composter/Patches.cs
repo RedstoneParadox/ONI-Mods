@@ -23,7 +23,7 @@ namespace Industrial_Composter
                         Locale.IndustrialComposter.DESC,
                         Locale.IndustrialComposter.EFFECT
                     );
-                ModUtil.AddBuildingToPlanScreen("Refinement", IndustrialComposterConfig.ID);
+                ModUtil.AddBuildingToPlanScreen("Refining", IndustrialComposterConfig.ID);
             }
 
         }
