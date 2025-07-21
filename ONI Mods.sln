@@ -1,11 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.29806.167
+# Visual Studio Version 17
+VisualStudioVersion = 17.14.36310.24 d17.14
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HVAC Expansion", "HVAC Expansion\HVAC Expansion.csproj", "{35990A4E-C61E-428C-94CC-9A17D5283787}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tinted Aquatuner Liquid", "Tinted Aquatuner Liquid\Tinted Aquatuner Liquid.csproj", "{575BB480-D859-48CD-AB5E-55C52AD9F115}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Industrial Composter", "Industrial Composter\Industrial Composter.csproj", "{DCE760F7-701A-4567-81C6-5BD0446C1508}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{575BB480-D859-48CD-AB5E-55C52AD9F115}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{575BB480-D859-48CD-AB5E-55C52AD9F115}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{575BB480-D859-48CD-AB5E-55C52AD9F115}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DCE760F7-701A-4567-81C6-5BD0446C1508}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DCE760F7-701A-4567-81C6-5BD0446C1508}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DCE760F7-701A-4567-81C6-5BD0446C1508}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DCE760F7-701A-4567-81C6-5BD0446C1508}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
