@@ -44,14 +44,14 @@ namespace Industrial_Composter
             manualDeliveryKg.MinimumMass = 1f;
             manualDeliveryKg.choreTypeIDHash = Db.Get().ChoreTypes.FarmFetch.IdHash;
             ElementConverter elementConverter = go.AddOrGet<ElementConverter>();
-            elementConverter.consumedElements =
-            [
-                new ElementConverter.ConsumedElement(GameTags.Compostable, 1.5f)
-            ];
-            elementConverter.outputElements =
-            [
+            elementConverter.consumedElements = new ElementConverter.ConsumedElement[1]
+            {
+                new ElementConverter.ConsumedElement(CompostConfig.COMPOST_TAG, 1.5f)
+            };
+            elementConverter.outputElements = new ElementConverter.OutputElement[1]
+            {
                 new ElementConverter.OutputElement(1.5f, SimHashes.Dirt, 348.15f, storeOutput: true)
-            ];
+            };
             ElementDropper elementDropper = go.AddComponent<ElementDropper>();
             elementDropper.emitMass = 10f;
             elementDropper.emitTag = SimHashes.Dirt.CreateTag();

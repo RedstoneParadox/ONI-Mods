@@ -1,15 +1,4 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-  <Import Project="..\packages\Cairath.ONIMetadataFileGenerator.1.0.0\build\Cairath.ONIMetadataFileGenerator.props" Condition="Exists('..\packages\Cairath.ONIMetadataFileGenerator.1.0.0\build\Cairath.ONIMetadataFileGenerator.props')" />
-  <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
-    <RootNamespace>Industrial_Composter</RootNamespace>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
-  </PropertyGroup>
-
-  <ItemGroup>
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
-  </ItemGroup>
 
   <ItemGroup>
     <Reference Include="0Harmony">
@@ -29,8 +18,42 @@
     </Reference>
   </ItemGroup>
 
-  <Target Name="GenerateMetadataFiles" BeforeTargets="Build">
-    <GenerateMetadataFiles OutputPath="C:\Development\ONI\Mods\ONI Mods\Industrial Composter\bin\Release" Title="Industrial Composter" Description="Adds an industrial composter to handle high volumes of polluted dirt." StaticID="Industrial Composter" SupportedContent="VANILLA_ID,EXPANSION1_ID" MinimumSupportedBuild="469473" Version="2.2.1" APIVersion="2" />
-  </Target>
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+  </ItemGroup>
+
+  <!-- General Package Properties -->
+  <PropertyGroup>
+    <PackageId>IndustrialComposter</PackageId>
+    <Version>1.0.0</Version>
+    <Authors>RedstoneParadox</Authors>
+    <Copyright>$(AssemblyCopyright)</Copyright>
+    <RepositoryUrl>https://github.com/Sgt-Imalas/Sgt_Imalas-Oni-Mods</RepositoryUrl>
+  </PropertyGroup>
+
+  <!-- Build Properties -->
+  <PropertyGroup>
+    <TargetFramework>net48</TargetFramework>
+    <Configurations>Debug;Release</Configurations>
+    <AssemblyName>IndustrialComposter</AssemblyName>
+    <RootNamespace>Industrial_Composter</RootNamespace>
+    <IsMod>true</IsMod>
+    <GenerateMetadata>true</GenerateMetadata>
+    <IsPacked>true</IsPacked>
+  </PropertyGroup>
+
+
+  <!-- Mod Info -->
+  <PropertyGroup>
+    <ModName>Industrial Composter</ModName>
+    <ModDescription>Desc</ModDescription>
+    <MinimumSupportedBuild>$(TargetGameVersion)</MinimumSupportedBuild>
+    <APIVersion>2</APIVersion>
+  </PropertyGroup>
+
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <OutDir>bin</OutDir>
+  </PropertyGroup>
 
 </Project>

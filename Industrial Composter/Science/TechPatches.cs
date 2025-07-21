@@ -20,9 +20,10 @@ namespace HVACExpansion.Science
             TechUtil.AddNode(
                 __instance,
                 Techs.AdvancedAgricultureTechID,
-                [
+                new string[]
+                {
                     "FoodRepurposing"
-                ],
+                },
                 xDiff: 1,
                 yDiff: 0
                 );
