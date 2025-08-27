@@ -39,8 +39,8 @@
   <PropertyGroup>
     <TargetFramework>net48</TargetFramework>
     <Configurations>Debug;Release</Configurations>
-    <AssemblyName>IndustrialComposter</AssemblyName>
-    <RootNamespace>Industrial_Composter</RootNamespace>
+    <AssemblyName>EnergisticsNotIncluded</AssemblyName>
+    <RootNamespace>EnergisticsNotIncluded</RootNamespace>
     <IsMod>true</IsMod>
     <GenerateMetadata>true</GenerateMetadata>
     <IsPacked>true</IsPacked>
